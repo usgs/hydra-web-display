@@ -1,0 +1,91 @@
+{
+  "id": "50003UWR",
+  "geometry": {
+    "coordinates": [
+      -30.171801, -72.155899, 5.14
+    ],
+    "type": "Point"
+  },
+  "properties": {
+    "eventtime": "2016-07-19T05:18:38.58Z",
+    "magnitude": 5.224,
+    "magnitudeType": "Ms_20",
+    "magnitudes": [
+      {
+        "author": "ml_module",
+        "installation": "NEIC",
+        "type": "ML",
+        "value": 5.311
+      },
+      {
+        "author": "Event_validation",
+        "installation": "NEIC",
+        "type": "Mqa",
+        "value": 4.63
+      },
+      {
+        "author": "determine_prefmag_module",
+        "installation": "NEIC",
+        "type": "M",
+        "value": 5.705
+      },
+      {
+        "author": "mblg_module",
+        "installation": "NEIC",
+        "type": "Mb_Lg",
+        "value": 5.134
+      },
+      {
+        "author": "compositeMT_module",
+        "installation": "NEIC",
+        "type": "Mwcm",
+        "value": 5.933
+      },
+      {
+        "author": "mwp_module",
+        "installation": "NEIC",
+        "type": "Mwp",
+        "value": 5.822
+      },
+      {
+        "author": "mb_module",
+        "installation": "NEIC",
+        "type": "mb",
+        "value": 5.548
+      },
+      {
+        "author": "rmt_module",
+        "installation": "NEIC",
+        "type": "Mwr",
+        "value": 5.584
+      },
+      {
+        "author": "md_module",
+        "installation": "NEIC",
+        "type": "Md",
+        "value": 5.043
+      },
+      {
+        "author": "wphase_module",
+        "installation": "NEIC",
+        "type": "Mww",
+        "value": 5.768
+      },
+      {
+        "author": "mt_module",
+        "installation": "NEIC",
+        "type": "Mwb",
+        "value": 5.707
+      },
+      {
+        "author": "ms_module",
+        "installation": "NEIC",
+        "type": "Ms_20",
+        "value": 5.224
+      }
+    ],
+    "title": "OFFSHORE COQUIMBO, CHILE",
+    "type": "Earthquake"
+  },
+  "type": "Feature"
+}
