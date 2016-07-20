@@ -1,9 +1,9 @@
 'use strict';
 
 
-var MagnitudeSummaryView = require('MagnitudeSummaryView');
+var MagnitudeDisplay = require('MagnitudeDisplay');
 
 
-MagnitudeSummaryView({
+MagnitudeDisplay({
   el: document.querySelector('#magnitude-display')
 });

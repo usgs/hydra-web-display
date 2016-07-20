@@ -13,7 +13,7 @@ var _DEFAULTS;
 _DEFAULTS = {};
 
 
-var MagnitudeSummaryView = function (options) {
+var MagnitudeDisplay = function (options) {
 
   var _this,
       _initialize,
@@ -75,4 +75,4 @@ var MagnitudeSummaryView = function (options) {
 };
 
 
-module.exports = MagnitudeSummaryView;
+module.exports = MagnitudeDisplay;
