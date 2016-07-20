@@ -52,7 +52,7 @@ var connect = {
       livereload: config.liveReloadPort,
       middleware: addMiddleware,
       open: 'http://localhost:' + config.buildPort +
-          MOUNT_PATH + '/index.php',
+          MOUNT_PATH + '/index.html',
       port: config.buildPort
     }
   },
@@ -65,7 +65,7 @@ var connect = {
       port: config.distPort,
       keepalive: true,
       open: 'http://localhost:' + config.distPort +
-          MOUNT_PATH + '/index.php',
+          MOUNT_PATH + '/index.html',
       middleware: addMiddleware
     }
   },
