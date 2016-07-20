@@ -2,6 +2,7 @@
 
 
 var EventSummaryView = require('EventSummaryView'),
+    MagnitudeDetailsView = require('MagnitudeDetailsView'),
     MagnitudeCollectionView = require('MagnitudeCollectionView'),
     Util = require('util/Util'),
     View = require('mvc/View');
@@ -12,13 +13,14 @@ var _DEFAULTS;
 _DEFAULTS = {};
 
 
-var HydraDisplayView = function (options) {
+var MagnitudeSummaryView = function (options) {
 
   var _this,
       _initialize,
 
       _eventSummaryView,
-      _magnitudeCollectionView;
+      _magnitudeCollectionView,
+      _magnitudeDetailsView;
 
   options = Util.extend({}, _DEFAULTS, options);
   _this = View(options);
@@ -27,29 +29,35 @@ var HydraDisplayView = function (options) {
     var el;
 
     el = _this.el;
+    el.className = 'magnitude-view';
     el.innerHTML =
-        '<header class="hydra-display-header">' +
-          '<h1>Hydra Web Display</h1>' +
+        '<header class="magnitude-header">' +
+          '<h1>Magnitude Summary</h1>' +
         '</header>' +
-        '<section class="hydra-display-content">' +
-          '<div class="hydra-display-event-summary"></div>' +
-          '<div class="hydra-display-magnitude-collection"></div>' +
+        '<section class="magnitude-content">' +
+          '<div class="event-summary-view"></div>' +
+          '<div class="magnitude-details-view"></div>' +
+          '<div class="magnitude-collection-view"></div>' +
         '</div>' +
-        '<footer class="hydra-display-footer">' +
-          '<div>TODO:: Hydra Web Display Footer</div>' +
-        '</footer>';
+        '<footer class="magnitude-footer"></footer>';
 
     _eventSummaryView = EventSummaryView({
-      el: el.querySelector('.hydra-display-event-summary'),
+      el: el.querySelector('.event-summary-view'),
       model: _this.model
     });
     _eventSummaryView.render();
 
     _magnitudeCollectionView = MagnitudeCollectionView({
-      el: el.querySelector('.hydra-display-magnitude-collection'),
+      el: el.querySelector('.magnitude-collection-view'),
       model: _this.model
     });
     _magnitudeCollectionView.render();
+
+    _magnitudeDetailsView = MagnitudeDetailsView({
+      el: el.querySelector('.magnitude-details-view'),
+      model: _this.model
+    });
+    _magnitudeDetailsView.render();
   };
 
   _this.destroy = Util.compose(function () {
@@ -67,4 +75,4 @@ var HydraDisplayView = function (options) {
 };
 
 
-module.exports = HydraDisplayView;
+module.exports = MagnitudeSummaryView;

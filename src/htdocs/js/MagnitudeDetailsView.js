@@ -11,7 +11,7 @@ var _DEFAULTS;
 _DEFAULTS = {};
 
 
-var MagnitudeDetailView = function (options) {
+var MagnitudeDetailsView = function (options) {
 
   var _this,
       _initialize,
@@ -33,7 +33,7 @@ var MagnitudeDetailView = function (options) {
   }, _this.destroy);
 
   _this.render = function () {
-    _this.el.innerHTML = 'TODO:: MagnitudeDetailView';
+    _this.el.innerHTML = 'TODO:: MagnitudeDetailsView';
   };
 
   _initialize(options);
@@ -42,4 +42,4 @@ var MagnitudeDetailView = function (options) {
 };
 
 
-module.exports = MagnitudeDetailView;
+module.exports = MagnitudeDetailsView;

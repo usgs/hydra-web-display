@@ -17,10 +17,12 @@ NODE_MODULES = CWD + '/node_modules';
 JS = './' + config.src + '/htdocs/js';
 
 BUNDLE_CLASSES = [
+  JS + '/EventSearchView.js:EventSearchView',
   JS + '/EventSummaryView.js:EventSummaryView',
   JS + '/Formatter.js:Formatter',
-  JS + '/HydraWebDisplay.js:HydraWebDisplay',
+  JS + '/MagnitudeSummaryView.js:MagnitudeSummaryView',
   JS + '/MagnitudeCollectionView.js:MagnitudeCollectionView',
+  JS + '/MagnitudeDetailsView.js:MagnitudeDetailsView',
 
   NODE_MODULES + '/hazdev-webutils/src/mvc/CollectionView.js:mvc/CollectionView',
   NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',
