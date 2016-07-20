@@ -34,22 +34,26 @@ var EventSummaryView = function (options) {
 
   _this.render = function () {
     var depth,
-        ev,
+        geometry,
         latitude,
         longitude,
         magnitude,
         magnitudeType,
-        originTime;
+        originTime,
+        properties;
 
-    ev = _this.model.get('event');
+    geometry = _this.model.get('geomoetry');
+    depth = geometry.coordinates[2];
+    latitude = geometry.coordinates[0];
+    longitude = geometry.coordinates[1];
 
-    depth = ev.geometry.coordinates[2];
-    latitude = ev.geometry.coordinates[0];
-    longitude = ev.geometry.coordinates[1];
+    properties = _this.model.get('properties');
+    magnitude = properties.get('magnitude');
+    magnitudeType = properties.get('magnitudeType');
+    originTime = properties.get('eventtime');
 
-    magnitude = ev.properties.get('magnitude');
-    magnitudeType = ev.properties.get('magnitudeType');
-    originTime = ev.properties.get('eventtime');
+    //format values
+    originTime = _formatter.datetime(originTime, 0, false);
 
     _this.el.innerHTML =
       '<dl class="no-style event-summary-list">' +
