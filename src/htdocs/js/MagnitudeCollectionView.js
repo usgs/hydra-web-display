@@ -46,16 +46,18 @@ var MagnitudeCollectionView = function (options) {
 
       _onSelect;
 
-  options = Util.extend({}, _DEFAULTS, options);
+  options = Util.extend({collection: Collection()}, _DEFAULTS, options);
   _this = CollectionTable(options);
 
   _initialize = function (options) {
-    _collection = options.collection || Collection();
+    _collection = options.collection;
     _collection.on('select', _onSelect);
   };
 
   _this.destroy = Util.compose(function () {
-    _collection.off('select', _onSelect);
+    if (_collection) {
+      _collection.off('select', _onSelect);
+    }
     _onSelect = null;
 
     _collection = null;
