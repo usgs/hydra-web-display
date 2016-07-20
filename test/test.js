@@ -9,6 +9,8 @@ mocha.setup('bdd');
 require('./spec/EventSearchViewTest');
 require('./spec/EventSummaryViewTest');
 
+require('./spec/MagnitudeCollectionViewTest');
+
 
 if (window.mochaPhantomJS) {
   window.mochaPhantomJS.run();
