@@ -33,12 +33,39 @@ var EventSummaryView = function (options) {
   }, _this.destroy);
 
   _this.render = function () {
-    _this.el.innerHTML = [
-      '<p class="alert info">TODO :: EventSummaryView</p>',
-      '<pre>',
-        JSON.stringify(_this.model.toJSON(), null, '  '),
-      '</pre>'
-    ].join('');
+    var depth,
+        ev,
+        latitude,
+        longitude,
+        magnitude,
+        magnitudeType,
+        originTime;
+
+    ev = _this.model.get('event');
+
+    depth = ev.geometry.coordinates[2];
+    latitude = ev.geometry.coordinates[0];
+    longitude = ev.geometry.coordinates[1];
+
+    magnitude = ev.properties.get('magnitude');
+    magnitudeType = ev.properties.get('magnitudeType');
+    originTime = ev.properties.get('eventtime');
+
+    _this.el.innerHTML =
+      '<dl class="no-style event-summary-list">' +
+        '<dt>Preferred Latitude</dt>' +
+          '<dd class="latitude">' + latitude + '</dd>' +
+        '<dt>Preferred Longitude</dt>' +
+          '<dd class="longitude">' + longitude + '</dd>' +
+        '<dt>Preferred Origin Time</dt>' +
+          '<dd class="origin-time">' + originTime + '</dd>' +
+        '<dt>Preferred Depth</dt>' +
+          '<dd class="depth">' + depth + '</dd>' +
+        '<dt>Preferred Magnitude</dt>' +
+          '<dd class="magnitude">' + magnitude + '</dd>' +
+        '<dt>Preferred Magnitude Type</dt>' +
+          '<dd class="magnitude-type">' + magnitudeType + '</dd>' +
+      '</dl>';
   };
 
   _initialize(options);
