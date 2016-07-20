@@ -1,7 +1,8 @@
 'use strict';
 
 
-var Formatter = require('Formatter'),
+var Collection = require('mvc/Collection'),
+    Formatter = require('Formatter'),
     Util = require('util/Util'),
     CollectionTable = require('mvc/CollectionTable');
 
@@ -12,7 +13,7 @@ var _DEFAULTS,
 
 _FORMATTER = Formatter();
 _DEFAULTS = {
-  className: 'collection-table',
+  className: 'magnitude-collection-view',
   clickToSelect: true,
   columns: [
     {
@@ -36,29 +37,42 @@ _DEFAULTS = {
 };
 
 
-
 var MagnitudeCollectionView = function (options) {
 
   var _this,
       _initialize,
 
-      _formatter,
-      _onClick;
+      _collection,
+
+      _onSelect;
 
   options = Util.extend({}, _DEFAULTS, options);
   _this = CollectionTable(options);
 
   _initialize = function (options) {
-    _formatter = options.formatter || Formatter();
+    _collection = options.collection || Collection();
+    _collection.on('select', _onSelect);
   };
 
   _this.destroy = Util.compose(function () {
-    _formatter = null;
+    _collection.off('select', _onSelect);
+    _onSelect = null;
+
+    _collection = null;
 
     _initialize = null;
     _this = null;
   }, _this.destroy);
 
+  _onSelect = function (e) {
+    _this.onSelect(e);
+  };
+
+  _this.onSelect = function (e) {
+    // TODO
+    console.log('TODO, Open MagnitudeDisplay with magnitude details displayed');
+    console.log(e);
+  };
 
   _initialize(options);
   options = null;
