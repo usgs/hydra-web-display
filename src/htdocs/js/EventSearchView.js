@@ -25,18 +25,19 @@ var EventSearchView = function (options) {
     var el;
 
     el = _this.el;
-    el.className = 'event-search-view';
     el.innerHTML =
-        '<header class="event-search-header">' +
-          '<h1>Search for an Event</h1>' +
-          '<input type="text" name="huid" id="huid-search" ' +
-              'placeholder="HUID" />' +
-          '<button class="event-search-button">search</button>' +
-        '</header>' +
-        '<section class="event-search-content">' +
-          '<div class="magnitude-collection-view"></div>' +
-        '</div>' +
-        '<footer class="event-search-footer"></footer>';
+        '<article class="event-search-view">' +
+          '<header class="event-search-header">' +
+            '<h1>Search for an Event</h1>' +
+            '<input type="text" name="huid" id="huid-search" ' +
+                'placeholder="HUID" />' +
+            '<button class="event-search-button">search</button>' +
+          '</header>' +
+          '<section class="event-search-content">' +
+            '<div class="magnitude-collection-view"></div>' +
+          '</div>' +
+          '<footer class="event-search-footer"></footer>' +
+        '</article>';
 
     _magnitudeCollectionView = MagnitudeCollectionView({
       el: el.querySelector('.magnitude-collection-view'),
