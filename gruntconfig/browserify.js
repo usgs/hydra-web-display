@@ -21,8 +21,9 @@ BUNDLE_CLASSES = [
   JS + '/EventSummaryView.js:EventSummaryView',
   JS + '/Formatter.js:Formatter',
   JS + '/MagnitudeCollectionView.js:MagnitudeCollectionView',
-  JS + '/MagnitudeDetailsView.js:MagnitudeDetailsView',
   JS + '/MagnitudeDisplay.js:MagnitudeDisplay',
+  JS + '/MagnitudeSummaryView.js:MagnitudeSummaryView',
+  JS + '/MagnitudeTabView.js:MagnitudeTabView',
 
   NODE_MODULES + '/hazdev-webutils/src/mvc/CollectionView.js:mvc/CollectionView',
   NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',

@@ -2,8 +2,7 @@
 
 
 var EventSummaryView = require('EventSummaryView'),
-    MagnitudeDetailsView = require('MagnitudeDetailsView'),
-    MagnitudeCollectionView = require('MagnitudeCollectionView'),
+    MagnitudeTabView = require('MagnitudeTabView'),
     Util = require('util/Util'),
     View = require('mvc/View');
 
@@ -19,8 +18,7 @@ var MagnitudeDisplay = function (options) {
       _initialize,
 
       _eventSummaryView,
-      _magnitudeCollectionView,
-      _magnitudeDetailsView;
+      _magnitudeTabView;
 
   options = Util.extend({}, _DEFAULTS, options);
   _this = View(options);
@@ -29,15 +27,14 @@ var MagnitudeDisplay = function (options) {
     var el;
 
     el = _this.el;
-    el.className = 'magnitude-view';
+    el.className = 'magnitude-display';
     el.innerHTML =
         '<header class="magnitude-header">' +
           '<h1>Magnitude Summary</h1>' +
         '</header>' +
         '<section class="magnitude-content">' +
           '<div class="event-summary-view"></div>' +
-          '<div class="magnitude-details-view"></div>' +
-          '<div class="magnitude-collection-view"></div>' +
+          '<div class="magnitude-tab-view"></div>' +
         '</div>' +
         '<footer class="magnitude-footer"></footer>';
 
@@ -47,17 +44,11 @@ var MagnitudeDisplay = function (options) {
     });
     _eventSummaryView.render();
 
-    _magnitudeCollectionView = MagnitudeCollectionView({
-      el: el.querySelector('.magnitude-collection-view'),
+    _magnitudeTabView = MagnitudeTabView({
+      el: el.querySelector('.magnitude-tab-view'),
       model: _this.model
     });
-    _magnitudeCollectionView.render();
-
-    _magnitudeDetailsView = MagnitudeDetailsView({
-      el: el.querySelector('.magnitude-details-view'),
-      model: _this.model
-    });
-    _magnitudeDetailsView.render();
+    _magnitudeTabView.render();
   };
 
   _this.destroy = Util.compose(function () {
