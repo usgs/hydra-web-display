@@ -1,5 +1,5 @@
 {
-  "id": "50003uwr",
+  "id": "50003UWR",
   "geometry": {
     "coordinates": [
       -30.171801, -72.155899, 5.14
@@ -12,84 +12,84 @@
     "magnitudeType": "Ms_20",
     "magnitudes": [
       {
-        "id": "50003uwr/ml_module/neic/ml",
+        "id": "50003UWR/ml_module/NEIC/ML",
         "author": "ml_module",
         "installation": "NEIC",
         "type": "ML",
         "value": 5.311
       },
       {
-        "id": "50003uwr/event_validation/neic/mqa",
+        "id": "50003UWR/Event_validation/NEIC/Mqa",
         "author": "Event_validation",
         "installation": "NEIC",
         "type": "Mqa",
         "value": 4.63
       },
       {
-        "id": "50003uwr/determine_prefmag_module/neic/m",
+        "id": "50003UWR/determine_prefmag_module/NEIC/M",
         "author": "determine_prefmag_module",
         "installation": "NEIC",
         "type": "M",
         "value": 5.705
       },
       {
-        "id": "50003uwr/mblg_module/neic/mb_lg",
+        "id": "50003UWR/mblg_module/NEIC/Mb_Lg",
         "author": "mblg_module",
         "installation": "NEIC",
         "type": "Mb_Lg",
         "value": 5.134
       },
       {
-        "id": "50003uwr/compositemt_module/neic/mwcm",
+        "id": "50003UWR/compositeMT_module/NEIC/Mwcm",
         "author": "compositeMT_module",
         "installation": "NEIC",
         "type": "Mwcm",
         "value": 5.933
       },
       {
-        "id": "50003uwr/mwp_module/neic/mwp",
+        "id": "50003UWR/mwp_module/NEIC/Mwp",
         "author": "mwp_module",
         "installation": "NEIC",
         "type": "Mwp",
         "value": 5.822
       },
       {
-        "id": "50003uwr/mb_module/neic/mb",
+        "id": "50003UWR/mb_module/NEIC/mb",
         "author": "mb_module",
         "installation": "NEIC",
         "type": "mb",
         "value": 5.548
       },
       {
-        "id": "50003uwr/rmt_module/neic/mwr",
+        "id": "50003UWR/rmt_module/NEIC/Mwr",
         "author": "rmt_module",
         "installation": "NEIC",
         "type": "Mwr",
         "value": 5.584
       },
       {
-        "id": "50003uwr/md_module/neic/md",
+        "id": "50003UWR/md_module/NEIC/Md",
         "author": "md_module",
         "installation": "NEIC",
         "type": "Md",
         "value": 5.043
       },
       {
-        "id": "50003uwr/wphase_module/neic/mww",
+        "id": "50003UWR/wphase_module/NEIC/Mww",
         "author": "wphase_module",
         "installation": "NEIC",
         "type": "Mww",
         "value": 5.768
       },
       {
-        "id": "50003uwr/mt_module/neic/mwb",
+        "id": "50003UWR/mt_module/NEIC/Mwb",
         "author": "mt_module",
         "installation": "NEIC",
         "type": "Mwb",
         "value": 5.707
       },
       {
-        "id": "50003uwr/ms_module/neic/ms_20",
+        "id": "50003UWR/ms_module/NEIC/Ms_20",
         "author": "ms_module",
         "installation": "NEIC",
         "type": "Ms_20",
