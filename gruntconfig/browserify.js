@@ -6,9 +6,29 @@ var babelify = require('babelify'),
     glob = require('glob');
 
 
-var BUNDLE_CLASSES;
+var BUNDLE_CLASSES,
+    CWD,
+    JS,
+    NODE_MODULES;
 
-BUNDLE_CLASSES = [];
+
+CWD = process.cwd();
+NODE_MODULES = CWD + '/node_modules';
+JS = './' + config.src + '/htdocs/js';
+
+BUNDLE_CLASSES = [
+  JS + '/EventSummaryView.js:EventSummaryView',
+  JS + '/Formatter.js:Formatter',
+  JS + '/HydraWebDisplay.js:HydraWebDisplay',
+  JS + '/MagnitudeCollectionView.js:MagnitudeCollectionView',
+
+  NODE_MODULES + '/hazdev-webutils/src/mvc/CollectionView.js:mvc/CollectionView',
+  NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',
+  NODE_MODULES + '/hazdev-webutils/src/mvc/View.js:mvc/View',
+  NODE_MODULES + '/hazdev-webutils/src/util/Events.js:util/Events',
+  NODE_MODULES + '/hazdev-webutils/src/util/Util.js:util/Util',
+  NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr',
+];
 
 
 Object.keys(config.jsPath).forEach(function (path) {
