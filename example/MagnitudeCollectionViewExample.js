@@ -7,16 +7,20 @@ var MagnitudeCollectionView = require('MagnitudeCollectionView'),
 Xhr.ajax({
   url: 'event.json',
   success: function (data) {
-    var collection;
+    var collection,
+        magnitudeCollectionView;
 
     collection = Collection(data.properties.magnitudes);
 
-    MagnitudeCollectionView({
+    magnitudeCollectionView = MagnitudeCollectionView({
       el: document.querySelector('#magnitude-collection-view-example'),
-      data: collection
-    }).render();
+      collection: collection
+    });
+    magnitudeCollectionView.render();
+
   },
-  error: function () {
+  error: function (e) {
+    console.log(e);
     document.querySelector('#magnitude-collection-view-example').innerHTML = [
       '<p class="alert error">',
         'Failed to create a Magnitude Collection View.',

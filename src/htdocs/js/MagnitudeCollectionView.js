@@ -3,12 +3,38 @@
 
 var Formatter = require('Formatter'),
     Util = require('util/Util'),
-    CollectionView = require('mvc/CollectionView');
+    CollectionTable = require('mvc/CollectionTable');
 
 
-var _DEFAULTS;
+var _DEFAULTS,
+    _FORMATTER;
 
-_DEFAULTS = {};
+
+_FORMATTER = Formatter();
+_DEFAULTS = {
+  className: 'collection-table',
+  clickToSelect: true,
+  columns: [
+    {
+      className: 'magnitude-value',
+      title: 'Magnitude Value',
+      format: function (item) { return _FORMATTER.number(item.value, 1); }
+    },
+    {
+      className: 'magnitude-type',
+      title: 'Magnitude Type',
+      format: function (item) { return item.type; }
+    },
+    {
+      className: 'magnitude-source',
+      title: 'Magnitude Source',
+      format: function (item) { return item.author; }
+    },
+  ],
+  emptyMarkup: 'No Magnitudes to display',
+  renderNow: true
+};
+
 
 
 var MagnitudeCollectionView = function (options) {
@@ -16,10 +42,11 @@ var MagnitudeCollectionView = function (options) {
   var _this,
       _initialize,
 
-      _formatter;
+      _formatter,
+      _onClick;
 
   options = Util.extend({}, _DEFAULTS, options);
-  _this = CollectionView(options);
+  _this = CollectionTable(options);
 
   _initialize = function (options) {
     _formatter = options.formatter || Formatter();
@@ -32,9 +59,6 @@ var MagnitudeCollectionView = function (options) {
     _this = null;
   }, _this.destroy);
 
-  _this.render = function () {
-    _this.el.innerHTML = 'TODO:: MagnitudeCollectionView';
-  };
 
   _initialize(options);
   options = null;
