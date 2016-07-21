@@ -4,7 +4,7 @@
 var Collection = require('mvc/Collection'),
     EventModel = require('EventModel'),
     EventSummaryView = require('EventSummaryView'),
-    MagnitudeCollectionView = require('MagnitudeCollectionView'),
+    MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
     Util = require('util/Util'),
     View = require('mvc/View'),
     Xhr = require('util/Xhr');
@@ -92,6 +92,7 @@ var EventSearchView = function (options) {
           '<footer class="event-search-footer"></footer>' +
         '</article>';
 
+
     // Store references to DOM containers
     _this.huidEl = el.querySelector('.event-search-huid');
     _this.searchBtn = el.querySelector('.event-search-button');
@@ -112,7 +113,7 @@ var EventSearchView = function (options) {
       model: _this.eventModel
     });
 
-    _this.magnitudeCollectionView = MagnitudeCollectionView({
+    _this.magnitudeCollectionView = MagnitudeCollectionTable({
       el: el.querySelector('.event-search-magnitude-collection'),
       collection: _this.magnitudeCollection
     });

@@ -1,21 +1,21 @@
 /* global chai, describe, it */
 'use strict';
 
-var MagnitudeCollectionView = require('MagnitudeCollectionView');
+var MagnitudeCollectionTable = require('MagnitudeCollectionTable');
 
 
 var expect = chai.expect;
 
 
-describe('MagnitudeCollectionView', function () {
+describe('MagnitudeCollectionTable', function () {
 
   describe('constructor', function () {
     it('is defined', function () {
-      expect(typeof MagnitudeCollectionView).to.equal('function');
+      expect(typeof MagnitudeCollectionTable).to.equal('function');
     });
 
     it('can be instantiated', function () {
-      expect(MagnitudeCollectionView).to.not.throw(Error);
+      expect(MagnitudeCollectionTable).to.not.throw(Error);
     });
   });
 
@@ -23,9 +23,8 @@ describe('MagnitudeCollectionView', function () {
     it('can be destroyed', function () {
       var view;
 
-      view = MagnitudeCollectionView();
+      view = MagnitudeCollectionTable();
       expect(view.destroy).to.not.throw(Error);
     });
   });
-
 });

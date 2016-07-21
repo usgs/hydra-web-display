@@ -1,7 +1,7 @@
 <?php
 if (!isset($TEMPLATE)) {
 
-  $TITLE = 'MagnitudeCollectionView Example';
+  $TITLE = 'MagnitudeCollectionTable Example';
 
   // If you want to include section navigation.
   // The nearest _navigation.inc.php file will be used by default
@@ -15,11 +15,11 @@ if (!isset($TEMPLATE)) {
   // Stuff that goes at the bottom of the page (i.e. <script> tags)
   $FOOT = '
     <script src="/js/bundle.js"></script>
-    <script src="MagnitudeCollectionViewExample.js"></script>
+    <script src="MagnitudeCollectionTableExample.js"></script>
   ';
 
   include 'template.inc.php';
 }
 ?>
 
-<div id="magnitude-collection-view-example"></div>
+<div id="magnitude-collection-table-example"></div>
