@@ -8,7 +8,7 @@ mocha.setup('bdd');
 // Add each test class here as they are implemented
 require('./spec/ExampleTest');
 
-require('./spec/MagnitudeCollectionViewTest');
+require('./spec/MagnitudeCollectionTableTest');
 
 
 if (window.mochaPhantomJS) {

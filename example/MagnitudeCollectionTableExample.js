@@ -1,6 +1,6 @@
 'use strict';
 
-var MagnitudeCollectionView = require('MagnitudeCollectionView'),
+var MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
     Model = require('mvc/Model'),
     Collection = require('mvc/Collection'),
     Xhr = require('util/Xhr');
@@ -13,8 +13,8 @@ Xhr.ajax({
 
     collection = Collection(data.properties.magnitudes);
 
-    magnitudeCollectionView = MagnitudeCollectionView({
-      el: document.querySelector('#magnitude-collection-view-example'),
+    magnitudeCollectionView = MagnitudeCollectionTable({
+      el: document.querySelector('#magnitude-collection-table-example'),
       model: Model(data),
       collection: collection
     });
@@ -23,7 +23,7 @@ Xhr.ajax({
   },
   error: function (e) {
     console.log(e);
-    document.querySelector('#magnitude-collection-view-example').innerHTML = [
+    document.querySelector('#magnitude-collection-table-example').innerHTML = [
       '<p class="alert error">',
         'Failed to create a Magnitude Collection View.',
       '</p>'

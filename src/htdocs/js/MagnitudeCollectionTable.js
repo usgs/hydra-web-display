@@ -13,22 +13,22 @@ var _DEFAULTS,
 
 _FORMATTER = Formatter();
 _DEFAULTS = {
-  className: 'magnitude-collection-view',
+  className: 'magnitude-collection-table',
   clickToSelect: true,
   columns: [
     {
       className: 'magnitude-value',
-      title: 'Magnitude Value',
+      title: 'Value',
       format: function (item) { return _FORMATTER.number(item.value, 1); }
     },
     {
       className: 'magnitude-type',
-      title: 'Magnitude Type',
+      title: 'Type',
       format: function (item) { return item.type; }
     },
     {
       className: 'magnitude-source',
-      title: 'Magnitude Source',
+      title: 'Source',
       format: function (item) { return item.author; }
     }
   ],
@@ -37,7 +37,7 @@ _DEFAULTS = {
 };
 
 
-var MagnitudeCollectionView = function (options) {
+var MagnitudeCollectionTable = function (options) {
 
   var _this,
       _initialize,
@@ -94,4 +94,4 @@ var MagnitudeCollectionView = function (options) {
 };
 
 
-module.exports = MagnitudeCollectionView;
+module.exports = MagnitudeCollectionTable;
