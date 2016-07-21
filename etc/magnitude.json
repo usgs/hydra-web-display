@@ -1,5 +1,11 @@
 {
   "id": "50003UWR/wphase_module/NEIC/Mww",
+  "geometry": {
+      "coordinates": [
+        -30.1718, -72.1559, 11.5
+      ],
+      "type": "Point"
+    },
   "properties": {
     "associated-by": "wphase_module",
     "associated-by-installation": "NEIC",
