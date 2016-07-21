@@ -1,7 +1,7 @@
 'use strict';
 
 
-var MagnitudeCollectionView = require('MagnitudeCollectionView'),
+var MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
     Util = require('util/Util'),
     View = require('mvc/View');
 
@@ -39,7 +39,7 @@ var EventSearchView = function (options) {
           '<footer class="event-search-footer"></footer>' +
         '</article>';
 
-    _magnitudeCollectionView = MagnitudeCollectionView({
+    _magnitudeCollectionView = MagnitudeCollectionTable({
       el: el.querySelector('.magnitude-collection-view'),
       model: _this.model
     });

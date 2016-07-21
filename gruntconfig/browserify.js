@@ -20,7 +20,7 @@ BUNDLE_CLASSES = [
   JS + '/EventSearchView.js:EventSearchView',
   JS + '/EventSummaryView.js:EventSummaryView',
   JS + '/Formatter.js:Formatter',
-  JS + '/MagnitudeCollectionView.js:MagnitudeCollectionView',
+  JS + '/MagnitudeCollectionTable.js:MagnitudeCollectionTable',
   JS + '/MagnitudeDisplay.js:MagnitudeDisplay',
   JS + '/MagnitudeSummaryView.js:MagnitudeSummaryView',
   JS + '/MagnitudeTabView.js:MagnitudeTabView',
