@@ -33,7 +33,12 @@ var EventSummaryView = function (options) {
   }, _this.destroy);
 
   _this.render = function () {
-    _this.el.innerHTML = 'TODO:: EventSummaryView';
+    _this.el.innerHTML = [
+      '<p class="alert info">TODO :: EventSummaryView</p>',
+      '<pre>',
+        JSON.stringify(_this.model.toJSON(), null, '  '),
+      '</pre>'
+    ].join('');
   };
 
   _initialize(options);
