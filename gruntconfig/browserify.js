@@ -17,6 +17,7 @@ NODE_MODULES = CWD + '/node_modules';
 JS = './' + config.src + '/htdocs/js';
 
 BUNDLE_CLASSES = [
+  JS + '/EventModel.js:EventModel',
   JS + '/EventSearchView.js:EventSearchView',
   JS + '/EventSummaryView.js:EventSummaryView',
   JS + '/Formatter.js:Formatter',
