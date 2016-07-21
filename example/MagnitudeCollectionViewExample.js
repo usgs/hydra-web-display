@@ -1,6 +1,7 @@
 'use strict';
 
 var MagnitudeCollectionView = require('MagnitudeCollectionView'),
+    Model = require('mvc/Model'),
     Collection = require('mvc/Collection'),
     Xhr = require('util/Xhr');
 
@@ -14,6 +15,7 @@ Xhr.ajax({
 
     magnitudeCollectionView = MagnitudeCollectionView({
       el: document.querySelector('#magnitude-collection-view-example'),
+      model: Model(data),
       collection: collection
     });
     magnitudeCollectionView.render();

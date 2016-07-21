@@ -30,7 +30,7 @@ _DEFAULTS = {
       className: 'magnitude-source',
       title: 'Magnitude Source',
       format: function (item) { return item.author; }
-    },
+    }
   ],
   emptyMarkup: 'No Magnitudes to display',
   renderNow: true
@@ -70,10 +70,22 @@ var MagnitudeCollectionView = function (options) {
     _this.onSelect(e);
   };
 
-  _this.onSelect = function (e) {
-    // TODO
-    console.log('TODO, Open MagnitudeDisplay with magnitude details displayed');
-    console.log(e);
+  _this.onSelect = function (magnitude) {
+    var author,
+        huid,
+        installation,
+        link,
+        type;
+
+    author = magnitude.author || '';
+    huid = _this.model.get('id') || '';
+    installation = magnitude.installation || '';
+    type = magnitude.type || '';
+
+    link = 'magnitude.html#?author=' + author + '&id=' + huid +
+        '&installation=' + installation + '&type=' + type;
+
+    window.location.href = link;
   };
 
   _initialize(options);
