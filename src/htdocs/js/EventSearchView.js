@@ -52,7 +52,8 @@ var EventSearchView = function (options) {
           '</header>' +
           '<section class="event-search-content">' +
             '<div class="event-search-event-summary"></div>' +
-            '<div class="event-search-magnitude-collection"></div>' +
+            '<div class="horizontal-scrolling ' +
+                'event-search-magnitude-collection"></div>' +
           '</div>' +
           '<footer class="event-search-footer"></footer>' +
         '</article>';
