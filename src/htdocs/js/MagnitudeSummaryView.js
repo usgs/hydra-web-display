@@ -79,6 +79,8 @@ var MagnitudeSummaryView = function (options) {
       model: _this.model
     });
     _magnitudeCollectionView.render();
+
+    _this.timerCountUp(_ev.get('eventtime'));
   };
 
   _this.buildMagnitudeDetailsMarkup = function () {
@@ -186,7 +188,7 @@ var MagnitudeSummaryView = function (options) {
       '</tr>' +
       '<tr>' +
         '<td>Time Since</td>' +
-        '<td>' + value + '</td>' +
+        '<td class="timer-count-up"></td>' +
         '<td></td>' +
       '</tr>' +
 
@@ -364,6 +366,49 @@ var MagnitudeSummaryView = function (options) {
 
     el = _this.el.querySelector('.beach-ball-view');
     el.appendChild(beachBallView.el);
+  };
+
+  _this.timerCountUp = function (datetime) {
+    var current,
+        el,
+        milliseconds,
+        elapsed;
+
+    el = _this.el.querySelector('.timer-count-up');
+
+    try {
+      current = new Date().getTime();
+      milliseconds = Date.parse(datetime);
+      elapsed = Math.floor((current - milliseconds) / 1000);
+    } catch (e) {
+      el.innerHTML = '';
+      return;
+    }
+
+    window.setInterval(function () {
+      var clock,
+          days,
+          hrs,
+          mins,
+          secs,
+          weeks;
+
+      elapsed++;
+      weeks = Math.floor(elapsed/604800);
+      days = Math.floor(elapsed/86400) % 7;
+      hrs = Math.floor(elapsed/3600) % 24;
+      mins = Math.floor(elapsed/60) % 60;
+      secs = elapsed % 60;
+
+      clock =
+          (weeks ? weeks + ' weeks, ' : '') +
+          (days ? days + ' days, ' : '') +
+          (hrs ? hrs + ':' : '') +
+          (mins ? mins + ':' : '') +
+          (secs < 10 ? '0' + secs : secs);
+
+      el.innerHTML = clock;
+    }, 1000);
   };
 
   _this.destroy = Util.compose(function () {
