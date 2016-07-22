@@ -22,33 +22,18 @@ var MagnitudeSummaryView = function (options) {
       _formatter,
       _magnitudeCollectionView,
       _magnitudeDetailsEl,
-      _magnitudeVersionsEl,
-      _tensor;
+      _magnitudeVersionsEl;
 
   options = Util.extend({}, _DEFAULTS, options);
   _this = View(options);
 
   _initialize = function (options) {
-    var el,
-        type;
+    var el;
 
     _formatter = Formatter({
       empty: ''
     });
     _collection = options.collection || Collection();
-
-    type = _this.getProperty('derived-magnitude-type');
-    type = (!type ? _this.getProperty('beachball-type') : '');
-    _tensor = Tensor({
-      'depth': _this.getProperty('derived-depth'),
-      'mrr': Number(_this.getProperty('tensor-mrr')),
-      'mtt': Number(_this.getProperty('tensor-mtt')),
-      'mpp': Number(_this.getProperty('tensor-mpp')),
-      'mrt': Number(_this.getProperty('tensor-mrt')),
-      'mrp': Number(_this.getProperty('tensor-mrp')),
-      'mtp': Number(_this.getProperty('tensor-mtp')),
-      'type': type,
-    });
 
     el = _this.el;
     el.innerHTML = '<div class="magnitude-summary-view">' +
@@ -281,6 +266,20 @@ var MagnitudeSummaryView = function (options) {
     return '';
   };
 
+  _this.getTensor = function () {
+    var tensor;
+
+    tensor = Tensor.fromStrikeDipRake(
+      Number(_this.getProperty('nodal-plane-1-strike')),
+      Number(_this.getProperty('nodal-plane-1-dip')),
+      Number(_this.getProperty('nodal-plane-1-rake') ||
+          _this.getProperty('nodal-plane-1-slip') || 0),
+      Number(_this.getProperty('scalar-moment') || Math.SQRT2)
+    );
+
+    return tensor;
+  };
+
   _this.displayBeachBall = function () {
     var beachBallView,
         el;
@@ -290,7 +289,7 @@ var MagnitudeSummaryView = function (options) {
       labelAxes: false,
       labelPlanes: false,
       size: 200,
-      tensor: _tensor
+      tensor: _this.getTensor()
     });
     beachBallView.render();
 
