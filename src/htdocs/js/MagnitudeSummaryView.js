@@ -5,6 +5,7 @@ var BeachBallView = require('BeachBallView'),
     Collection = require('mvc/Collection'),
     Formatter = require('Formatter'),
     MagnitudeCollectionView = require('MagnitudeCollectionView'),
+    Model = require('mvc/Model'),
     Tensor = require('Tensor'),
     Util = require('util/Util'),
     View = require('mvc/View');
@@ -13,12 +14,27 @@ var BeachBallView = require('BeachBallView'),
 var _DEFAULTS = {};
 
 
+/**
+* Displays moment summary information, including a MagnitudeCollectionView
+*
+* @param options {Object}
+*
+* @param options.collection {Collection}
+*        A collection of magnitudes with the same type
+* @param options.el {HTMLElement}
+*        HTML element to attach the view
+* @param options.ev {Model}
+*        An event model object
+* @param options.model {Model}
+*        A Magnitude Model object
+*/
 var MagnitudeSummaryView = function (options) {
 
   var _this,
       _initialize,
 
       _collection,
+      _ev,
       _formatter,
       _magnitudeCollectionView,
       _magnitudeDetailsEl,
@@ -34,9 +50,11 @@ var MagnitudeSummaryView = function (options) {
       empty: ''
     });
     _collection = options.collection || Collection();
+    _ev = options.ev || Model();
 
     el = _this.el;
     el.innerHTML = '<div class="magnitude-summary-view">' +
+          '<h3>Moment Summary</h3>' +
           '<table>' +
             '<thead>' +
               '<tr>' +
@@ -69,9 +87,18 @@ var MagnitudeSummaryView = function (options) {
         comment,
         condition,
         depth,
+        eventDepth,
+        eventGeometry,
+        eventLatitude,
+        eventLongitude,
+        eventMagnitude,
+        eventRegion,
+        eventTime,
         fit,
         inputSource,
-        internal,
+        isInternal,
+        isPreferred,
+        isPublishable,
         latitude,
         longitude,
         magnitude,
@@ -81,12 +108,22 @@ var MagnitudeSummaryView = function (options) {
         nodalPlane2,
         observations,
         percentDoubleCouple,
-        preferred,
-        publishable,
         source,
         time,
         varianceReduction;
 
+    // Event Details
+    eventGeometry = _ev.get('geometry');
+    if (eventGeometry) {
+      eventDepth = _ev.get('geometry').coordinates[2];
+      eventLatitude = _ev.get('geometry').coordinates[0];
+      eventLongitude = _ev.get('geometry').coordinates[1];
+    }
+    eventMagnitude = _ev.get('magnitude') + ' ' + _ev.get('magnitudeType');
+    eventRegion = _ev.get('title');
+    eventTime = _ev.get('eventtime');
+
+    // Magnitude Details
     associatedBy = _this.getProperty('associated-by-installation') + ' - ' +
         _this.getProperty('associated-by');
     azimuthalGap = _this.getProperty('azimuthal-gap');
@@ -95,7 +132,9 @@ var MagnitudeSummaryView = function (options) {
     depth = _this.getProperty('derived-depth');
     fit = _this.getProperty('fit');
     inputSource = _this.getProperty('inputSource');
-    internal = _this.getProperty('is-internal');
+    isInternal = _this.getProperty('is-internal');
+    isPreferred = _this.getProperty('is-preferred-for-type');
+    isPublishable = _this.getProperty('is-publishable');
     latitude = _this.getProperty('derived-latitude');
     longitude = _this.getProperty('derived-longitude');
     magnitude = _this.getProperty('derived-magnitude') + ' ' +
@@ -104,24 +143,54 @@ var MagnitudeSummaryView = function (options) {
     observations = _this.getProperty('num-stations-used') + ' (' +
         _this.getProperty('num-stations-associated') + ')';
     percentDoubleCouple = _this.getProperty('percent-double-couple');
-    preferred = _this.getProperty('is-preferred-for-type');
-    publishable = _this.getProperty('is-publishable');
     source = _this.getProperty('installation') + ' - ' +
         _this.getProperty('author');
     time = _this.getProperty('derived-eventtime');
     varianceReduction = _this.getProperty('variance-reduction');
     nodalPlane1 = 'Strike: ' + _this.getProperty('nodal-plane-1-strike') +
-        ' Dip: ' + _this.getProperty('nodal-plane-1-dip') +
-        ' Rake: ' + _this.getProperty('nodal-plane-1-slip');
+        '&nbsp;&nbsp; Dip: ' + _this.getProperty('nodal-plane-1-dip') +
+        '&nbsp;&nbsp; Rake: ' + _this.getProperty('nodal-plane-1-slip');
     nodalPlane2 = 'Strike: ' + _this.getProperty('nodal-plane-2-strike') +
-        ' Dip: ' + _this.getProperty('nodal-plane-2-dip') +
-        ' Rake: ' + _this.getProperty('nodal-plane-2-slip');
+        '&nbsp;&nbsp; Dip: ' + _this.getProperty('nodal-plane-2-dip') +
+        '&nbsp;&nbsp; Rake: ' + _this.getProperty('nodal-plane-2-slip');
 
     // TODO, remove this
     var value = '<b>TODO</b>';
 
     markup =
-      _this.buildEventDetailsMarkup() +
+      // Event Details
+      '<tr>' +
+        '<td>Preferred Magnitude</td>' +
+        '<td>' + eventMagnitude + '</td>' +
+        '<td></td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>Region</td>' +
+        '<td>' + eventRegion + '</td>' +
+        '<td></td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>Time</td>' +
+        '<td>' + _formatter.datetime(Date.parse(eventTime)) + '</td>' +
+        '<td></td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>Location</td>' +
+        '<td>' + _formatter.location(eventLatitude, eventLongitude) + '</td>' +
+        '<td></td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>Depth</td>' +
+        '<td>' + _formatter.distance(eventDepth, 'km') + '</td>' +
+        '<td></td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>Time Since</td>' +
+        '<td>' + value + '</td>' +
+        '<td></td>' +
+      '</tr>' +
+
+      // Magnitude Details
       '<tr>' +
         '<td>Magnitude</td>' +
         '<td>' + magnitude + '</td>' +
@@ -149,17 +218,17 @@ var MagnitudeSummaryView = function (options) {
       '</tr>' +
       '<tr>' +
         '<td>Internal</td>' +
-        '<td>' + internal + '</td>' +
+        '<td>' + isInternal + '</td>' +
         '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Preferred For Type</td>' +
-        '<td>' + preferred + '</td>' +
+        '<td>' + isPreferred + '</td>' +
         '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Publishable</td>' +
-        '<td>' + publishable + '</td>' +
+        '<td>' + isPublishable + '</td>' +
         '<td></td>' +
       '</tr>' +
       '<tr>' +
@@ -179,7 +248,7 @@ var MagnitudeSummaryView = function (options) {
       '</tr>' +
       '<tr>' +
         '<td>Solution Time</td>' +
-        '<td>' + time + '</td>' +
+        '<td>' + _formatter.datetime(Date.parse(time)) + '</td>' +
         '<td></td>' +
       '</tr>' +
       '<tr>' +
@@ -295,10 +364,6 @@ var MagnitudeSummaryView = function (options) {
 
     el = _this.el.querySelector('.beach-ball-view');
     el.appendChild(beachBallView.el);
-  };
-
-  _this.buildEventDetailsMarkup = function () {
-    return '<tr><td colspan="3">TODO:: Add 6 rows (preferred magnitude, region, time, location, depth, and time since). These details are provided by the event?</td></tr>';
   };
 
   _this.destroy = Util.compose(function () {
