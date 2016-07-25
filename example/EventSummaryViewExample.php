@@ -10,6 +10,7 @@ if (!isset($TEMPLATE)) {
   ';
   // Stuff that goes at the bottom of the page (i.e. <script> tags)
   $FOOT = '
+    <script src="js/bundle.js"></script>
     <script src="EventSummaryViewExample.js"></script>
   ';
   include 'template.inc.php';
