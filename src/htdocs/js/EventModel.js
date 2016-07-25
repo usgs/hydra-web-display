@@ -85,7 +85,7 @@ _parseAttributes = function (feature) {
 
     // Read other attributes off feature, preferring null over undefined ...
     attributes.id = feature.id || null;
-    attributes.longtiude = coordinates[0] || null;
+    attributes.longitude = coordinates[0] || null;
     attributes.latitude = coordinates[1] || null;
     attributes.depth = coordinates[2] || null;
   }
