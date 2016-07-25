@@ -1,16 +1,16 @@
 'use strict';
 
 var EventSummaryView = require('EventSummaryView'),
-    Model = require('mvc/Model'),
+    EventModel = require('EventModel'),
     Xhr = require('util/Xhr');
 
 
 Xhr.ajax({
-  url: '/event.json',
+  url: 'event.json',
   success: function (data) {
     var model;
 
-    model = Model(properties);
+    model = EventModel.fromFeature(data);
 
     EventSummaryView({
       el: document.querySelector('#event-summary-view-example'),
