@@ -62,6 +62,7 @@ var EventSummaryView = function (options) {
       '</ul>';
   };
 
+
   _initialize(options);
   options = null;
   return _this;
