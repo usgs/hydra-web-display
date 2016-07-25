@@ -1,0 +1,13 @@
+.event-summary-view {
+  display: block;
+}
+
+@media screen and (min-width: 480px) {
+  .event-summary-view {
+    display: flex;
+
+    > li {
+      margin-right: 1em;
+    }
+  }
+}
