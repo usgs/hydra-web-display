@@ -50,7 +50,7 @@ var EventSummaryView = function (options) {
     depth = _formatter.depth(depth, 'km');
     latitude = _formatter.latitude(latitude);
     longitude = _formatter.longitude(longitude);
-    magnitude = _formatter.magnitude(magnitude);
+    magnitude = _formatter.magnitude(magnitude, magnitudeType);
 
     _this.el.innerHTML =
       '<ul class="no-style event-summary-view">' +
@@ -58,8 +58,7 @@ var EventSummaryView = function (options) {
         '<li class="latitude"><b>Lat:</b> '  + latitude + '</li>' +
         '<li class="longitude"><b>Lon:</b> ' + longitude + '</li>' +
         '<li class="depth"><b>Depth:</b> ' + depth + '</li>' +
-        '<li class="magnitude"><b>Mag:</b> ' + magnitude + ' ' +
-            magnitudeType + '</li>' +
+        '<li class="magnitude"><b>Mag:</b> ' + magnitude + '</li>' +
       '</ul>';
   };
 
