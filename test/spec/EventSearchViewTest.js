@@ -69,4 +69,32 @@ describe('EventSearchView', function () {
       expect(evt.preventDefault.callCount).to.equal(1);
     });
   });
+
+  describe('onMagnitudeSelect', function () {
+    var view;
+
+    beforeEach(function () {
+      view = EventSearchView();
+      sinon.stub(view.magnitudeCollection, 'getSelected',
+          function () { return {}; });
+    });
+
+    afterEach(function () {
+      view.magnitudeCollection.getSelected.restore();
+      view.destroy();
+    });
+
+    it('checks the selected magnitude', function () {
+      view.onMagnitudeSelect();
+
+      expect(view.magnitudeCollection.getSelected.callCount).to.equal(1);
+    });
+
+    it('calls open magnitude display', function () {
+      sinon.stub(view, 'openMagnitudeDisplay', function () {});
+      view.onMagnitudeSelect();
+
+      expect(view.openMagnitudeDisplay.callCount).to.equal(1);
+    });
+  });
 });
