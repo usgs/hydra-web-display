@@ -19,7 +19,7 @@ _DEFAULTS = {
   magnitudeType: null, // Type of magnitude. String
   magnitudes: [],      // List of magnitudes associated to event. Array
   title: null,         // Location description for event. String
-  type: null           // Typeo of event. String
+  type: null           // Type of event. String
 };
 
 
