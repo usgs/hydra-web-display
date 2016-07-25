@@ -34,42 +34,33 @@ var EventSummaryView = function (options) {
 
   _this.render = function () {
     var depth,
-        geometry,
         latitude,
         longitude,
         magnitude,
         magnitudeType,
-        originTime,
-        properties;
+        originTime;
 
-    geometry = _this.model.get('geomoetry');
-    depth = geometry.coordinates[2];
-    latitude = geometry.coordinates[0];
-    longitude = geometry.coordinates[1];
+    depth = _this.model.get('depth');
+    latitude = _this.model.get('latitude');
+    longitude = _this.model.get('longitude');
+    magnitude = _this.model.get('magnitude');
+    magnitudeType = _this.model.get('magnitudeType');
+    originTime = _this.model.get('eventtime');
 
-    properties = _this.model.get('properties');
-    magnitude = properties.get('magnitude');
-    magnitudeType = properties.get('magnitudeType');
-    originTime = properties.get('eventtime');
-
-    //format values
-    originTime = _formatter.datetime(originTime, 0, false);
+    depth = _formatter.depth(depth, 'km');
+    latitude = _formatter.latitude(latitude);
+    longitude = _formatter.longitude(longitude);
+    magnitude = _formatter.magnitude(magnitude);
 
     _this.el.innerHTML =
-      '<dl class="no-style event-summary-list">' +
-        '<dt>Preferred Latitude</dt>' +
-          '<dd class="latitude">' + latitude + '</dd>' +
-        '<dt>Preferred Longitude</dt>' +
-          '<dd class="longitude">' + longitude + '</dd>' +
-        '<dt>Preferred Origin Time</dt>' +
-          '<dd class="origin-time">' + originTime + '</dd>' +
-        '<dt>Preferred Depth</dt>' +
-          '<dd class="depth">' + depth + '</dd>' +
-        '<dt>Preferred Magnitude</dt>' +
-          '<dd class="magnitude">' + magnitude + '</dd>' +
-        '<dt>Preferred Magnitude Type</dt>' +
-          '<dd class="magnitude-type">' + magnitudeType + '</dd>' +
-      '</dl>';
+      '<ul class="no-style event-summary-view">' +
+        '<li class="origin-time"><b>OT:</b> ' + originTime + '</li>' +
+        '<li class="latitude"><b>Lat:</b> '  + latitude + '</li>' +
+        '<li class="longitude"><b>Lon:</b> ' + longitude + '</li>' +
+        '<li class="depth"><b>Depth:</b> ' + depth + '</li>' +
+        '<li class="magnitude"><b>Mag:</b> ' + magnitude + ' ' +
+            magnitudeType + '</li>' +
+      '</ul>';
   };
 
   _initialize(options);
