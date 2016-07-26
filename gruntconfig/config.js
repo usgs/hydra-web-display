@@ -34,7 +34,9 @@ config = {
 
   cssPath: [
     'src/htdocs/css',
+    'node_modules/hazdev-tablist/src',
     'node_modules/hazdev-webutils/src'
+
   ],
 
   jsPath: {
