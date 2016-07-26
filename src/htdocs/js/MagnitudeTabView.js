@@ -20,9 +20,15 @@ var MagnitudeTabView = function (options) {
 
   options = Util.extend({}, _DEFAULTS, options);
   _this = View(options);
-  _tablist = TabList();
+
+
+  _this.initialize = function (options) {
+    _tablist = options.tabList || TabList();
+  };
 
   _this.destroy = Util.compose(function () {
+    _tablist = null;
+
     _initialize = null;
     _this = null;
   }, _this.destroy);
@@ -40,12 +46,8 @@ var MagnitudeTabView = function (options) {
     });
   };
 
-  _this.addTab = function () {
-
-  };
-
   _this.render = function () {
-    _this.el.innerHTML = 'TODO:: MagnitudeTabView';
+    _this.el.innerHTML = 'TODO:: MagnitudeTabView ' + _this.tablist;
   };
 
   options = null;
