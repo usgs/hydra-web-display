@@ -38,8 +38,9 @@ config = {
   ],
 
   jsPath: {
-    'src/htdocs/js': '*/*.js',
-    'node_modules/hazdev-webutils/src': '**/*.js'
+    'src/htdocs/js': '**/*.js',
+    'node_modules/hazdev-webutils/src': '**/*.js',
+    'node_modules/hazdev-tablist/src': '**/*.js'
   }
 
 };
