@@ -33,8 +33,35 @@ var EventSummaryView = function (options) {
   }, _this.destroy);
 
   _this.render = function () {
-    _this.el.innerHTML = 'TODO:: EventSummaryView';
+    var depth,
+        latitude,
+        longitude,
+        magnitude,
+        magnitudeType,
+        originTime;
+
+    depth = _this.model.get('depth');
+    latitude = _this.model.get('latitude');
+    longitude = _this.model.get('longitude');
+    magnitude = _this.model.get('magnitude');
+    magnitudeType = _this.model.get('magnitudeType');
+    originTime = _this.model.get('eventtime');
+
+    depth = _formatter.depth(depth, 'km');
+    latitude = _formatter.latitude(latitude);
+    longitude = _formatter.longitude(longitude);
+    magnitude = _formatter.magnitude(magnitude, magnitudeType);
+
+    _this.el.innerHTML =
+      '<ul class="no-style event-summary-view">' +
+        '<li class="origin-time"><b>OT:</b> ' + originTime + '</li>' +
+        '<li class="latitude"><b>Lat:</b> '  + latitude + '</li>' +
+        '<li class="longitude"><b>Lon:</b> ' + longitude + '</li>' +
+        '<li class="depth"><b>Depth:</b> ' + depth + '</li>' +
+        '<li class="magnitude"><b>Mag:</b> ' + magnitude + '</li>' +
+      '</ul>';
   };
+
 
   _initialize(options);
   options = null;
