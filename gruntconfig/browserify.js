@@ -16,25 +16,7 @@ CWD = process.cwd();
 NODE_MODULES = CWD + '/node_modules';
 JS = './' + config.src + '/htdocs/js';
 
-BUNDLE_CLASSES = [
-  JS + '/EventModel.js:EventModel',
-  JS + '/EventSearchView.js:EventSearchView',
-  JS + '/EventSummaryView.js:EventSummaryView',
-  JS + '/Formatter.js:Formatter',
-  JS + '/MagnitudeCollectionTable.js:MagnitudeCollectionTable',
-  JS + '/MagnitudeDisplay.js:MagnitudeDisplay',
-  JS + '/MagnitudeSummaryView.js:MagnitudeSummaryView',
-  JS + '/MagnitudeTabView.js:MagnitudeTabView',
-
-  NODE_MODULES + '/hazdev-tablist/src/tablist/TabList.js:tablist/TabList',
-
-  NODE_MODULES + '/hazdev-webutils/src/mvc/CollectionView.js:mvc/CollectionView',
-  NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',
-  NODE_MODULES + '/hazdev-webutils/src/mvc/View.js:mvc/View',
-  NODE_MODULES + '/hazdev-webutils/src/util/Events.js:util/Events',
-  NODE_MODULES + '/hazdev-webutils/src/util/Util.js:util/Util',
-  NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr'
-];
+BUNDLE_CLASSES = [];
 
 
 Object.keys(config.jsPath).forEach(function (path) {
