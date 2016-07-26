@@ -97,4 +97,20 @@ describe('EventSearchView', function () {
       expect(view.openMagnitudeDisplay.callCount).to.equal(1);
     });
   });
+
+  describe('onSearchClick', function () {
+    it('calls search method', function () {
+      var view;
+
+      view = EventSearchView();
+
+      sinon.spy(view, 'search');
+
+      view.onSearchClick();
+      expect(view.search.callCount).to.equal(1);
+
+      view.search.restore();
+      view.destroy();
+    });
+  });
 });
