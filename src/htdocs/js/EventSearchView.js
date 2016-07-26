@@ -13,7 +13,7 @@ var Collection = require('mvc/Collection'),
 var _DEFAULTS;
 
 _DEFAULTS = {
-  eventWsUrl: '/ws/hydra/event.json',
+  eventWsUrl: 'event.json',
   magnitudeUrl: 'magnitude.html'
 };
 
@@ -171,8 +171,9 @@ var EventSearchView = function (options) {
   };
 
   _this.onSearchSuccess = function (data/*, xhr*/) {
-    console.log(data);
-
+    if (_this === null) {
+      console.log('null');
+    }
     Util.empty(_this.messageEl);
 
     _this.eventModel.reset(EventModel.parseAttributes(data));

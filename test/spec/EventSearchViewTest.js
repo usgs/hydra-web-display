@@ -1,14 +1,37 @@
-/* global afterEach, beforeEach, chai, describe, it, sinon */
+/* global after, afterEach, before, beforeEach, chai, describe, it, sinon */
 'use strict';
 
 
-var EventSearchView = require('EventSearchView');
+var EventSearchView = require('EventSearchView'),
+    Model = require('mvc/Model'),
+    Xhr = require('util/Xhr');
 
 
 var expect = chai.expect;
 
 
 describe('EventSearchView', function () {
+  var EVENT_DETAILS;
+
+  before(function (done) {
+    Xhr.ajax({
+      url: 'event.json',
+      success: function (data) {
+        EVENT_DETAILS = data;
+        sinon.stub(Xhr, 'ajax', function () {
+          return data;
+        });
+      },
+      done: function () {
+        done();
+      }
+    });
+  });
+
+  after(function () {
+    Xhr.ajax.restore();
+  });
+
   describe('constructor', function () {
     it('is defined', function () {
       expect(typeof EventSearchView).to.equal('function');
@@ -75,12 +98,14 @@ describe('EventSearchView', function () {
 
     beforeEach(function () {
       view = EventSearchView();
+      sinon.stub(view, 'openMagnitudeDisplay', function () {});
       sinon.stub(view.magnitudeCollection, 'getSelected',
           function () { return {}; });
     });
 
     afterEach(function () {
       view.magnitudeCollection.getSelected.restore();
+      view.openMagnitudeDisplay.restore();
       view.destroy();
     });
 
@@ -91,7 +116,6 @@ describe('EventSearchView', function () {
     });
 
     it('calls open magnitude display', function () {
-      sinon.stub(view, 'openMagnitudeDisplay', function () {});
       view.onMagnitudeSelect();
 
       expect(view.openMagnitudeDisplay.callCount).to.equal(1);
@@ -110,6 +134,39 @@ describe('EventSearchView', function () {
       expect(view.search.callCount).to.equal(1);
 
       view.search.restore();
+      view.destroy();
+    });
+  });
+
+  describe('openMagnitudeDisplay', function () {
+    it('opens the display correctly', function () {
+      var magnitude,
+          url,
+          view;
+
+      view = EventSearchView({
+        event: Model({id: 'huid'}),
+        magnitudeUrl: 'magnitudeUrl'
+      });
+
+      magnitude = {
+        author: 'author',
+        installation: 'installation',
+        type: 'type'
+      };
+
+      url = 'magnitudeUrl#?huid=huid&author=author&' +
+          'installation=installation&type=type';
+
+      sinon.stub(window, 'open', function () {});
+
+      view.openMagnitudeDisplay(magnitude);
+
+      expect(window.open.callCount).to.equal(1);
+      expect(window.open.calledWith(url, 'hydra-magnitude-display'))
+          .to.equal(true);
+
+      window.open.restore();
       view.destroy();
     });
   });
