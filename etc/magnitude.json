@@ -1,0 +1,55 @@
+{
+  "properties": {
+    "associated-by": "wphase_module",
+    "associated-by-installation": "NEIC",
+    "author": "wphase_module",
+    "derived-magnitude": 5.744,
+    "derived-magnitude-type": "Mww",
+    "installation": "NEIC",
+    "is-internal": false,
+    "is-preferred-for-type": true,
+    "num-stations-associated": 283,
+    "num-stations-used": 102,
+    "moment-tensors": [
+      {
+        "azimuthal-gap": 158,
+        "condition": 29.447752426926,
+        "derived-depth": 11.5,
+        "derived-eventtime": "2016-07-19T05:18:38.700Z",
+        "derived-latitude": -30.1666,
+        "derived-longitude": -72.153,
+        "fit": 0.924,
+        "nodal-plane-1-dip": 21.95,
+        "nodal-plane-1-slip": 71.35,
+        "nodal-plane-1-strike": 352.05,
+        "nodal-plane-2-dip": 69.26,
+        "nodal-plane-2-slip": 97.34,
+        "nodal-plane-2-strike": 192.04,
+        "percent-double-couple": 0.9907,
+        "scalar-moment": 490000000000000060,
+        "sourcetime-decaytime": 5,
+        "sourcetime-duration": 10,
+        "sourcetime-risetime": 5,
+        "sourcetime-type": "triangle",
+        "tensor-mpp": -330550000000000060,
+        "tensor-mrp": -351170000000000000,
+        "tensor-mrr": 322830000000000000,
+        "tensor-mrt": -97990000000000000,
+        "tensor-mtp": -11670000000000002,
+        "tensor-mtt": 7720000000000000,
+        "variance-reduction": 0,
+        "preferred-solution": true
+      }
+    ]
+  },
+  "type": "Feature",
+  "id": "50003UWR/wphase_module/NEIC/Mww",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -72.153,
+      -30.1666,
+      11.5
+    ]
+  }
+}
