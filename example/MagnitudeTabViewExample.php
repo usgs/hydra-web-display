@@ -17,4 +17,4 @@ if (!isset($TEMPLATE)) {
 }
 ?>
 
-<div id="magnitude-tab-view"></div>
+<div id="magnitude-tab-view-example"></div>
