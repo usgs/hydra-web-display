@@ -1,7 +1,8 @@
 'use strict';
 
 
-var TabList = require('tablist/TabList'),
+var MagnitudeSummaryView = require('MagnitudeSummaryView'),
+    TabList = require('tablist/TabList'),
     Util = require('util/Util'),
     View = require('mvc/View');
 
@@ -16,40 +17,48 @@ var MagnitudeTabView = function (options) {
   var _this,
       _initialize,
 
-      _tablist;
+      _tabList;
 
   options = Util.extend({}, _DEFAULTS, options);
   _this = View(options);
 
 
-  _this.initialize = function (options) {
-    _tablist = options.tabList || TabList();
+  _initialize = function () {
+    _this.el.classList.add('magnitude-tab-view');
   };
 
   _this.destroy = Util.compose(function () {
-    _tablist = null;
+    _tabList = null;
 
     _initialize = null;
     _this = null;
   }, _this.destroy);
 
-  _this.tabList = function () {
-    _tablist({
-      el: document.querySelector('.magnitude-tab-view'),
-      tabs: [
-        {
-          title: '<header>Tab #1</header>',
-          content: '<header>Tab #1 content</header>' +
-              '<p>content stuff</p>'
-        }
-      ]
+  // Add new tabs here
+  _this.addTabs = function () {
+    _tabList.addTab({
+      title: 'Magnitude Summary',
+      content: MagnitudeSummaryView()
     });
   };
 
   _this.render = function () {
-    _this.el.innerHTML = 'TODO:: MagnitudeTabView ' + _this.tablist;
+    _this.el.innerHTML = '';
+
+    _tabList = new TabList({
+      el: document.querySelector('.magnitude-tab-view'),
+      tabPosition: 'top',
+      tabs: []
+    });
+
+    _this.addTabs();
+
+
+
   };
 
+
+  _initialize();
   options = null;
   return _this;
 };
