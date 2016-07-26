@@ -170,4 +170,26 @@ describe('EventSearchView', function () {
       view.destroy();
     });
   });
+
+  describe('search', function () {
+    it('executes an ajax', function () {
+      var view;
+
+      view = EventSearchView({
+        eventWsUrl: 'event'
+      });
+
+      view.search('id');
+
+      // Xhr.ajax is already stubbed in the "before" for this test suite
+      expect(Xhr.ajax.calledWith({
+        url: 'event',
+        data: {huid: 'id'},
+        success: view.onSearchSuccess,
+        error: view.onSearchError
+      })).to.equal(true);
+
+      view.destroy();
+    });
+  });
 });
