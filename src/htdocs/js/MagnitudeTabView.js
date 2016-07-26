@@ -2,6 +2,7 @@
 
 
 var MagnitudeSummaryView = require('MagnitudeSummaryView'),
+    EventSummaryView = require('EventSummaryView'),
     TabList = require('tablist/TabList'),
     Util = require('util/Util'),
     View = require('mvc/View');
@@ -36,6 +37,11 @@ var MagnitudeTabView = function (options) {
 
   // Add new tabs here
   _this.addTabs = function () {
+    _tabList.addTab({
+      title: 'Event Summary',
+      content: EventSummaryView()
+    });
+
     _tabList.addTab({
       title: 'Magnitude Summary',
       content: MagnitudeSummaryView()
