@@ -113,7 +113,7 @@ var EventSearchView = function (options) {
       model: _this.eventModel
     });
 
-    _this.magnitudeCollectionView = MagnitudeCollectionTable({
+    _this.magnitudeCollectionTable = MagnitudeCollectionTable({
       el: el.querySelector('.event-search-magnitude-collection'),
       collection: _this.magnitudeCollection
     });
@@ -160,9 +160,9 @@ var EventSearchView = function (options) {
       _this.eventSummaryView = null;
     }
 
-    if (_this.magnitudeCollectionView) {
-      _this.magnitudeCollectionView.destroy();
-      _this.magnitudeCollectionView = null;
+    if (_this.magnitudeCollectionTable) {
+      _this.magnitudeCollectionTable.destroy();
+      _this.magnitudeCollectionTable = null;
     }
 
     // Nullify members
