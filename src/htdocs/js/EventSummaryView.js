@@ -29,7 +29,7 @@ var EventSummaryView = function (options) {
   _this.destroy = Util.compose(function () {
     if (_this.counterIntervalHandler) {
       window.clearInterval(_this.counterIntervalHandler);
-      //_this.counterIntervalHandler = null;
+      _this.counterIntervalHandler = null;
     }
 
     _formatter = null;
@@ -86,7 +86,8 @@ var EventSummaryView = function (options) {
         longitude,
         magnitude,
         magnitudeType,
-        originTime;
+        originTime,
+        region;
 
     depth = _this.model.get('depth');
     latitude = _this.model.get('latitude');
@@ -94,6 +95,7 @@ var EventSummaryView = function (options) {
     magnitude = _this.model.get('magnitude');
     magnitudeType = _this.model.get('magnitudeType');
     originTime = _this.model.get('eventtime');
+    region = _this.model.get('title');
 
     depth = _formatter.depth(depth, 'km');
     latitude = _formatter.latitude(latitude);
@@ -114,7 +116,8 @@ var EventSummaryView = function (options) {
           '<label class="event-summary-label" for="event-summary-time-since">' +
             'Time Since: ' +
           '</label>' +
-          '<span class="event-summary-value timer-count-up" id="event-summary-time-since">' +
+          '<span class="event-summary-value timer-count-up"' +
+              'id="event-summary-time-since">' +
           '</span>' +
         '</li>' +
         '<li>' +
@@ -147,6 +150,14 @@ var EventSummaryView = function (options) {
           '</label>' +
           '<span class="event-summary-value" id="event-summary-magnitude">' +
             magnitude +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-title">' +
+            'Region: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-title">' +
+            region +
           '</span>' +
         '</li>' +
       '</ul>';
