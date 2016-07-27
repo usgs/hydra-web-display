@@ -2,7 +2,6 @@
 
 
 var MagnitudeSummaryView = require('MagnitudeSummaryView'),
-    EventSummaryView = require('EventSummaryView'),
     TabList = require('tablist/TabList'),
     Util = require('util/Util'),
     View = require('mvc/View');
@@ -18,6 +17,7 @@ var MagnitudeTabView = function (options) {
   var _this,
       _initialize,
 
+      _magnitudeSummaryView,
       _tabList;
 
   options = Util.extend({}, _DEFAULTS, options);
@@ -25,7 +25,14 @@ var MagnitudeTabView = function (options) {
 
 
   _initialize = function () {
+    var model;
+
+    model = options.model || _this.model;
+
     _this.el.classList.add('magnitude-tab-view');
+    _magnitudeSummaryView = MagnitudeSummaryView({
+        model: model
+    });
   };
 
   _this.destroy = Util.compose(function () {
@@ -38,13 +45,11 @@ var MagnitudeTabView = function (options) {
   // Add new tabs here
   _this.addTabs = function () {
     _tabList.addTab({
-      title: 'Event Summary',
-      content: EventSummaryView()
-    });
-
-    _tabList.addTab({
       title: 'Magnitude Summary',
-      content: MagnitudeSummaryView()
+      content: _magnitudeSummaryView.el,
+      onSelect: function () {
+        _magnitudeSummaryView.render();
+      }
     });
   };
 
@@ -58,9 +63,6 @@ var MagnitudeTabView = function (options) {
     });
 
     _this.addTabs();
-
-
-
   };
 
 
