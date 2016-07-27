@@ -11,6 +11,7 @@ var _DEFAULTS,
     _FORMATTER;
 
 _FORMATTER = Formatter();
+
 _DEFAULTS = {
   className: 'magnitude-collection-table',
   clickToSelect: true,
@@ -18,19 +19,34 @@ _DEFAULTS = {
     {
       className: 'magnitude-value',
       title: 'Value',
-      format: function (item) { return _FORMATTER.number(item.value, 1); }
+      format: function (item) {
+        return _FORMATTER.number(item.value, 1);
+      }
     },
     {
       className: 'magnitude-type',
       title: 'Type',
-      format: function (item) { return item.type; }
+      format: function (item) {
+        return item.type;
+      }
     },
     {
-      className: 'magnitude-source',
-      title: 'Source',
-      format: function (item) { return item.author; }
+      className: 'magnitude-author',
+      title: 'Author',
+      format: function (item) {
+        return item.author;
+      }
+    },
+    {
+      className: 'magnitude-installation',
+      title: 'Installation',
+      format: function (item) {
+        return item.installation;
+      }
     }
-  ]
+  ],
+  emptyMarkup: '<p class="alert info">No magnitudes to display.</p>',
+  renderNow: true
 };
 
 
