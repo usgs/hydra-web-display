@@ -6,8 +6,8 @@ mocha.setup('bdd');
 
 
 // Add each test class here as they are implemented
+require('./spec/EventSearchViewTest');
 require('./spec/EventSummaryViewTest');
-require('./spec/ExampleTest');
 
 
 if (window.mochaPhantomJS) {
