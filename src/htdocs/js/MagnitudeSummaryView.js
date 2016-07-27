@@ -4,7 +4,7 @@
 var BeachBallView = require('BeachBallView'),
     Collection = require('mvc/Collection'),
     Formatter = require('Formatter'),
-    MagnitudeCollectionView = require('MagnitudeCollectionView'),
+    MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
     Model = require('mvc/Model'),
     Tensor = require('Tensor'),
     Util = require('util/Util'),
@@ -73,7 +73,7 @@ var MagnitudeSummaryView = function (options) {
     _this.displayBeachBall();
 
     _magnitudeVersionsEl = el.querySelector('.magnitude-versions');
-    _magnitudeCollectionView = MagnitudeCollectionView({
+    _magnitudeCollectionView = MagnitudeCollectionTable({
       el: _magnitudeVersionsEl,
       collection: _collection,
       model: _this.model
