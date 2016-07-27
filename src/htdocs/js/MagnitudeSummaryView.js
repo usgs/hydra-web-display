@@ -37,7 +37,6 @@ var MagnitudeSummaryView = function (options) {
       _ev,
       _formatter,
       _magnitudeCollectionView,
-      _magnitudeDetailsEl,
       _magnitudeVersionsEl;
 
   options = Util.extend({}, _DEFAULTS, options);
@@ -53,23 +52,17 @@ var MagnitudeSummaryView = function (options) {
     _ev = options.ev || Model();
 
     el = _this.el;
-    el.innerHTML = '<div class="magnitude-summary-view">' +
-          '<h3>Moment Summary</h3>' +
-          '<table>' +
-            '<thead>' +
-              '<tr>' +
-                '<th>Parameter</th>' +
-                '<th>Value</th>' +
-                '<th>Uncertainty</th>' +
-              '</tr>' +
-            '</thead>' +
-            '<tbody class="magnitude-details"></tbody>' +
-          '</table>' +
-          '<div class="magnitude-versions"></div>' +
-        '</div>';
+    el.innerHTML = [
+      '<div class="magnitude-summary-view">',
+        '<h3>Moment Summary</h3>',
+        '<table><tbody class="magnitude-details"></tbody></table>',
+        '<div class="magnitude-versions"></div>',
+      '</div>'
+    ].join('');
 
-    _magnitudeDetailsEl = el.querySelector('.magnitude-details');
-    _magnitudeDetailsEl.innerHTML = _this.buildMagnitudeDetailsMarkup();
+    _this.dataTableEl = el.querySelector('.magnitude-details');
+    _this.dataTableEl.innerHTML = _this.buildMagnitudeDetailsMarkup();
+
     _this.displayBeachBall();
 
     _magnitudeVersionsEl = el.querySelector('.magnitude-versions');
@@ -111,6 +104,9 @@ var MagnitudeSummaryView = function (options) {
         observations,
         percentDoubleCouple,
         source,
+        sourceTimeDecay,
+        sourceTimeDuration,
+        sourceTimeRise,
         time,
         varianceReduction;
 
@@ -147,6 +143,9 @@ var MagnitudeSummaryView = function (options) {
     percentDoubleCouple = _this.getProperty('percent-double-couple');
     source = _this.getProperty('installation') + ' - ' +
         _this.getProperty('author');
+    sourceTimeDecay = _this.getProperty('sourcetime-decaytime');
+    sourceTimeDuration = _this.getProperty('sourcetime-duration');
+    sourceTimeRise = _this.getProperty('sourcetime-risetime');
     time = _this.getProperty('derived-eventtime');
     varianceReduction = _this.getProperty('variance-reduction');
     nodalPlane1 = 'Strike: ' + _this.getProperty('nodal-plane-1-strike') +
@@ -160,168 +159,113 @@ var MagnitudeSummaryView = function (options) {
     var value = '<b>TODO</b>';
 
     markup =
-      // Event Details
-      '<tr>' +
-        '<td>Preferred Magnitude</td>' +
-        '<td>' + eventMagnitude + '</td>' +
-        '<td></td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>Region</td>' +
-        '<td>' + eventRegion + '</td>' +
-        '<td></td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>Time</td>' +
-        '<td>' + _formatter.datetime(Date.parse(eventTime)) + '</td>' +
-        '<td></td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>Location</td>' +
-        '<td>' + _formatter.location(eventLatitude, eventLongitude) + '</td>' +
-        '<td></td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>Depth</td>' +
-        '<td>' + _formatter.distance(eventDepth, 'km') + '</td>' +
-        '<td></td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>Time Since</td>' +
-        '<td class="timer-count-up"></td>' +
-        '<td></td>' +
-      '</tr>' +
-
-      // Magnitude Details
       '<tr>' +
         '<td>Magnitude</td>' +
         '<td>' + magnitude + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Observations</td>' +
         '<td>' + observations + '</td>' +
-        '<td></td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>Mw\'</td>' +
-        '<td>' + value + '</td>' +
-        '<td></td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>Weight</td>' +
-        '<td>' + value + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Source</td>' +
         '<td>' + source + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Internal</td>' +
         '<td>' + isInternal + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Preferred For Type</td>' +
         '<td>' + isPreferred + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Publishable</td>' +
         '<td>' + isPublishable + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Associated By</td>' +
         '<td>' + associatedBy + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Comment</td>' +
         '<td>' + comment + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Moment</td>' +
         '<td>' + moment + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Solution Time</td>' +
         '<td>' + _formatter.datetime(Date.parse(time)) + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Solution Location</td>' +
         '<td>' + _formatter.location(latitude, longitude) + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Solution Depth</td>' +
         '<td>' + _formatter.distance(depth, 'km') + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Solution Method</td>' +
         '<td>' + value + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Fit</td>' +
         '<td>' + fit + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Variance Reduction</td>' +
         '<td>' + varianceReduction + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Percent Double Couple</td>' +
-        '<td>' + _formatter.number(percentDoubleCouple * 100, 0, '', '%') + '</td>' +
-        '<td></td>' +
+        '<td>' +
+          _formatter.number(percentDoubleCouple * 100, 0, '', '%') +
+        '</td>' +
       '</tr>' +
       '<tr>' +
         '<td>Focal Mechanism</td>' +
         '<td class="beach-ball-view"></td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Nodal Plane 1</td>' +
         '<td>' + nodalPlane1 + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Nodal Plane 2</td>' +
         '<td>' + nodalPlane2 + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Percent CLVD</td>' +
-        '<td>' + value + '</td>' +
-        '<td></td>' +
+        '<td>' +
+          _formatter.number((1 - percentDoubleCouple) * 100, 0, '', '%') +
+        '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Source Time Function</td>' +
-        '<td>' + value + '</td>' +
-        '<td></td>' +
+        '<td>Source Time Decay</td>' +
+        '<td>' + sourceTimeDecay + '</td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>Source Time Duration</td>' +
+        '<td>' + sourceTimeDuration + '</td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>Source Time Rise</td>' +
+        '<td>' + sourceTimeRise + '</td>' +
       '</tr>' +
       '<tr>' +
         '<td>Input Source</td>' +
         '<td>' + inputSource + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Gap</td>' +
         '<td>' + azimuthalGap + '</td>' +
-        '<td></td>' +
       '</tr>' +
       '<tr>' +
         '<td>Condition #</td>' +
         '<td>' + condition + '</td>' +
-        '<td></td>' +
       '</tr>';
 
     return markup;
