@@ -403,8 +403,8 @@ var MagnitudeSummaryView = function (options) {
       clock =
           (weeks ? weeks + ' weeks, ' : '') +
           (days ? days + ' days, ' : '') +
-          (hrs ? hrs + ':' : '') +
-          (mins ? mins + ':' : '') +
+          (hrs < 10 ? '0' + hrs : hrs) +  ':' +
+          (mins < 10 ? '0' + mins : mins) + ':' +
           (secs < 10 ? '0' + secs : secs);
 
       el.innerHTML = clock;
