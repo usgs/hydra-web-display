@@ -160,111 +160,111 @@ var MagnitudeSummaryView = function (options) {
 
     markup =
       '<tr>' +
-        '<td>Magnitude</td>' +
+        '<th scope="row">Magnitude</th>' +
         '<td>' + magnitude + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Observations</td>' +
+        '<th scope="row">Observations</th>' +
         '<td>' + observations + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Source</td>' +
+        '<th scope="row">Source</th>' +
         '<td>' + source + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Internal</td>' +
+        '<th scope="row">Internal</th>' +
         '<td>' + isInternal + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Preferred For Type</td>' +
+        '<th scope="row">Preferred For Type</th>' +
         '<td>' + isPreferred + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Publishable</td>' +
+        '<th scope="row">Publishable</th>' +
         '<td>' + isPublishable + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Associated By</td>' +
+        '<th scope="row">Associated By</th>' +
         '<td>' + associatedBy + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Comment</td>' +
+        '<th scope="row">Comment</th>' +
         '<td>' + comment + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Moment</td>' +
+        '<th scope="row">Moment</th>' +
         '<td>' + moment + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Solution Time</td>' +
+        '<th scope="row">Solution Time</th>' +
         '<td>' + _formatter.datetime(Date.parse(time)) + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Solution Location</td>' +
+        '<th scope="row">Solution Location</th>' +
         '<td>' + _formatter.location(latitude, longitude) + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Solution Depth</td>' +
+        '<th scope="row">Solution Depth</th>' +
         '<td>' + _formatter.distance(depth, 'km') + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Solution Method</td>' +
+        '<th scope="row">Solution Method</th>' +
         '<td>' + value + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Fit</td>' +
+        '<th scope="row">Fit</th>' +
         '<td>' + fit + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Variance Reduction</td>' +
+        '<th scope="row">Variance Reduction</th>' +
         '<td>' + varianceReduction + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Percent Double Couple</td>' +
+        '<th scope="row">Percent Double Couple</th>' +
         '<td>' +
           _formatter.number(percentDoubleCouple * 100, 0, '', '%') +
         '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Focal Mechanism</td>' +
+        '<th scope="row">Focal Mechanism</th>' +
         '<td class="beach-ball-view"></td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Nodal Plane 1</td>' +
+        '<th scope="row">Nodal Plane 1</th>' +
         '<td>' + nodalPlane1 + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Nodal Plane 2</td>' +
+        '<th scope="row">Nodal Plane 2</th>' +
         '<td>' + nodalPlane2 + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Percent CLVD</td>' +
+        '<th scope="row">Percent CLVD</th>' +
         '<td>' +
           _formatter.number((1 - percentDoubleCouple) * 100, 0, '', '%') +
         '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Source Time Decay</td>' +
+        '<th scope="row">Source Time Decay</th>' +
         '<td>' + sourceTimeDecay + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Source Time Duration</td>' +
+        '<th scope="row">Source Time Duration</th>' +
         '<td>' + sourceTimeDuration + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Source Time Rise</td>' +
+        '<th scope="row">Source Time Rise</th>' +
         '<td>' + sourceTimeRise + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Input Source</td>' +
+        '<th scope="row">Input Source</th>' +
         '<td>' + inputSource + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Gap</td>' +
+        '<th scope="row">Gap</th>' +
         '<td>' + azimuthalGap + '</td>' +
       '</tr>' +
       '<tr>' +
-        '<td>Condition #</td>' +
+        '<th scope="row">Condition #</th>' +
         '<td>' + condition + '</td>' +
       '</tr>';
 
