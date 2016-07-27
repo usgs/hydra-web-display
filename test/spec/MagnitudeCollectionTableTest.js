@@ -8,7 +8,6 @@ var expect = chai.expect;
 
 
 describe('MagnitudeCollectionTable', function () {
-
   describe('constructor', function () {
     it('is defined', function () {
       expect(typeof MagnitudeCollectionTable).to.equal('function');

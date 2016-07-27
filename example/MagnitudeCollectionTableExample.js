@@ -8,16 +8,18 @@ var MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
 Xhr.ajax({
   url: 'event.json',
   success: function (data) {
-    var collection;
+    var collection,
+        magnitudeCollectionTable;
 
     collection = Collection(data.properties.magnitudes);
 
-    magnitudeCollectionView = MagnitudeCollectionTable({
+    magnitudeCollectionTable = MagnitudeCollectionTable({
       el: document.querySelector('#magnitude-collection-table-example'),
       model: Model(data),
       collection: collection
     });
-    magnitudeCollectionView.render();
+
+    magnitudeCollectionTable.render();
 
   },
   error: function (e) {
