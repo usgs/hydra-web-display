@@ -18,12 +18,14 @@ var EventSummaryView = function (options) {
 
       _formatter;
 
+
   options = Util.extend({}, _DEFAULTS, options);
   _this = View(options);
 
   _initialize = function (options) {
     _formatter = options.formatter || Formatter();
   };
+
 
   _this.destroy = Util.compose(function () {
     _formatter = null;
@@ -53,13 +55,50 @@ var EventSummaryView = function (options) {
     magnitude = _formatter.magnitude(magnitude, magnitudeType);
 
     _this.el.innerHTML =
-      '<ul class="no-style event-summary-view">' +
-        '<li class="origin-time"><b>OT:</b> ' + originTime + '</li>' +
-        '<li class="latitude"><b>Lat:</b> '  + latitude + '</li>' +
-        '<li class="longitude"><b>Lon:</b> ' + longitude + '</li>' +
-        '<li class="depth"><b>Depth:</b> ' + depth + '</li>' +
-        '<li class="magnitude"><b>Mag:</b> ' + magnitude + '</li>' +
-      '</ul>';
+      '<label class="event-summary-label" for="event-summary-origin-time">' +
+        'OT: ' +
+      '</label>' +
+      '<span class="event-summary-value" id="event-summary-origin-time">' +
+        originTime +
+      '</span>' +
+
+      '<label class="event-summary-label" for="event-summary-latitude">' +
+        'Lat: ' +
+      '</label>' +
+      '<span class="event-summary-value" id="event-summary-latitude">' +
+        latitude +
+      '</span>' +
+
+      '<label class="event-summary-label" for="event-summary-longitude">' +
+        'Lon :' +
+      '</label>' +
+      '<span class="event-summary-value" id="event-summary-longitude">' +
+        longitude +
+      '</span>' +
+
+      '<label class="event-summary-label" for="event-summary-depth">' +
+        'Lat: ' +
+      '</label>' +
+      '<span class="event-summary-value" id="event-summary-depth">' +
+        depth +
+      '</span>' +
+
+      '<label class="event-summary-label" for="event-summary-magnitude">' +
+        'Lat: ' +
+      '</label>' +
+      '<span class="event-summary-value" id="event-summary-magnitude">' +
+        magnitude +
+      '</span>';
+
+      // '<ul class="no-style event-summary-view">' +
+      //   '<li class="origin-time"><b>OT:</b> ' + originTime + '</li>' +
+      //   '<li class="latitude"><b>Lat:</b> '  + latitude + '</li>' +
+      //   '<li class="longitude"><b>Lon:</b> ' + longitude + '</li>' +
+      //   '<li class="depth"><b>Depth:</b> ' + depth + '</li>' +
+      //   '<li class="magnitude"><b>Mag:</b> ' + magnitude + '</li>' +
+      // '</ul>';
+
+
   };
 
 
