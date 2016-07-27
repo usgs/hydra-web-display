@@ -1,14 +1,27 @@
-.event-summary-view {
-  display: block;
+.event-summary-value {
+  font-weight: bold;
   white-space: nowrap;
+  color: #444;
+}
+
+.event-summary-label {
+  display: inline-block;
+  margin-right: .2em;
+  width: 86px;
+  font-size: .88em;
+  color: #666;
 }
 
 @media screen and (min-width: 480px) {
-  .event-summary-view {
-    display: flex;
-
+  .event-summary-list {
     > li {
+      float: left;
       margin-right: 1em;
     }
   }
+
+  .event-summary-label {
+    width: auto;
+  }
+
 }
