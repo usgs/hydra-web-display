@@ -1,6 +1,5 @@
 'use strict';
 
-
 var Formatter = require('Formatter'),
     Util = require('util/Util'),
     View = require('mvc/View');
@@ -28,11 +27,58 @@ var EventSummaryView = function (options) {
 
 
   _this.destroy = Util.compose(function () {
+    if (_this.counterIntervalHandler) {
+      window.clearInterval(_this.counterIntervalHandler);
+      //_this.counterIntervalHandler = null;
+    }
+
     _formatter = null;
 
     _initialize = null;
     _this = null;
   }, _this.destroy);
+
+  _this.timerCountUp = function (datetime) {
+    var current,
+        milliseconds,
+        elapsed;
+
+    _this.timeSinceEl = _this.el.querySelector('.timer-count-up');
+
+    try {
+      current = new Date().getTime();
+      milliseconds = Date.parse(datetime);
+      elapsed = Math.floor((current - milliseconds) / 1000);
+    } catch (e) {
+      _this.timeSinceEl.innerHTML = '';
+      return;
+    }
+
+    _this.counterIntervalHandler = window.setInterval(function () {
+      var clock,
+          days,
+          hrs,
+          mins,
+          secs,
+          weeks;
+
+      elapsed++;
+      weeks = Math.floor(elapsed/604800);
+      days = Math.floor(elapsed/86400) % 7;
+      hrs = Math.floor(elapsed/3600) % 24;
+      mins = Math.floor(elapsed/60) % 60;
+      secs = elapsed % 60;
+
+      clock =
+        (weeks ? weeks + ' weeks, ' : '') +
+        (days ? days + ' days, ' : '') +
+        (hrs ? hrs + ':' : '') +
+        (mins < 10 ? '0' + mins + ':' : mins + ':') +
+        (secs < 10 ? '0' + secs : secs);
+
+      _this.timeSinceEl.innerHTML = clock;
+    }, 1000);
+  };
 
   _this.render = function () {
     var depth,
@@ -55,50 +101,57 @@ var EventSummaryView = function (options) {
     magnitude = _formatter.magnitude(magnitude, magnitudeType);
 
     _this.el.innerHTML =
-      '<label class="event-summary-label" for="event-summary-origin-time">' +
-        'OT: ' +
-      '</label>' +
-      '<span class="event-summary-value" id="event-summary-origin-time">' +
-        originTime +
-      '</span>' +
+      '<ul class="no-style event-summary-list">' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-origin-time">' +
+            'Origin Time: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-origin-time">' +
+            originTime +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-time-since">' +
+            'Time Since: ' +
+          '</label>' +
+          '<span class="event-summary-value timer-count-up" id="event-summary-time-since">' +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-latitude">' +
+            'Latitude: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-latitude">' +
+            latitude +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-longitude">' +
+            'Longitude: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-longitude">' +
+            longitude +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-depth">' +
+            'Depth: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-depth">' +
+            depth +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-magnitude">' +
+            'Magnitude: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-magnitude">' +
+            magnitude +
+          '</span>' +
+        '</li>' +
+      '</ul>';
 
-      '<label class="event-summary-label" for="event-summary-latitude">' +
-        'Lat: ' +
-      '</label>' +
-      '<span class="event-summary-value" id="event-summary-latitude">' +
-        latitude +
-      '</span>' +
-
-      '<label class="event-summary-label" for="event-summary-longitude">' +
-        'Lon :' +
-      '</label>' +
-      '<span class="event-summary-value" id="event-summary-longitude">' +
-        longitude +
-      '</span>' +
-
-      '<label class="event-summary-label" for="event-summary-depth">' +
-        'Lat: ' +
-      '</label>' +
-      '<span class="event-summary-value" id="event-summary-depth">' +
-        depth +
-      '</span>' +
-
-      '<label class="event-summary-label" for="event-summary-magnitude">' +
-        'Lat: ' +
-      '</label>' +
-      '<span class="event-summary-value" id="event-summary-magnitude">' +
-        magnitude +
-      '</span>';
-
-      // '<ul class="no-style event-summary-view">' +
-      //   '<li class="origin-time"><b>OT:</b> ' + originTime + '</li>' +
-      //   '<li class="latitude"><b>Lat:</b> '  + latitude + '</li>' +
-      //   '<li class="longitude"><b>Lon:</b> ' + longitude + '</li>' +
-      //   '<li class="depth"><b>Depth:</b> ' + depth + '</li>' +
-      //   '<li class="magnitude"><b>Mag:</b> ' + magnitude + '</li>' +
-      // '</ul>';
-
-
+      _this.timerCountUp(originTime);
   };
 
 
