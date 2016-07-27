@@ -1,0 +1,13 @@
+.magnitude-collection-table > tbody > tr {
+  &:hover > th,
+  &:hover > td {
+    background: rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  &.selected > th,
+  &.selected > td {
+    background-color: #88ffff;
+  }
+}
