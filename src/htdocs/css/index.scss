@@ -6,18 +6,3 @@
   margin: 1em;
   padding: 0;
 }
-
-/* These are temp debug styles until EventSummaryView is implemented ... */
-.event-search-event-summary {
-  margin-top: 1em;
-  max-height: 20em;
-  overflow-y: auto;
-
-  > .alert {
-    margin-top: 0;
-  }
-
-  > pre {
-    float: left;
-  }
-}
