@@ -251,7 +251,7 @@ var EventSearchView = function (options) {
  *
  * This method clears any previous error messages and updates the EventModel
  * (for the EventSummaryView to render) and the magnitude Collection (for the
- * MagnitudeCollectionView to render).
+ * MagnitudeCollectionTable to render).
  *
  * @param data {GeoJSONFeature}
  *     Event details formatted as a GeoJSON Feature object.

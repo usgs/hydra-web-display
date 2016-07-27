@@ -4,7 +4,7 @@
 var BeachBallView = require('BeachBallView'),
     Collection = require('mvc/Collection'),
     Formatter = require('Formatter'),
-    MagnitudeCollectionView = require('MagnitudeCollectionView'),
+    MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
     Model = require('mvc/Model'),
     Tensor = require('Tensor'),
     Util = require('util/Util'),
@@ -15,7 +15,7 @@ var _DEFAULTS = {};
 
 
 /**
-* Displays moment summary information, including a MagnitudeCollectionView
+* Displays moment summary information, including a MagnitudeCollectionTable
 *
 * @param options {Object}
 *
@@ -36,7 +36,7 @@ var MagnitudeSummaryView = function (options) {
       _collection,
       _ev,
       _formatter,
-      _magnitudeCollectionView,
+      _magnitudeCollectionTable,
       _magnitudeDetailsEl,
       _magnitudeVersionsEl;
 
@@ -73,12 +73,12 @@ var MagnitudeSummaryView = function (options) {
     _this.displayBeachBall();
 
     _magnitudeVersionsEl = el.querySelector('.magnitude-versions');
-    _magnitudeCollectionView = MagnitudeCollectionView({
+    _magnitudeCollectionTable = MagnitudeCollectionTable({
       el: _magnitudeVersionsEl,
       collection: _collection,
       model: _this.model
     });
-    _magnitudeCollectionView.render();
+    _magnitudeCollectionTable.render();
 
     _this.timerCountUp(_ev.get('eventtime'));
   };
