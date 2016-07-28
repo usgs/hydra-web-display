@@ -17,6 +17,10 @@ describe('EventSummaryView', function () {
       success: function (data) {
         model = EventModel.fromFeature(data);
         done();
+      },
+      error: function (e) {
+        console.log(e.stack);
+        done(e);
       }
     });
 
