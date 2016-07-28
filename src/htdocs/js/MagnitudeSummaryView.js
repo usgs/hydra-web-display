@@ -283,9 +283,9 @@ _this.render = function () {
     _this.internalEl.innerHTML = _this.formatter.boolean(
         _this.model.get('is-internal'));
     _this.preferredEl.innerHTML = _this.formatter.boolean(
-        _this.model.get('is-preferred'));
+        _this.model.get('is-preferred-for-type'));
     _this.publishableEl.innerHTML = _this.formatter.boolean(
-        _this.model.get('is-preferred'));
+        _this.model.get('is-publishable'));
 
     _this.associatedByEl.innerHTML = [
       _this.model.get('associated-by-installation'), ' - ',
