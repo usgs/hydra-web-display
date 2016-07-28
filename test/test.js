@@ -10,6 +10,7 @@ require('./spec/EventSearchViewTest');
 require('./spec/EventSummaryViewTest');
 
 require('./spec/MagnitudeCollectionTableTest');
+require('./spec/MagnitudeTabViewTest');
 
 
 if (window.mochaPhantomJS) {
