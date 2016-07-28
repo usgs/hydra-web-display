@@ -410,6 +410,8 @@ var Formatter = function (options) {
    *
    * @param time stamp {date}
    *    Date time to format.
+   * @return {string}
+   *    formatted time.
    */
   _this.timeSince = function (timeSince) {
     if (!timeSince) {
