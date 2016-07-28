@@ -11,33 +11,86 @@ _DEFAULTS = {};
 
 
 var EventSummaryView = function (options) {
-
   var _this,
-      _initialize,
-
-      _formatter;
+      _initialize;
 
 
   options = Util.extend({}, _DEFAULTS, options);
   _this = View(options);
 
   _initialize = function (options) {
-    _formatter = options.formatter || Formatter();
+    _this.formatter = options.formatter || Formatter();
+
+    _this.el.innerHTML =
+      '<ul class="no-style event-summary-list">' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-origin-time">' +
+            'Origin Time: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-origin-time">' +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-time-since">' +
+            'Time Since: ' +
+          '</label>' +
+          '<span class="event-summary-value timer-count-up"' +
+              'id="event-summary-time-since">' +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-latitude">' +
+            'Latitude: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-latitude">' +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-longitude">' +
+            'Longitude: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-longitude">' +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-depth">' +
+            'Depth: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-depth">' +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-magnitude">' +
+            'Magnitude: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-magnitude">' +
+          '</span>' +
+        '</li>' +
+        '<li>' +
+          '<label class="event-summary-label" for="event-summary-title">' +
+            'Region: ' +
+          '</label>' +
+          '<span class="event-summary-value" id="event-summary-title">' +
+          '</span>' +
+        '</li>' +
+      '</ul>';
+
+    _this.originTimeEl = _this.el.querySelector('#event-summary-origin-time');
+    _this.timeSinceEl = _this.el.querySelector('.timer-count-up');
+    _this.latitudeEl = _this.el.querySelector('#event-summary-latitude');
+    _this.longitudeEl = _this.el.querySelector('#event-summary-longitude');
+    _this.depthEl = _this.el.querySelector('#event-summary-depth');
+    _this.magnitudeEl = _this.el.querySelector('#event-summary-magnitude');
+    _this.regionEl = _this.el.querySelector('#event-summary-title');
   };
 
 
-  _this.destroy = Util.compose(function () {
-    if (_this.counterIntervalHandler) {
-      window.clearInterval(_this.counterIntervalHandler);
-      _this.counterIntervalHandler = null;
-    }
-
-    _formatter = null;
-
-    _initialize = null;
-    _this = null;
-  }, _this.destroy);
-
+  /**
+   * Starts counter for time since event.
+   *
+   * @param startTime {string}
+   *    Formatted date. example: "2016-07-19T05:18:38.58Z"
+   */
   _this.beginTimeSinceCounter = function (startTime) {
     if (_this.timeSinceIntervalHandler) {
       window.clearInterval(_this.timeSinceIntervalHandler);
@@ -51,16 +104,22 @@ var EventSummaryView = function (options) {
     }, 1000);
   };
 
-  _this.updateTimeSince = function (startTime) {
-    var now,
-        timeSince;
+  /**
+   * Destroy all the things.
+   */
+  _this.destroy = Util.compose(function () {
+    if (_this === null) {
+      return;
+    }
 
-    now = (new Date()).getTime();
-    startTime = Date.parse(startTime);
-    timeSince = parseInt((now - startTime) / 1000, 10); // seconds
+    if (_this.timeSinceIntervalHandler) {
+      window.clearInterval(_this.timeSinceIntervalHandler);
+      _this.timeSinceIntervalHandler = null;
+    }
 
-    _this.timeSinceEl.innerHTML = _formatter.timeSince(timeSince);
-  };
+    _initialize = null;
+    _this = null;
+  }, _this.destroy);
 
   _this.render = function () {
     var depth,
@@ -79,73 +138,31 @@ var EventSummaryView = function (options) {
     originTime = _this.model.get('eventtime');
     region = _this.model.get('title');
 
-    depth = _formatter.depth(depth, 'km');
-    latitude = _formatter.latitude(latitude);
-    longitude = _formatter.longitude(longitude);
-    magnitude = _formatter.magnitude(magnitude, magnitudeType);
+    _this.originTimeEl.innerHTML = originTime;
+    _this.latitudeEl.innerHTML = _this.formatter.latitude(latitude);
+    _this.longitudeEl.innerHTML = _this.formatter.longitude(longitude);
+    _this.depthEl.innerHTML = _this.formatter.depth(depth, 'km');
+    _this.magnitudeEl.innerHTML = _this.formatter.magnitude(magnitude, magnitudeType);
+    _this.regionEl.innerHTML = region;
 
-    _this.el.innerHTML =
-      '<ul class="no-style event-summary-list">' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-origin-time">' +
-            'Origin Time: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-origin-time">' +
-            originTime +
-          '</span>' +
-        '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-time-since">' +
-            'Time Since: ' +
-          '</label>' +
-          '<span class="event-summary-value timer-count-up"' +
-              'id="event-summary-time-since">' +
-          '</span>' +
-        '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-latitude">' +
-            'Latitude: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-latitude">' +
-            latitude +
-          '</span>' +
-        '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-longitude">' +
-            'Longitude: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-longitude">' +
-            longitude +
-          '</span>' +
-        '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-depth">' +
-            'Depth: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-depth">' +
-            depth +
-          '</span>' +
-        '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-magnitude">' +
-            'Magnitude: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-magnitude">' +
-            magnitude +
-          '</span>' +
-        '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-title">' +
-            'Region: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-title">' +
-            region +
-          '</span>' +
-        '</li>' +
-      '</ul>';
+    _this.beginTimeSinceCounter(originTime);
+  };
 
-      _this.timeSinceEl = _this.el.querySelector('.timer-count-up');
-      _this.beginTimeSinceCounter(originTime);
+  /**
+   * Updates and formats time.
+   *
+   * @param startTime {string}
+   *    Formatted date. example: "2016-07-19T05:18:38.58Z"
+   */
+  _this.updateTimeSince = function (startTime) {
+    var now,
+        timeSince;
+
+    now = (new Date()).getTime();
+    startTime = Date.parse(startTime);
+    timeSince = parseInt((now - startTime) / 1000, 10); // seconds
+
+    _this.timeSinceEl.innerHTML = _this.formatter.timeSince(timeSince);
   };
 
 
