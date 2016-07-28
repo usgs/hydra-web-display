@@ -38,46 +38,28 @@ var EventSummaryView = function (options) {
     _this = null;
   }, _this.destroy);
 
-  _this.timerCountUp = function (datetime) {
-    var current,
-        milliseconds,
-        elapsed;
-
-    _this.timeSinceEl = _this.el.querySelector('.timer-count-up');
-
-    try {
-      current = new Date().getTime();
-      milliseconds = Date.parse(datetime);
-      elapsed = Math.floor((current - milliseconds) / 1000);
-    } catch (e) {
-      _this.timeSinceEl.innerHTML = '';
-      return;
+  _this.beginTimeSinceCounter = function (startTime) {
+    if (_this.timeSinceIntervalHandler) {
+      window.clearInterval(_this.timeSinceIntervalHandler);
+      _this.timeSinceIntervalHandler = null;
     }
 
-    _this.counterIntervalHandler = window.setInterval(function () {
-      var clock,
-          days,
-          hrs,
-          mins,
-          secs,
-          weeks;
+    _this.updateTimeSince(startTime);
 
-      elapsed++;
-      weeks = Math.floor(elapsed/604800);
-      days = Math.floor(elapsed/86400) % 7;
-      hrs = Math.floor(elapsed/3600) % 24;
-      mins = Math.floor(elapsed/60) % 60;
-      secs = elapsed % 60;
-
-      clock =
-        (weeks ? weeks + ' weeks, ' : '') +
-        (days ? days + ' days, ' : '') +
-        (hrs ? hrs + ':' : '') +
-        (mins < 10 ? '0' + mins + ':' : mins + ':') +
-        (secs < 10 ? '0' + secs : secs);
-
-      _this.timeSinceEl.innerHTML = clock;
+    _this.timeSinceIntervalHandler = window.setInterval(function () {
+      _this.updateTimeSince(startTime);
     }, 1000);
+  };
+
+  _this.updateTimeSince = function (startTime) {
+    var now,
+        timeSince;
+
+    now = (new Date()).getTime();
+    startTime = Date.parse(startTime);
+    timeSince = parseInt((now - startTime) / 1000, 10); // seconds
+
+    _this.timeSinceEl.innerHTML = _formatter.timeSince(timeSince);
   };
 
   _this.render = function () {
@@ -162,7 +144,8 @@ var EventSummaryView = function (options) {
         '</li>' +
       '</ul>';
 
-      _this.timerCountUp(originTime);
+      _this.timeSinceEl = _this.el.querySelector('.timer-count-up');
+      _this.beginTimeSinceCounter(originTime);
   };
 
 
