@@ -406,6 +406,39 @@ var Formatter = function (options) {
   };
 
   /**
+   * Formats time since a given time.
+   *
+   * @param time stamp {date}
+   *    Date time to format.
+   */
+  _this.timeSince = function (timeSince) {
+    if (!timeSince) {
+      return _empty;
+    }
+
+    var days,
+        hrs,
+        mins,
+        secs,
+        weeks;
+
+    weeks = Math.floor(timeSince/604800);
+    days = Math.floor(timeSince/86400) % 7;
+    hrs = Math.floor(timeSince/3600) % 24;
+    mins = Math.floor(timeSince/60) % 60;
+    secs = timeSince % 60;
+
+    timeSince =
+      (weeks ? weeks + ' weeks, ' : '') +
+      (days ? days + ' days, ' : '') +
+      (hrs ? hrs + ':' : '') +
+      (mins < 10 ? '0' + mins + ':' : mins + ':') +
+      (secs < 10 ? '0' + secs : secs);
+
+    return timeSince;
+  };
+
+  /**
    * Format a UTC timezone offset.
    *
    * @param offset {Number}
