@@ -1,8 +1,5 @@
-
-.magnitude-summary-view {
-  > div {
-    /* TODO, remove (just for scaffolding) */
-    border: 1px solid #ccc;
-    padding: 1em;
-  }
+.magnitude-beachball > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

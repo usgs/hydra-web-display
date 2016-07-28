@@ -175,7 +175,7 @@ var MagnitudeSummaryView = function (options) {
           '</tr>',
           '</tbody>',
         '</table>',
-        '<div class="magnitude-versions"></div>',
+        '<div class="magnitude-versions horizontal-scrolling"></div>',
       '</div>'
     ].join('');
 
@@ -266,10 +266,10 @@ _this.render = function () {
 
     mt = _this.model.get('moment-tensors')[0] || {};
 
-    _this.derivedMagnitudeEl.innerHTML = [
-      _this.model.get('derived-magnitude'), ' ',
-      _this.model.get('derived-magnitude-type')
-    ].join('');
+    _this.derivedMagnitudeEl.innerHTML = _this.formatter.magnitude(
+        _this.model.get('derived-magnitude'),
+        _this.model.get('derived-magnitude-type')
+      );
 
     _this.observationsEl.innerHTML = [
       _this.model.get('num-stations-used'), ' ',
@@ -280,9 +280,12 @@ _this.render = function () {
       _this.model.get('installation'), ' - ', _this.model.get('author')
     ].join('');
 
-    _this.internalEl.innerHTML = _this.model.get('is-internal');
-    _this.preferredEl.innerHTML = _this.model.get('is-preferred');
-    _this.publishableEl.innerHTML = _this.model.get('is-preferred');
+    _this.internalEl.innerHTML = _this.formatter.boolean(
+        _this.model.get('is-internal'));
+    _this.preferredEl.innerHTML = _this.formatter.boolean(
+        _this.model.get('is-preferred'));
+    _this.publishableEl.innerHTML = _this.formatter.boolean(
+        _this.model.get('is-preferred'));
 
     _this.associatedByEl.innerHTML = [
       _this.model.get('associated-by-installation'), ' - ',
@@ -290,7 +293,6 @@ _this.render = function () {
     ].join('');
 
     _this.commentEl.innerHTML = _this.model.get('comment');
-
 
     _this.momentEl.innerHTML = [
       (mt['scalar-moment'].toExponential(3)).toUpperCase(),
@@ -306,33 +308,35 @@ _this.render = function () {
         _this.formatter.depth(mt['derived-depth'], 'km');
 
     _this.solutionMethodEl.innerHTML = TODO;
-    _this.fitEl.innerHTML = mt.fit;
-    _this.varianceEl.innerHTML = mt['variance-reduction'];
+    _this.fitEl.innerHTML = _this.formatter.number(mt.fit, 2);
+    _this.varianceEl.innerHTML = _this.formatter.number(
+        mt['variance-reduction'], 2);
     _this.percentDcEl.innerHTML = _this.formatter.number(
         mt['percent-double-couple'] * 100, 0, '', '%');
 
     _this.np1El.innerHTML = [
-      'Strike: ', mt['nodal-plane-1-strike'], '&nbsp',
-      'Dip: ', mt['nodal-plane-1-dip'], '&nbsp',
+      'Strike: ', mt['nodal-plane-1-strike'], '&nbsp;&nbsp;',
+      'Dip: ', mt['nodal-plane-1-dip'], '&nbsp;&nbsp;',
       'Rake: ', mt['nodal-plane-1-slip']
     ].join('');
 
     _this.np2El.innerHTML = [
-      'Strike: ', mt['nodal-plane-2-strike'], '&nbsp',
-      'Dip: ', mt['nodal-plane-2-dip'], '&nbsp',
+      'Strike: ', mt['nodal-plane-2-strike'], '&nbsp;&nbsp;',
+      'Dip: ', mt['nodal-plane-2-dip'], '&nbsp;&nbsp;',
       'Rake: ', mt['nodal-plane-2-slip']
     ].join('');
 
     _this.clvdEl.innerHTML = _this.formatter.number(
         (1 - mt['percent-double-couple']) * 100, 0, '', '%');
 
-    _this.decayEl.innerHTML = mt['sourcetime-decaytime'];
-    _this.durationEl.innerHTML = mt['sourcetime-duration'];
-    _this.riseEl.innerHTML = mt['sourcetime-risetime'];
+    _this.decayEl.innerHTML = mt['sourcetime-decaytime'] + ' s';
+    _this.durationEl.innerHTML = mt['sourcetime-duration'] + ' s';
+    _this.riseEl.innerHTML = mt['sourcetime-risetime'] + ' s';
 
     _this.inputSourceEl.innerHTML = TODO;
-    _this.azimuthalGapEl.innerHTML = mt['azimuthal-gap'];
-    _this.conditionEl.innerHTML = mt.condition;
+    _this.azimuthalGapEl.innerHTML = _this.formatter.angle(mt['azimuthal-gap']);
+    _this.conditionEl.innerHTML = _this.formatter.number(mt.condition,
+        2, '');
 
     _this.renderBeachball();
     _this.renderMagnitudeTable();
@@ -347,7 +351,6 @@ _this.render = function () {
       fillColor: '#ccc',
       labelAxes: false,
       labelPlanes: false,
-      size: 200,
       tensor: _this.getTensor()
     });
 

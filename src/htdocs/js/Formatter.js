@@ -73,6 +73,18 @@ var Formatter = function (options) {
     return value + '&deg;';
   };
 
+  _this.boolean = function (value, empty) {
+    if (value === null) {
+      if (typeof empty !== 'undefined') {
+        return empty;
+      } else {
+        return _empty;
+      }
+    }
+
+    return value ? 'True' : 'False';
+  };
+
   /**
    * Converts azimuth to a back azimuth (opposite direction).
    *
