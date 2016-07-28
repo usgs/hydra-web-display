@@ -9,8 +9,7 @@ print navGroup('Event',
 print navGroup('Magnitude',
     navItem('/MagnitudeCollectionTableExample.php',
         'MagnitudeCollectionTable') .
-    navItem('/MagnitudeSummaryViewExample.php',
-        'MagnitudeSummaryView') .
+    navItem('/MagnitudeSummaryViewExample.php', 'MagnitudeSummaryView') .
     navItem('MagnitudeTabViewExample.php', 'MagnitudeTabView')
   );
 
