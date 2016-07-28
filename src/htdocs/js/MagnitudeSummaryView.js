@@ -29,13 +29,9 @@ var _DEFAULTS = {};
 *        A Magnitude Model object
 */
 var MagnitudeSummaryView = function (options) {
-
   var _this,
-      _initialize,
+      _initialize;
 
-      _collection,
-      _magnitudeCollectionView,
-      _magnitudeVersionsEl;
 
   options = Util.extend({model: MagnitudeModel()}, _DEFAULTS, options);
   _this = View(options);
@@ -44,7 +40,7 @@ var MagnitudeSummaryView = function (options) {
     var el;
 
     _this.formatter = options.formatter || Formatter({empty: ''});
-    _collection = options.collection || Collection([]);
+    _this.collection = options.collection || Collection([]);
 
     el = _this.el;
     el.innerHTML = [
@@ -60,13 +56,13 @@ var MagnitudeSummaryView = function (options) {
 
     _this.displayBeachBall();
 
-    _magnitudeVersionsEl = el.querySelector('.magnitude-versions');
-    _magnitudeCollectionView = MagnitudeCollectionTable({
-      el: _magnitudeVersionsEl,
-      collection: _collection,
+    _this.magnitudesEl = el.querySelector('.magnitude-versions');
+    _this.magnitudesTable = MagnitudeCollectionTable({
+      el: _this.magnitudesEl,
+      collection: _this.collection,
       model: _this.model
     });
-    _magnitudeCollectionView.render();
+    _this.magnitudesTable.render();
   };
 
 
