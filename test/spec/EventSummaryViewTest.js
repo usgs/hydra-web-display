@@ -1,4 +1,4 @@
-/* global before, chai, describe, it */
+/* global before, chai, describe, it, sinon */
 'use strict';
 
 var EventSummaryView = require('EventSummaryView'),
@@ -27,14 +27,50 @@ describe('EventSummaryView', function () {
       expect(typeof EventSummaryView).to.equal('function');
     });
 
-    // it('can be destroyed', function () {
-    //   var view;
-    //
-    //   view = EventSummaryView();
-    //   expect(view.destroy).to.not.throw(Error);
-    //
-    //   view.destroy();
-    // });
+    it('can be destroyed', function () {
+      var view;
+
+      view = EventSummaryView();
+      expect(view.destroy).to.not.throw(Error);
+
+      view.destroy();
+    });
+  });
+
+  describe('beginTimeSinceCounter', function () {
+    it('calls updateTimeSince', function () {
+      var spy,
+          time,
+          view;
+
+      time = '2016-07-19T05:18:38.58Z';
+      view = EventSummaryView();
+      spy = sinon.spy(view, 'updateTimeSince');
+
+      view.beginTimeSinceCounter(time);
+      expect(spy.callCount).to.equal(1);
+
+      spy.restore();
+      view.destroy();
+    });
+  });
+
+  describe('updateTimeSince', function () {
+    it('returns correct time', function () {
+      var time,
+          view;
+
+
+      view = EventSummaryView();
+      time = '2016-07-19T05:18:38.58Z';
+
+
+      view.updateTimeSince(time);
+      expect(view.el.querySelector('.timer-count-up').innerHTML).
+          to.not.equal(null);
+
+      view.destroy();
+    });
   });
 
   describe('render', function () {
