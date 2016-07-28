@@ -5,7 +5,7 @@ var BeachBallView = require('BeachBallView'),
     Collection = require('mvc/Collection'),
     Formatter = require('Formatter'),
     MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
-    Model = require('mvc/Model'),
+    MagnitudeModel = require('MagnitudeModel'),
     Tensor = require('Tensor'),
     Util = require('util/Util'),
     View = require('mvc/View');
@@ -34,22 +34,17 @@ var MagnitudeSummaryView = function (options) {
       _initialize,
 
       _collection,
-      _ev,
-      _formatter,
       _magnitudeCollectionView,
       _magnitudeVersionsEl;
 
-  options = Util.extend({}, _DEFAULTS, options);
+  options = Util.extend({model: MagnitudeModel()}, _DEFAULTS, options);
   _this = View(options);
 
   _initialize = function (options) {
     var el;
 
-    _formatter = Formatter({
-      empty: ''
-    });
-    _collection = options.collection || Collection();
-    _ev = options.ev || Model();
+    _this.formatter = options.formatter || Formatter({empty: ''});
+    _collection = options.collection || Collection([]);
 
     el = _this.el;
     el.innerHTML = [
@@ -61,7 +56,7 @@ var MagnitudeSummaryView = function (options) {
     ].join('');
 
     _this.dataTableEl = el.querySelector('.magnitude-details');
-    _this.dataTableEl.innerHTML = _this.buildMagnitudeDetailsMarkup();
+    _this.dataTableEl.innerHTML = _this.render();
 
     _this.displayBeachBall();
 
@@ -72,204 +67,187 @@ var MagnitudeSummaryView = function (options) {
       model: _this.model
     });
     _magnitudeCollectionView.render();
-
-    _this.timerCountUp(_ev.get('eventtime'));
   };
 
-  _this.buildMagnitudeDetailsMarkup = function () {
-    var associatedBy,
-        azimuthalGap,
-        comment,
-        condition,
-        depth,
-        eventDepth,
-        eventGeometry,
-        eventLatitude,
-        eventLongitude,
-        eventMagnitude,
-        eventRegion,
-        eventTime,
-        fit,
-        inputSource,
-        isInternal,
-        isPreferred,
-        isPublishable,
-        latitude,
-        longitude,
-        magnitude,
-        markup,
-        moment,
-        nodalPlane1,
-        nodalPlane2,
-        observations,
-        percentDoubleCouple,
-        source,
-        sourceTimeDecay,
-        sourceTimeDuration,
-        sourceTimeRise,
-        time,
-        varianceReduction;
 
-    // Event Details
-    eventGeometry = _ev.get('geometry');
-    if (eventGeometry) {
-      eventDepth = _ev.get('geometry').coordinates[2];
-      eventLatitude = _ev.get('geometry').coordinates[0];
-      eventLongitude = _ev.get('geometry').coordinates[1];
-    }
-    eventMagnitude = _ev.get('magnitude') + ' ' + _ev.get('magnitudeType');
-    eventRegion = _ev.get('title');
-    eventTime = _ev.get('eventtime');
-
-    // Magnitude Details
-    associatedBy = _this.getProperty('associated-by-installation') + ' - ' +
-        _this.getProperty('associated-by');
-    azimuthalGap = _this.getProperty('azimuthal-gap');
-    comment = _this.getProperty('comment');
-    condition = _this.getProperty('condition');
-    depth = _this.getProperty('derived-depth');
-    fit = _this.getProperty('fit');
-    inputSource = _this.getProperty('inputSource');
-    isInternal = _this.getProperty('is-internal');
-    isPreferred = _this.getProperty('is-preferred-for-type');
-    isPublishable = _this.getProperty('is-publishable');
-    latitude = _this.getProperty('derived-latitude');
-    longitude = _this.getProperty('derived-longitude');
-    magnitude = _this.getProperty('derived-magnitude') + ' ' +
-        _this.getProperty('derived-magnitude-type');
-    moment = _this.getProperty('scalar-moment');
-    observations = _this.getProperty('num-stations-used') + ' (' +
-        _this.getProperty('num-stations-associated') + ')';
-    percentDoubleCouple = _this.getProperty('percent-double-couple');
-    source = _this.getProperty('installation') + ' - ' +
-        _this.getProperty('author');
-    sourceTimeDecay = _this.getProperty('sourcetime-decaytime');
-    sourceTimeDuration = _this.getProperty('sourcetime-duration');
-    sourceTimeRise = _this.getProperty('sourcetime-risetime');
-    time = _this.getProperty('derived-eventtime');
-    varianceReduction = _this.getProperty('variance-reduction');
-    nodalPlane1 = 'Strike: ' + _this.getProperty('nodal-plane-1-strike') +
-        '&nbsp;&nbsp; Dip: ' + _this.getProperty('nodal-plane-1-dip') +
-        '&nbsp;&nbsp; Rake: ' + _this.getProperty('nodal-plane-1-slip');
-    nodalPlane2 = 'Strike: ' + _this.getProperty('nodal-plane-2-strike') +
-        '&nbsp;&nbsp; Dip: ' + _this.getProperty('nodal-plane-2-dip') +
-        '&nbsp;&nbsp; Rake: ' + _this.getProperty('nodal-plane-2-slip');
+  _this.render = function () {
+    var markup,
+        mt;
 
     // TODO, remove this
-    var value = '<b>TODO</b>';
+    var TODO = '<b>TODO</b>';
 
-    markup =
-      '<tr>' +
-        '<th scope="row">Magnitude</th>' +
-        '<td>' + magnitude + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Observations</th>' +
-        '<td>' + observations + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Source</th>' +
-        '<td>' + source + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Internal</th>' +
-        '<td>' + isInternal + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Preferred For Type</th>' +
-        '<td>' + isPreferred + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Publishable</th>' +
-        '<td>' + isPublishable + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Associated By</th>' +
-        '<td>' + associatedBy + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Comment</th>' +
-        '<td>' + comment + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Moment</th>' +
-        '<td>' + moment + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Solution Time</th>' +
-        '<td>' + _formatter.datetime(Date.parse(time)) + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Solution Location</th>' +
-        '<td>' + _formatter.location(latitude, longitude) + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Solution Depth</th>' +
-        '<td>' + _formatter.distance(depth, 'km') + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Solution Method</th>' +
-        '<td>' + value + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Fit</th>' +
-        '<td>' + fit + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Variance Reduction</th>' +
-        '<td>' + varianceReduction + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Percent Double Couple</th>' +
-        '<td>' +
-          _formatter.number(percentDoubleCouple * 100, 0, '', '%') +
-        '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Focal Mechanism</th>' +
-        '<td class="beach-ball-view"></td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Nodal Plane 1</th>' +
-        '<td>' + nodalPlane1 + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Nodal Plane 2</th>' +
-        '<td>' + nodalPlane2 + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Percent CLVD</th>' +
-        '<td>' +
-          _formatter.number((1 - percentDoubleCouple) * 100, 0, '', '%') +
-        '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Source Time Decay</th>' +
-        '<td>' + sourceTimeDecay + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Source Time Duration</th>' +
-        '<td>' + sourceTimeDuration + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Source Time Rise</th>' +
-        '<td>' + sourceTimeRise + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Input Source</th>' +
-        '<td>' + inputSource + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Gap</th>' +
-        '<td>' + azimuthalGap + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<th scope="row">Condition #</th>' +
-        '<td>' + condition + '</td>' +
-      '</tr>';
+    mt = _this.model.get('moment-tensors')[0] || {};
+
+    markup = [
+      '<tr>',
+        '<th scope="row">Magnitude</th>',
+        '<td>',
+          _this.model.get('derived-magnitude'), ' ',
+          _this.model.get('derived-magnitude-type'),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Observations</th>',
+        '<td>',
+          _this.model.get('num-stations-used'), ' ',
+          '(', _this.model.get('num-stations-associated'), ')',
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Source</th>',
+        '<td>',
+          _this.model.get('installation'), ' - ', _this.model.get('author'),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Internal</th>',
+        '<td>',
+          _this.model.get('is-internal'),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Preferred For Type</th>',
+        '<td>',
+          _this.model.get('is-preferred'),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Publishable</th>',
+        '<td>',
+          _this.model.get('is-preferred'),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Associated By</th>',
+        '<td>',
+          _this.model.get('associated-by-installation'), ' - ',
+          _this.model.get('associated-by'),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Comment</th>',
+        '<td>', _this.model.get('comment'), '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Moment</th>',
+        '<td>', mt['scalar-moment'], '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Solution Time</th>',
+        '<td>',
+          _this.formatter.datetime(Date.parse(mt['derived-eventtime'])),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Solution Location</th>',
+        '<td>',
+          _this.formatter.location(mt['derived-latitude'],
+              mt['derived-longitude']),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Solution Depth</th>',
+        '<td>', _this.formatter.depth(mt['derived-depth'], 'km'), '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Solution Method</th>',
+        '<td>', TODO, '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Fit</th>',
+        '<td>', mt.fit, '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Variance Reduction</th>',
+        '<td>', mt['variance-reduction'], '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Percent Double Couple</th>',
+        '<td>',
+          _this.formatter.number(mt['percent-double-couple'] * 100, 0,
+              '', '%'),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Focal Mechanism</th>',
+        '<td class="beach-ball-view"></td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Nodal Plane 1</th>',
+        '<td>',
+          'Strike: ', mt['nodal-plane-1-strike'], '&nbsp',
+          'Dip: ', mt['nodal-plane-1-dip'], '&nbsp',
+          'Rake: ', mt['nodal-plane-1-slip'],
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Nodal Plane 2</th>',
+        '<td>',
+          'Strike: ', mt['nodal-plane-2-strike'], '&nbsp',
+          'Dip: ', mt['nodal-plane-2-dip'], '&nbsp',
+          'Rake: ', mt['nodal-plane-2-slip'],
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Percent CLVD</th>',
+        '<td>',
+          _this.formatter.number((1 - mt['percent-double-couple']) * 100, 0,
+              '', '%'),
+        '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Source Time Decay</th>',
+        '<td>', mt['sourcetime-decaytime'], '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Source Time Duration</th>',
+        '<td>', mt['sourcetime-duration'], '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Source Time Rise</th>',
+        '<td>', mt['sourcetime-risetime'], '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Input Source</th>',
+        '<td>', TODO, '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Gap</th>',
+        '<td>', mt['azimuthal-gap'], '</td>',
+      '</tr>',
+      '<tr>',
+        '<th scope="row">Condition #</th>',
+        '<td>', mt.condition, '</td>',
+      '</tr>'
+    ].join('');
 
     return markup;
   };
+
+  _this.displayBeachBall = function () {
+    var beachBallView,
+        el;
+
+    beachBallView = BeachBallView({
+      fillColor: '#ccc',
+      labelAxes: false,
+      labelPlanes: false,
+      size: 200,
+      tensor: _this.getTensor()
+    });
+    beachBallView.render();
+
+    el = _this.el.querySelector('.beach-ball-view');
+    el.appendChild(beachBallView.el);
+  };
+
+  _this.destroy = Util.compose(function () {
+    _this.formatter = null;
+
+    _initialize = null;
+    _this = null;
+  }, _this.destroy);
 
   _this.getProperty = function (key) {
     var properties;
@@ -294,73 +272,6 @@ var MagnitudeSummaryView = function (options) {
 
     return tensor;
   };
-
-  _this.displayBeachBall = function () {
-    var beachBallView,
-        el;
-
-    beachBallView = BeachBallView({
-      fillColor: '#ccc',
-      labelAxes: false,
-      labelPlanes: false,
-      size: 200,
-      tensor: _this.getTensor()
-    });
-    beachBallView.render();
-
-    el = _this.el.querySelector('.beach-ball-view');
-    el.appendChild(beachBallView.el);
-  };
-
-  _this.timerCountUp = function (datetime) {
-    var current,
-        el,
-        milliseconds,
-        elapsed;
-
-    el = _this.el.querySelector('.timer-count-up');
-
-    try {
-      current = new Date().getTime();
-      milliseconds = Date.parse(datetime);
-      elapsed = Math.floor((current - milliseconds) / 1000);
-    } catch (e) {
-      el.innerHTML = '';
-      return;
-    }
-
-    window.setInterval(function () {
-      var clock,
-          days,
-          hrs,
-          mins,
-          secs,
-          weeks;
-
-      elapsed++;
-      weeks = Math.floor(elapsed/604800);
-      days = Math.floor(elapsed/86400) % 7;
-      hrs = Math.floor(elapsed/3600) % 24;
-      mins = Math.floor(elapsed/60) % 60;
-      secs = elapsed % 60;
-
-      clock =
-          (weeks ? weeks + ' weeks, ' : '') +
-          (days ? days + ' days, ' : '') +
-          (hrs ? hrs + ':' : '') +
-          (mins ? mins + ':' : '') +
-          (secs < 10 ? '0' + secs : secs);
-
-      el.innerHTML = clock;
-    }, 1000);
-  };
-
-  _this.destroy = Util.compose(function () {
-    _formatter = null;
-
-    _initialize = null;
-    _this = null;
-  }, _this.destroy);
 
 
   _initialize(options);

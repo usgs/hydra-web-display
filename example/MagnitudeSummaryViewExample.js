@@ -1,58 +1,73 @@
 'use strict';
 
 var Collection = require('mvc/Collection'),
+    EventModel = require('EventModel'),
+    MagnitudeModel = require('MagnitudeModel'),
     MagnitudeSummaryView = require('MagnitudeSummaryView'),
-    Model = require('mvc/Model'),
     Xhr = require('util/Xhr');
+
+
+var _initialize;
+
+var el,
+    errors,
+    eventModel,
+    magnitudeModel,
+    view;
+
+
+el = document.querySelector('#magnitude-summary-view-example');
+errors = [];
+
+_initialize = function () {
+  if (typeof eventModel !== 'undefined' &&
+      typeof magnitudeModel !== 'undefined') {
+    // both have been set, let's go...
+    if (eventModel === null || magnitudeModel === null || errors.length) {
+      // something's not right, fail...
+
+      errors.forEach(function (e) {
+        console.log(e);
+        console.log(e.stack);
+      });
+
+      el.innerHTML = '<p class="alert error">' +
+          'An error occurred fetching event or magnitude data...</p>';
+    } else {
+      // ... go ...
+      view = MagnitudeSummaryView({
+        collection: Collection(eventModel.get('magnitudes').slice(0)),
+        el: el,
+        model: magnitudeModel
+      });
+    }
+  }
+};
+
+Xhr.ajax({
+  url: 'event.json',
+  done: function () {
+    _initialize();
+  },
+  error: function (e) {
+    errors.push(e);
+    eventModel = null;
+  },
+  success: function (data) {
+    eventModel = EventModel.fromFeature(data);
+  }
+});
 
 Xhr.ajax({
   url: 'magnitude.json',
-  success: function (data) {
-    var magnitudeSummaryView;
-
-    magnitudeSummaryView = MagnitudeSummaryView({
-      el: document.querySelector('#magnitude-summary-view-example'),
-      collection: Collection([
-        Model({
-          'id': '50003UWR/wphase_module/NEIC/Mww',
-          'author': 'wphase_module',
-          'installation': 'NEIC',
-          'type': 'Mww',
-          'value': 5.768
-        }),
-        Model({
-          'id': '50003UWR/author/installation/Mqa',
-          'author': 'author',
-          'installation': 'installation',
-          'type': 'Mww',
-          'value': 5.012
-        })
-      ]),
-      ev: Model({
-        'id': '50003UWR',
-        'geometry': {
-          'coordinates': [
-            -30.171801, -72.155899, 5.14
-          ],
-          'type': 'Point'
-        },
-        'eventtime': '2016-07-19T05:18:38.58Z',
-        'magnitude': 5.224,
-        'magnitudeType': 'Ms_20',
-        'title': 'OFFSHORE COQUIMBO, CHILE',
-        'type': 'Earthquake'
-      }),
-      model: Model(data)
-    });
-    magnitudeSummaryView.render();
-
+  done: function () {
+    _initialize();
   },
   error: function (e) {
-    console.log(e);
-    document.querySelector('#magnitude-summary-view-example').innerHTML = [
-      '<p class="alert error">',
-        'Failed to create a Magnitude Summary View.',
-      '</p>'
-    ].join('');
-  }
+    errors.push(e);
+    magnitudeModel = null;
+  },
+  success: function (data) {
+    magnitudeModel = MagnitudeModel.fromFeature(data);
+  },
 });
