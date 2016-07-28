@@ -1,7 +1,6 @@
 'use strict';
 
-var Collection = require('mvc/Collection'),
-    EventModel = require('EventModel'),
+var EventModel = require('EventModel'),
     MagnitudeModel = require('MagnitudeModel'),
     MagnitudeSummaryView = require('MagnitudeSummaryView'),
     Xhr = require('util/Xhr');
@@ -36,10 +35,12 @@ _initialize = function () {
     } else {
       // ... go ...
       view = MagnitudeSummaryView({
-        collection: Collection(eventModel.get('magnitudes').slice(0)),
         el: el,
+        event: eventModel,
         model: magnitudeModel
       });
+
+      view.render();
     }
   }
 };
