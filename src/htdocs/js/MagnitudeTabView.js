@@ -10,7 +10,9 @@ var MagnitudeSummaryView = require('MagnitudeSummaryView'),
 var _DEFAULTS;
 
 _DEFAULTS = {
-  // Ordered list of configured tabs to add automatically
+  // Ordered list of configured tabs to add automatically.
+  // @see MagnitudeTabView#_addTab for documentation on what keys may
+  //                               be used in each "tab"
   tabs: [
     // Summary
     {
@@ -22,6 +24,10 @@ _DEFAULTS = {
 };
 
 
+/**
+ * Creates a tabbed layout for the magntiude display.
+ *
+ */
 var MagnitudeTabView = function (options) {
   var _this,
       _initialize,
@@ -32,6 +38,15 @@ var MagnitudeTabView = function (options) {
   options = Util.extend({}, _DEFAULTS, options);
   _this = View(options);
 
+  /**
+   * Constructor for this view. Creates the tab list instance and initializes
+   * default tabs as configured in options.tabs.
+   *
+   * @param options {Object}
+   *     Configuration options for this view.
+   * @param options.tabs {Array}
+   *     An ordered list of tabs to add during construction
+   */
   _initialize = function (options) {
     _this.el.innerHTML = '<div class="magnitude-tab-view-tabs"></div>';
 
@@ -123,6 +138,7 @@ var MagnitudeTabView = function (options) {
 
   /**
    * Destroy all the things.
+   *
    */
   _this.destroy = Util.compose(function () {
     if (_this === null) {
@@ -140,12 +156,10 @@ var MagnitudeTabView = function (options) {
       _this.views[id] = null;
     });
 
-
     // Now destroy TabList itself
     if (_this.tabList && typeof _this.tabList.destroy === 'function') {
       _this.tabList.destroy();
     }
-
 
     // Clean up remaining resources
     _createTabList = null;
