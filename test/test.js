@@ -11,6 +11,8 @@ require('./spec/EventSummaryViewTest');
 require('./spec/FormatterTest');
 require('./spec/MagnitudeCollectionTableTest');
 
+require('./spec/MagnitudeSummaryViewTest');
+
 
 if (window.mochaPhantomJS) {
   window.mochaPhantomJS.run();
