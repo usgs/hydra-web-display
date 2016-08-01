@@ -264,7 +264,7 @@ var EventSearchView = function (options) {
     }
     Util.empty(_this.messageEl);
 
-    _this.eventModel.reset(EventModel.parseAttributes(data));
+    _this.eventModel.reset(_this.eventModel.parseAttributes(data));
     _this.magnitudeCollection.reset(_this.eventModel.get('magnitudes') || []);
   };
 
