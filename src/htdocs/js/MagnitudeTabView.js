@@ -49,9 +49,9 @@ var MagnitudeTabView = function (options) {
    *     An ordered list of tabs to add during construction
    */
   _initialize = function (options) {
-    _this.event = options.event || EventModel();
-
     _this.el.innerHTML = '<div class="magnitude-tab-view-tabs"></div>';
+
+    _this.event = options.event || EventModel();
 
     _this.views = {};
     _this.tabs = {};
@@ -105,8 +105,10 @@ var MagnitudeTabView = function (options) {
       _this.views[id] = null;
     }
 
-    view = factory(Util.extend({model: _this.model, event: _this.event},
-        options));
+    view = factory(Util.extend({
+      event: _this.event,
+      model: _this.model
+    }, options));
     _this.views[id] = view;
 
     // Create the tab or use existing tab. TabList does not currently support
