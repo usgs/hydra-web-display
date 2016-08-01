@@ -408,10 +408,10 @@ var Formatter = function (options) {
   /**
    * Formats time since a given time.
    *
-   * @param time stamp {date}
-   *    Date time to format.
+   * @param time stamp {Integer}
+   *    Elapsed time in seconds.
    * @return {string}
-   *    formatted time.
+   *    Formatted time.
    */
   _this.timeSince = function (timeSince) {
     if (!timeSince) {
