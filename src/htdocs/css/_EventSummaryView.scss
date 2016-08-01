@@ -2,23 +2,24 @@
   overflow: hidden; /* Force list to contain floating children */
 }
 
-.event-summary-value {
-  font-weight: bold;
-  white-space: nowrap;
-  color: #444;
-}
-
 .event-summary-label {
+  color: #666;
+  cursor: text;
   display: inline-block;
+  font-size: .88em;
   margin-right: .2em;
   width: 86px;
-  font-size: .88em;
-  color: #666;
 
   &:after {
     display: inline-block;
     content: ':';
   }
+}
+
+.event-summary-value {
+  color: #444;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 @media screen and (min-width: 480px) {
