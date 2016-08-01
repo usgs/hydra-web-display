@@ -66,8 +66,9 @@ describe('EventSummaryView', function () {
 
 
       view.updateTimeSince(time);
-      expect(view.el.querySelector('.timer-count-up').innerHTML).
-          to.not.equal(null);
+      expect(view.el.querySelector(
+          '.event-summary-time-since > .event-summary-value')
+              .innerHTML).to.not.equal(null);
 
       view.destroy();
     });
@@ -83,16 +84,21 @@ describe('EventSummaryView', function () {
 
       view.render();
 
-      expect(view.el.querySelector('#event-summary-origin-time').innerHTML).
-          to.equal('2016-07-19T05:18:38.58Z');
-      expect(view.el.querySelector('#event-summary-latitude').innerHTML).
-          to.equal('30.172°S');
-      expect(view.el.querySelector('#event-summary-longitude').innerHTML).
-          to.equal('72.156°W');
-      expect(view.el.querySelector('#event-summary-depth').innerHTML).
-          to.equal('5.1 km');
-      expect(view.el.querySelector('#event-summary-magnitude').innerHTML).
-          to.equal('5.2 Ms_20');
+      expect(view.el.querySelector(
+          '.event-summary-origin-time > .event-summary-value')
+              .innerHTML).to.equal('2016-07-19T05:18:38.58Z');
+      expect(view.el.querySelector(
+          '.event-summary-latitude > .event-summary-value')
+              .innerHTML).to.equal('30.172°S');
+      expect(view.el.querySelector(
+          '.event-summary-longitude > .event-summary-value')
+              .innerHTML).to.equal('72.156°W');
+      expect(view.el.querySelector(
+          '.event-summary-depth > .event-summary-value')
+              .innerHTML).to.equal('5.1 km');
+      expect(view.el.querySelector(
+          '.event-summary-magnitude > .event-summary-value')
+              .innerHTML).to.equal('5.2 Ms_20');
 
       view.destroy();
     });
