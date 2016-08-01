@@ -46,7 +46,7 @@ var MagnitudeTabView = function (options) {
 
     // Add all configured tabs
     options.tabs.forEach(function (params) {
-      _this._addTab(Util.extend({tabList: _this.tabList}, params));
+      _this._addTab(params);
     });
   };
 
@@ -64,8 +64,6 @@ var MagnitudeTabView = function (options) {
    * @param params.options {Object}
    *     Configuration params to provide to the `factory`. These
    *     will be extended with {model: _this.model}.
-   * @param params.tabList {TabList}
-   *     The tab list to which the tab will be added.
    * @param params.title {String}
    *     The string to use as a title in the tab.
    */
@@ -74,19 +72,17 @@ var MagnitudeTabView = function (options) {
         id,
         options,
         tab,
-        tabList,
         title,
         view;
 
     id = params.id || 'id';
-    tabList = params.tabList || {addTab: function () {}};
     title = params.title || 'Title';
-    factory = params.factory || function () {};
+    factory = params.factory || View;
     options = params.options || {};
 
     // Create or recreate the view
     view = _this.views[id];
-    if (view && typeof view === 'function') {
+    if (view && typeof view.destroy === 'function') {
       view.destroy();
       _this.views[id] = null;
     }
@@ -119,7 +115,7 @@ var MagnitudeTabView = function (options) {
         }
       };
 
-      tab = tabList.addTab(tab);
+      tab = _this.tabList.addTab(tab);
       _this.tabs[id] = tab;
     }
   };
