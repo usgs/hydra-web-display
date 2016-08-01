@@ -229,21 +229,12 @@ var MagnitudeSummaryView = function (options) {
     _this = null;
   }, _this.destroy);
 
-  _this.getProperty = function (key) {
-    var properties;
-
-    properties = _this.model.get('properties');
-    if (properties && properties.hasOwnProperty(key)) {
-      return properties[key];
-    }
-    return '';
-  };
-
   _this.getTensor = function () {
     var mt,
         tensor;
 
-    mt = _this.model.get('moment-tensors')[0] || {};
+    mt = _this.model.get('moment-tensors');
+    mt = mt ? mt[0] : {};
 
     tensor = Tensor({
       mtt: mt['tensor-mtt'],
@@ -264,7 +255,8 @@ _this.render = function () {
     // TODO, remove this
     var TODO = '<b>TODO</b>';
 
-    mt = _this.model.get('moment-tensors')[0] || {};
+    mt = _this.model.get('moment-tensors');
+    mt = mt ? mt[0] : {};
 
     _this.derivedMagnitudeEl.innerHTML = _this.formatter.magnitude(
         _this.model.get('derived-magnitude'),
@@ -294,10 +286,8 @@ _this.render = function () {
 
     _this.commentEl.innerHTML = _this.model.get('comment');
 
-    _this.momentEl.innerHTML = [
-      (mt['scalar-moment'].toExponential(3)).toUpperCase(),
-      ' N-m'
-    ].join('');
+    _this.momentEl.innerHTML = _this.formatter.exponential(
+        mt['scalar-moment'], 'N-m');
 
     _this.solutionTimeEl.innerHTML =
           _this.formatter.datetime(Date.parse(mt['derived-eventtime']));
