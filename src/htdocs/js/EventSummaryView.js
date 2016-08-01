@@ -5,9 +5,11 @@ var Formatter = require('Formatter'),
     View = require('mvc/View');
 
 
-var _DEFAULTS;
+var _DEFAULTS,
+    _INSTANCE_ID_COUNTER;
 
 _DEFAULTS = {};
+_INSTANCE_ID_COUNTER = 0;
 
 
 var EventSummaryView = function (options) {
@@ -19,69 +21,69 @@ var EventSummaryView = function (options) {
   _this = View(options);
 
   _initialize = function (options) {
+    _this.instanceId = _INSTANCE_ID_COUNTER++;
     _this.formatter = options.formatter || Formatter();
 
     _this.el.innerHTML =
       '<ul class="no-style event-summary-list">' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-origin-time">' +
-            'Origin Time: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-origin-time">' +
-          '</span>' +
+        '<li class="event-summary-origin-time">' +
+          '<label class="event-summary-label" for="event-summary-' +
+              _this.instanceId + '-origin-time">' + 'Origin Time' + '</label>' +
+          '<span class="event-summary-value" id="event-summary-' +
+              _this.instanceId + '-origin-time">' + '</span>' +
         '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-time-since">' +
-            'Time Since: ' +
-          '</label>' +
-          '<span class="event-summary-value timer-count-up"' +
-              'id="event-summary-time-since">' +
-          '</span>' +
+        '<li class="event-summary-time-since">' +
+          '<label class="event-summary-label" for="event-summary-' +
+              _this.instanceId + '-time-since">' + 'Time Since' + '</label>' +
+          '<span class="event-summary-value" id="event-summary-' +
+              _this.instanceId + '-time-since">' + '</span>' +
         '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-latitude">' +
-            'Latitude: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-latitude">' +
-          '</span>' +
+        '<li class="event-summary-latitude">' +
+          '<label class="event-summary-label" for="event-summary-' +
+              _this.instanceId + '-latitude">' + 'Latitude' + '</label>' +
+          '<span class="event-summary-value" id="event-summary-' +
+              _this.instanceId + '-latitude">' + '</span>' +
         '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-longitude">' +
-            'Longitude: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-longitude">' +
-          '</span>' +
+        '<li class="event-summary-longitude">' +
+          '<label class="event-summary-label" for="event-summary-' +
+              _this.instanceId + '-longitude">' + 'Longitude' + '</label>' +
+          '<span class="event-summary-value" id="event-summary-' +
+              _this.instanceId + '-longitude">' + '</span>' +
         '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-depth">' +
-            'Depth: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-depth">' +
-          '</span>' +
+        '<li class="event-summary-depth">' +
+          '<label class="event-summary-label" for="event-summary-' +
+              _this.instanceId + '-depth">' + 'Depth' + '</label>' +
+          '<span class="event-summary-value" id="event-summary-' +
+              _this.instanceId + '-depth">' + '</span>' +
         '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-magnitude">' +
-            'Magnitude: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-magnitude">' +
-          '</span>' +
+        '<li class="event-summary-magnitude">' +
+          '<label class="event-summary-label" for="event-summary-' +
+              _this.instanceId + '-magnitude">' + 'Magnitude' + '</label>' +
+          '<span class="event-summary-value" id="event-summary-' +
+              _this.instanceId + '-magnitude">' + '</span>' +
         '</li>' +
-        '<li>' +
-          '<label class="event-summary-label" for="event-summary-title">' +
-            'Region: ' +
-          '</label>' +
-          '<span class="event-summary-value" id="event-summary-title">' +
-          '</span>' +
+        '<li class="event-summary-title">' +
+          '<label class="event-summary-label" for="event-summary-' +
+              _this.instanceId + '-title">' + 'Region' + '</label>' +
+          '<span class="event-summary-value" id="event-summary-' +
+              _this.instanceId + '-title">' + '</span>' +
         '</li>' +
       '</ul>';
 
-    _this.originTimeEl = _this.el.querySelector('#event-summary-origin-time');
-    _this.timeSinceEl = _this.el.querySelector('.timer-count-up');
-    _this.latitudeEl = _this.el.querySelector('#event-summary-latitude');
-    _this.longitudeEl = _this.el.querySelector('#event-summary-longitude');
-    _this.depthEl = _this.el.querySelector('#event-summary-depth');
-    _this.magnitudeEl = _this.el.querySelector('#event-summary-magnitude');
-    _this.regionEl = _this.el.querySelector('#event-summary-title');
+    _this.originTimeEl = _this.el.querySelector(
+          '.event-summary-origin-time > .event-summary-value');
+    _this.timeSinceEl = _this.el.querySelector(
+          '.event-summary-time-since > .event-summary-value');
+    _this.latitudeEl = _this.el.querySelector(
+          '.event-summary-latitude > .event-summary-value');
+    _this.longitudeEl = _this.el.querySelector(
+          '.event-summary-longitude > .event-summary-value');
+    _this.depthEl = _this.el.querySelector(
+          '.event-summary-depth > .event-summary-value');
+    _this.magnitudeEl = _this.el.querySelector(
+          '.event-summary-magnitude > .event-summary-value');
+    _this.titleEl = _this.el.querySelector(
+          '.event-summary-title > .event-summary-value');
   };
 
 
@@ -142,8 +144,9 @@ var EventSummaryView = function (options) {
     _this.latitudeEl.innerHTML = _this.formatter.latitude(latitude);
     _this.longitudeEl.innerHTML = _this.formatter.longitude(longitude);
     _this.depthEl.innerHTML = _this.formatter.depth(depth, 'km');
-    _this.magnitudeEl.innerHTML = _this.formatter.magnitude(magnitude, magnitudeType);
-    _this.regionEl.innerHTML = region;
+    _this.magnitudeEl.innerHTML = _this.formatter.magnitude(magnitude,
+        magnitudeType);
+    _this.titleEl.innerHTML = region;
 
     _this.beginTimeSinceCounter(originTime);
   };
