@@ -54,6 +54,8 @@ var MagnitudeSummaryView = function (options) {
       model: _this.model
     });
 
+    _this.event.on('change', 'renderMagnitudeTable', _this);
+
     if (options.renderNow) {
       _this.render();
     }
@@ -215,6 +217,8 @@ var MagnitudeSummaryView = function (options) {
       return;
     }
 
+    _this.event.off('change', 'renderMagnitudeTable', _this);
+
     if (_this.magnitudesTable) {
       _this.magnitudesTable.destroy();
       _this.magnitudesTable = null;
@@ -234,7 +238,7 @@ var MagnitudeSummaryView = function (options) {
         tensor;
 
     mt = _this.model.get('moment-tensors');
-    mt = mt ? mt[0] : {};
+    mt = (mt&&mt.length) ? mt[0] : {};
 
     tensor = Tensor({
       mtt: mt['tensor-mtt'],
@@ -256,7 +260,7 @@ _this.render = function () {
     var TODO = '<b>TODO</b>';
 
     mt = _this.model.get('moment-tensors');
-    mt = mt ? mt[0] : {};
+    mt = (mt&&mt.length) ? mt[0] : {};
 
     _this.derivedMagnitudeEl.innerHTML = _this.formatter.magnitude(
         _this.model.get('derived-magnitude'),
@@ -335,7 +339,8 @@ _this.render = function () {
   };
 
   _this.renderBeachball = function () {
-    var beachballView;
+    var beachballView,
+        numChildren;
 
     beachballView = BeachballView({
       fillColor: '#ccc',
@@ -345,7 +350,18 @@ _this.render = function () {
     });
 
     beachballView.render();
-    _this.beachballEl.appendChild(beachballView.el);
+
+    numChildren = _this.beachballEl.childNodes.length;
+    if (numChildren === 1) {
+      _this.beachballEl.replaceChild(beachballView.el,
+          _this.beachballEl.firstChild);
+    } else {
+      if (numChildren !== 0) {
+        Util.empty(_this.beachballEl);
+      }
+
+      _this.beachballEl.appendChild(beachballView.el);
+    }
 
     beachballView.destroy();
   };
