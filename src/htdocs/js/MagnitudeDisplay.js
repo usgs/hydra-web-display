@@ -40,12 +40,12 @@ var MagnitudeDisplay = function (options) {
     el = _this.el;
     el.innerHTML = [
       '<div class="magnitude-dispay">',
-        '<section class="magnitude-header">',
+        '<header class="magnitude-header">',
           '<div class="magnitude-event-summary"></div>',
-        '</div>',
+        '</header>',
         '<section class="magnitude-content">',
           '<div class="magnitude-tabs"></div>',
-        '</div>',
+        '</section>',
         '<footer class="magnitude-footer"></footer>',
       '</div>'
     ].join('');
