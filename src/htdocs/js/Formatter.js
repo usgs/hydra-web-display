@@ -73,6 +73,18 @@ var Formatter = function (options) {
     return value + '&deg;';
   };
 
+  _this.boolean = function (value, empty) {
+    if (value === null) {
+      if (typeof empty !== 'undefined') {
+        return empty;
+      } else {
+        return _empty;
+      }
+    }
+
+    return value ? 'True' : 'False';
+  };
+
   /**
    * Converts azimuth to a back azimuth (opposite direction).
    *
@@ -189,6 +201,38 @@ var Formatter = function (options) {
    */
   _this.distance = function (distance, units) {
     return _this.number(distance, _distanceDecimals, _empty, units);
+  };
+
+  /**
+   * Formats a number as an exponential.
+   *
+   * @param value {Number}
+   *     The number to format.
+   * @param units {String} Optional
+   *     The units to apply to the formatted value.
+   * @param digits {Integer}
+   *     The number of digits to use in the formatted value.
+   * @param empty {String}
+   *     A value to use if value is undefined or null.
+   *
+   * @return {String}
+   *     The value formatted in exponential notation.
+   */
+  _this.exponential = function (value, units, digits, empty) {
+    empty = (typeof empty === 'undefined') ? _empty : empty;
+    digits = (typeof digits === 'undefined') ? 3 : digits;
+    units = (typeof units === 'undefined') ? '' : (' ' + units);
+
+    if (value === null || typeof value === 'undefined') {
+      return empty;
+    } else {
+      value = Number(value);
+      if (isNaN(value)) {
+        return empty;
+      } else {
+        return value.toExponential(digits).toUpperCase() + units;
+      }
+    }
   };
 
   /**

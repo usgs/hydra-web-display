@@ -1,13 +1,12 @@
 'use strict';
 
 
-var Model = require('mvc/Model'),
+var FeatureModel = require('FeatureModel'),
     Util = require('util/Util');
 
 
 var _DEFAULTS,
-    _fromFeature,
-    _parseAttributes;
+    _fromFeature;
 
 _DEFAULTS = {
   depth: null,         // Depth of event. Number
@@ -24,7 +23,7 @@ _DEFAULTS = {
 
 
 /**
- * Model for representing an event. This class directly extends {mvc/Model}.
+ * Model for representing an event. This class directly extends {FeatureModel}.
  * The primary value from this class is the static `fromFeature` method
  * that parses a GeoJSON feature to produce an event model.
  *
@@ -32,18 +31,20 @@ _DEFAULTS = {
  *     Attributes for the model.
  */
 var EventModel = function (options) {
-  var _this;
+  var _this,
+      _initialize;
 
 
   options = Util.extend({}, _DEFAULTS, options);
-  _this = Model(options);
+  _this = FeatureModel(options);
 
-
-  _this.reset = function (attributes) {
-    _this.set(Util.extend({}, _DEFAULTS, attributes));
+  _initialize = function (/*options*/) {
+    _this.defaults = JSON.parse(JSON.stringify(_DEFAULTS));
   };
 
 
+  _initialize(options);
+  options = null;
   return _this;
 };
 
@@ -59,44 +60,16 @@ var EventModel = function (options) {
  *     An event model.
  */
 _fromFeature = function (feature) {
-  return EventModel(_parseAttributes(feature));
-};
+  var model;
 
-/**
- * Parses the provided GeoJSON Feature object into an object containing
- * attributes as necessary for an EventModel.
- *
- * @param feature {GeoJSON.Feature}
- *     A GeoJSON feature object containing properties and other data that can
- *     be used as to generate the attributes.
- *
- * @return {Object}
- *     An event model.
- */
-_parseAttributes = function (feature) {
-  var attributes,
-      coordinates;
+  model = EventModel();
+  model.reset(model.parseAttributes(feature));
 
-  if (feature) {
-    attributes = Util.extend({}, _DEFAULTS, feature.properties);
-
-    coordinates = feature.geometry ? feature.geometry.coordinates : [];
-    coordinates = coordinates || []; // if feature.geometry.coordinates is falsy
-
-    // Read other attributes off feature, preferring null over undefined ...
-    attributes.id = feature.id || null;
-    attributes.longitude = coordinates[0] || null;
-    attributes.latitude = coordinates[1] || null;
-    attributes.depth = coordinates[2] || null;
-  }
-
-  return attributes || {};
+  return model;
 };
 
 
-EventModel.NULL_MODEL = JSON.parse(JSON.stringify(_DEFAULTS));
 EventModel.fromFeature = _fromFeature;
-EventModel.parseAttributes = _parseAttributes;
 
 
 module.exports = EventModel;

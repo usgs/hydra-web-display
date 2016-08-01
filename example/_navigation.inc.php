@@ -6,9 +6,11 @@ print navGroup('Event',
     navItem('/EventSummaryViewExample.php', 'EventSummaryView')
   );
 
-print navGroup('magnitude',
-  navItem('/MagnitudeCollectionTableExample.php', 'MagnitudeCollectionTable') .
-  navItem('MagnitudeTabViewExample.php', 'MagnitudeTabView')
-);
+print navGroup('Magnitude',
+    navItem('/MagnitudeCollectionTableExample.php',
+        'MagnitudeCollectionTable') .
+    navItem('/MagnitudeSummaryViewExample.php', 'MagnitudeSummaryView') .
+    navItem('MagnitudeTabViewExample.php', 'MagnitudeTabView')
+  );
 
 ?>

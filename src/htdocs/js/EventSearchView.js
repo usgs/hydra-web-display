@@ -234,7 +234,7 @@ var EventSearchView = function (options) {
    *     The XMLHttpRequest for the search.
    */
   _this.onSearchError = function (err/*, xhr*/) {
-    _this.eventModel.reset(EventModel.NULL_MODEL);
+    _this.eventModel.reset();
     _this.magnitudeCollection.reset([]);
 
     _this.messageEl.innerHTML = [

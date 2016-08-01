@@ -6,15 +6,7 @@ var babelify = require('babelify'),
     glob = require('glob');
 
 
-var BUNDLE_CLASSES,
-    CWD,
-    JS,
-    NODE_MODULES;
-
-
-CWD = process.cwd();
-NODE_MODULES = CWD + '/node_modules';
-JS = './' + config.src + '/htdocs/js';
+var BUNDLE_CLASSES;
 
 BUNDLE_CLASSES = [];
 
