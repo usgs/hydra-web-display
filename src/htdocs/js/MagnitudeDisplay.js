@@ -232,6 +232,7 @@ var MagnitudeDisplay = function (options) {
    *     The response object received from the web service.
    */
   _this.onEventWsSuccess = function (response/*, xhr*/) {
+    response = response || {};
     _this.eventModel.reset(
         _this.eventModel.parseAttributes(response.data));
   };
@@ -261,6 +262,7 @@ var MagnitudeDisplay = function (options) {
    *     The response object received from the web service.
    */
   _this.onMagnitudeWsSuccess = function (response/*, xhr*/) {
+    response = response || {};
     _this.magnitudeModel.reset(
         _this.magnitudeModel.parseAttributes(response.data));
   };
