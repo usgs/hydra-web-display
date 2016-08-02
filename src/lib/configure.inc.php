@@ -10,11 +10,16 @@ $PROMPTS = array(
   // )
 
   'MOUNT_PATH' => array(
-    'prompt' => 'URL Path for application',
+    'prompt' => 'Url Path for application',
     'default' => '/mount/path',
     'secure' => false
-  )
+  ),
 
+  'SERVICE_URL' => array(
+    'prompt'    => 'Web service Url',
+    'default'  => 'http://localhost:8000/ws/hydra',
+    'secure'    => false
+  )
 );
 
 
