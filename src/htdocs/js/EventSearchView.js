@@ -253,18 +253,18 @@ var EventSearchView = function (options) {
  * (for the EventSummaryView to render) and the magnitude Collection (for the
  * MagnitudeCollectionView to render).
  *
- * @param data {GeoJSONFeature}
+ * @param response {GeoJSONFeature}
  *     Event details formatted as a GeoJSON Feature object.
  * @param xhr {XMLHttpRequest} Optional. Default: undefined.
  *     The original search request.
  */
-  _this.onSearchSuccess = function (data/*, xhr*/) {
+  _this.onSearchSuccess = function (response/*, xhr*/) {
     if (_this === null) {
       console.log('null');
     }
     Util.empty(_this.messageEl);
 
-    _this.eventModel.reset(_this.eventModel.parseAttributes(data));
+    _this.eventModel.reset(_this.eventModel.parseAttributes(response.data));
     _this.magnitudeCollection.reset(_this.eventModel.get('magnitudes') || []);
   };
 

@@ -233,7 +233,7 @@ var MagnitudeDisplay = function (options) {
    */
   _this.onEventWsSuccess = function (response/*, xhr*/) {
     _this.eventModel.reset(
-        _this.eventModel.parseAttributes(response));
+        _this.eventModel.parseAttributes(response.data));
   };
 
   /**
@@ -262,7 +262,7 @@ var MagnitudeDisplay = function (options) {
    */
   _this.onMagnitudeWsSuccess = function (response/*, xhr*/) {
     _this.magnitudeModel.reset(
-        _this.magnitudeModel.parseAttributes(response));
+        _this.magnitudeModel.parseAttributes(response.data));
   };
 
   /**

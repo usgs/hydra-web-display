@@ -14,8 +14,8 @@ describe('EventSummaryView', function () {
   before(function (done) {
     Xhr.ajax({
       url: 'event.json',
-      success: function (data) {
-        model = EventModel.fromFeature(data);
+      success: function (response) {
+        model = EventModel.fromFeature(response.data);
         done();
       },
       error: function (e) {
@@ -90,16 +90,16 @@ describe('EventSummaryView', function () {
 
       expect(view.el.querySelector(
           '.event-summary-origin-time > .event-summary-value')
-              .innerHTML).to.equal('2016-07-19T05:18:38.58Z');
+              .innerHTML).to.equal('2016-07-19T05:18:38.200Z');
       expect(view.el.querySelector(
           '.event-summary-latitude > .event-summary-value')
-              .innerHTML).to.equal('30.172°S');
+              .innerHTML).to.equal('30.196°S');
       expect(view.el.querySelector(
           '.event-summary-longitude > .event-summary-value')
-              .innerHTML).to.equal('72.156°W');
+              .innerHTML).to.equal('72.179°W');
       expect(view.el.querySelector(
           '.event-summary-depth > .event-summary-value')
-              .innerHTML).to.equal('5.1 km');
+              .innerHTML).to.equal('1.0 km');
       expect(view.el.querySelector(
           '.event-summary-magnitude > .event-summary-value')
               .innerHTML).to.equal('5.2 Ms_20');

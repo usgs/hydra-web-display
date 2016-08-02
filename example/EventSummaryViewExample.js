@@ -7,10 +7,10 @@ var EventSummaryView = require('EventSummaryView'),
 
 Xhr.ajax({
   url: 'event.json',
-  success: function (data) {
+  success: function (response) {
     var model;
 
-    model = EventModel.fromFeature(data);
+    model = EventModel.fromFeature(response.data);
 
     EventSummaryView({
       el: document.querySelector('#event-summary-view-example'),
