@@ -27,9 +27,7 @@ _DEFAULTS = {
  */
 var MagnitudeDisplay = function (options) {
   var _this,
-      _initialize,
-
-      _onHashChange;
+      _initialize;
 
 
   _this = Events(options);
@@ -92,16 +90,9 @@ var MagnitudeDisplay = function (options) {
 
     _this.fetch(_this.parseUrlParams(window.location.hash.replace('#', '')));
 
-    window.addEventListener('hashchange', _onHashChange);
+    Events.on('hashchange', 'onHashChange', _this);
   };
 
-  /**
-   * Handles a "hashchange" event
-   *
-   */
-  _onHashChange = function () {
-    _this.onHashChange();
-  };
 
   /**
    * Frees resources associated with this display. If any AJAX calls are pending,
@@ -135,9 +126,7 @@ var MagnitudeDisplay = function (options) {
       _this.magnitudeAjaxHandler = null;
     }
 
-    window.removeEventListener('hashchange', _onHashChange);
-
-    _onHashChange = null;
+    Events.off('hashchange', 'onHashChange', _this);
 
     _initialize = null;
     _this = null;
