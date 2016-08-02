@@ -48,25 +48,44 @@ jsPath: {
 
 ## Docker
 
-### Building a container
+### Building an image
 
-From root of project, run:
+- From root of project, run:
     ```
-    docker build -t project-skeleton:version .
+    docker build -t usgs/hydra-web-display:latest .
     ```
 
-### Running container
+### Running a container
 
-- Run the container using the tag
+- Start the container using the image tag
     ```
-    docker run -it -p 8000:8881 project-skeleton:version
+    docker run --name hydra-web-display -d -p 8000:8000 usgs/hydra-web-display:latest
     ```
+
+- Configure started container
+
+    - Connect to running container on terminal
+    ```
+    docker exec -it hydra-web-display /bin/bash
+    ```
+
+    - Run pre-install to configure application
+    ```
+    src/lib/pre-install
+    ```
+
+    - Exit the container
+    ```
+    exit
+    ```
+
+- Restart the container to load the updated configuration
+  ```
+  docker stop hydra-web-display
+  docker start hydra-web-display
+  ```
 
 - Connect to running container in browser
-    ```
-    docker-machine env default \
-        | grep HOST \
-        | sed s/.*tcp/http/g \
-        | awk -F: '{print $1":"$2":8000"}' \
-        | xargs open
-    ```
+  ```
+  http://localhost:8000/ws/hydra/
+  ```
