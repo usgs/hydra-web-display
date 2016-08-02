@@ -1,8 +1,8 @@
 @import 'tablist/TabList.scss';
 
 
-@import '_EventSummaryView.scss';
-@import '_MagnitudeCollectionTable.scss';
+@import 'event/_EventSummaryView.scss';
+@import 'magnitude/_MagnitudeCollectionTable.scss';
 
 #event-search-view {
   margin: 1em;
