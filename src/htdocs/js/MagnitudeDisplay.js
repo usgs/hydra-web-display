@@ -258,7 +258,6 @@ var MagnitudeDisplay = function (options) {
    * @param err {Error|String}
    *     The error that caused this method to be called.
    */
-
   _this.onMagnitudeWsError = function (err/*, xhr*/) {
     Message({
       container: _this.errorsEl,
