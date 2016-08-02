@@ -55,14 +55,14 @@ used consistently throughout this process.
 
 - From root of project, run:
     ```
-    docker build -t usgs/hydra-web-display:latest .
+    docker build -t usgs/hydra-web-display:VERSION .
     ```
 
 ### Running a container
 
 - Start the container using the image tag
     ```
-    docker run --name hydra-web-display -d -p PORT:8881 usgs/hydra-web-display:latest
+    docker run --name hydra-web-display -d -p PORT:8881 usgs/hydra-web-display:VERSION
     ```
 
 - Configure started container
