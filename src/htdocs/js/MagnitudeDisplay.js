@@ -89,6 +89,8 @@ var MagnitudeDisplay = function (options) {
     });
 
     _this.fetch(_this.parseUrlParams(window.location.hash.replace('#', '')));
+
+    window.addEventListener('hashchange', _this.onHashChange);
   };
 
 
@@ -123,6 +125,8 @@ var MagnitudeDisplay = function (options) {
       _this.magnitudeAjaxHandler.abort();
       _this.magnitudeAjaxHandler = null;
     }
+
+    window.removeEventListener('hashchange', _this.onHashChange);
 
     _initialize = null;
     _this = null;
@@ -237,12 +241,24 @@ var MagnitudeDisplay = function (options) {
   };
 
   /**
+   * Reloads page on a hash change.
+   *
+   * This forces the correct parameters to load when a new magnitude is
+   * selected from the MagnitudeSummaryTable.
+   *
+   */
+  _this.onHashChange = function () {
+    window.location.reload();
+  };
+
+  /**
    * Callback method when an error occurs during the process of fetching
    * magnitude data. Shows an error message to the user.
    *
    * @param err {Error|String}
    *     The error that caused this method to be called.
    */
+
   _this.onMagnitudeWsError = function (err/*, xhr*/) {
     Message({
       container: _this.errorsEl,
