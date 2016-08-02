@@ -2,7 +2,8 @@
 'use strict';
 
 
-var MagnitudeDisplay = require('MagnitudeDisplay'),
+var Events = require('util/Events'),
+    MagnitudeDisplay = require('MagnitudeDisplay'),
     Xhr = require('util/Xhr');
 
 
@@ -25,6 +26,18 @@ describe('MagnitudeDisplay', function () {
 
     it('can be instantiated', function () {
       expect(MagnitudeDisplay).to.not.throw(Error);
+    });
+
+    it('binds to hashchange event', function () {
+      var display,
+          spy;
+
+      spy = sinon.spy(Events, 'on');
+      display = MagnitudeDisplay();
+
+      expect(spy.callCount).to.equal(1);
+
+      display.destroy();
     });
   });
 
