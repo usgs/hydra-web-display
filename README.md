@@ -8,18 +8,19 @@ Using the Generated Project
 ---------------------------
 
 ## Getting Started
-- run `npm install` to install application development dependencies
-- configure the application
-- run `grunt` from the install directory
+- Install application development dependencies
+  - Run `npm install`
+- Configure the application
+  - Run `src/lib/pre-install`
+- Start the application
+  - Run `grunt`
 
 ## Configuration
-- run `src/lib/pre-install` to setup config.ini
-- configuration options are defined in `src/lib/configure.inc.php`
 - `MOUNT_PATH` is the base url for the application
+- `SERVICE_URL` is the base url for the web service
 
 ## CSS
 - SCSS files (`*.scss`, `!_*.scss`) in the `src/htdocs/css` directory are compiled.
-
 - Path is configured in `gruntconfig/config.js`:
 ```
 cssPath: [
@@ -30,7 +31,6 @@ cssPath: [
 
 ## JS
 - JS files (`*.js`) in the `src/htdocs/js` directory are compiled.
-
 - Path is configured in `gruntconfig/config.js`:
 ```
 jsPath: {
@@ -50,6 +50,9 @@ jsPath: {
 
 ### Building an image
 
+Note: `VERSION` and `PORT` are arbitrary, chosen by the user, and must be
+used consistently throughout this process.
+
 - From root of project, run:
     ```
     docker build -t usgs/hydra-web-display:latest .
@@ -59,7 +62,7 @@ jsPath: {
 
 - Start the container using the image tag
     ```
-    docker run --name hydra-web-display -d -p 8000:8000 usgs/hydra-web-display:latest
+    docker run --name hydra-web-display -d -p PORT:8881 usgs/hydra-web-display:latest
     ```
 
 - Configure started container
@@ -87,5 +90,5 @@ jsPath: {
 
 - Connect to running container in browser
   ```
-  http://localhost:8000/ws/hydra/
+  http://localhost:PORT/ws/hydra/
   ```
