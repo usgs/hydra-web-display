@@ -1,6 +1,6 @@
 'use strict';
 
-var Formatter = require('Formatter'),
+var Formatter = require('util/Formatter'),
     Util = require('util/Util'),
     View = require('mvc/View');
 

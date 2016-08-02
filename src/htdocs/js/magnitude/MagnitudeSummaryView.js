@@ -1,13 +1,13 @@
 'use strict';
 
 
-var BeachballView = require('BeachBallView'),
+var BeachballView = require('util/BeachBallView'),
     Collection = require('mvc/Collection'),
-    EventModel = require('EventModel'),
-    Formatter = require('Formatter'),
-    MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
-    MagnitudeModel = require('MagnitudeModel'),
-    Tensor = require('Tensor'),
+    EventModel = require('event/EventModel'),
+    Formatter = require('util/Formatter'),
+    MagnitudeCollectionTable = require('magnitude/MagnitudeCollectionTable'),
+    MagnitudeModel = require('magnitude/MagnitudeModel'),
+    Tensor = require('util/Tensor'),
     Util = require('util/Util'),
     View = require('mvc/View');
 

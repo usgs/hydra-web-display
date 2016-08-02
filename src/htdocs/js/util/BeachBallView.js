@@ -1,7 +1,7 @@
 /* This is based on code in GMT, utilmeca.c. */
 'use strict';
 
-var Canvas = require('Canvas'),
+var Canvas = require('util/Canvas'),
     Util = require('util/Util'),
     View = require('mvc/View');
 

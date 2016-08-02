@@ -2,7 +2,7 @@
 'use strict';
 
 
-var EventSearchView = require('EventSearchView');
+var EventSearchView = require('event/EventSearchView');
 
 
 EventSearchView({
