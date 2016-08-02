@@ -3,7 +3,7 @@
 
 var Collection = require('mvc/Collection'),
     CollectionTable = require('mvc/CollectionTable'),
-    Formatter = require('Formatter'),
+    Formatter = require('util/Formatter'),
     Util = require('util/Util');
 
 

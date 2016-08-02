@@ -1,7 +1,7 @@
 /* global chai, describe, it */
 'use strict';
 
-var MagnitudeSummaryView = require('MagnitudeSummaryView');
+var MagnitudeSummaryView = require('magnitude/MagnitudeSummaryView');
 
 
 var expect = chai.expect;

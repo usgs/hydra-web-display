@@ -1,7 +1,7 @@
 'use strict';
 
 
-var FeatureModel = require('FeatureModel'),
+var FeatureModel = require('util/FeatureModel'),
     Util = require('util/Util');
 
 

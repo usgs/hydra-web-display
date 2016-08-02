@@ -1,11 +1,11 @@
 'use strict';
 
 
-var EventModel = require('EventModel'),
-    EventSummaryView = require('EventSummaryView'),
+var EventModel = require('event/EventModel'),
+    EventSummaryView = require('event/EventSummaryView'),
     Events = require('util/Events'),
-    MagnitudeModel = require('MagnitudeModel'),
-    MagnitudeTabView = require('MagnitudeTabView'),
+    MagnitudeModel = require('magnitude/MagnitudeModel'),
+    MagnitudeTabView = require('magnitude/MagnitudeTabView'),
     Message = require('util/Message'),
     Util = require('util/Util'),
     Xhr = require('util/Xhr');

@@ -3,7 +3,7 @@
 
 
 var Events = require('util/Events'),
-    MagnitudeDisplay = require('MagnitudeDisplay'),
+    MagnitudeDisplay = require('magnitude/MagnitudeDisplay'),
     Xhr = require('util/Xhr');
 
 

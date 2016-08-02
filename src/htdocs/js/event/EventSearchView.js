@@ -2,9 +2,9 @@
 
 
 var Collection = require('mvc/Collection'),
-    EventModel = require('EventModel'),
-    EventSummaryView = require('EventSummaryView'),
-    MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
+    EventModel = require('event/EventModel'),
+    EventSummaryView = require('event/EventSummaryView'),
+    MagnitudeCollectionTable = require('magnitude/MagnitudeCollectionTable'),
     Util = require('util/Util'),
     View = require('mvc/View'),
     Xhr = require('util/Xhr');

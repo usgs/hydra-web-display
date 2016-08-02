@@ -1,8 +1,8 @@
 'use strict';
 
 
-var EventModel = require('EventModel'),
-    MagnitudeSummaryView = require('MagnitudeSummaryView'),
+var EventModel = require('event/EventModel'),
+    MagnitudeSummaryView = require('magnitude/MagnitudeSummaryView'),
     TabList = require('tablist/TabList'),
     Util = require('util/Util'),
     View = require('mvc/View');

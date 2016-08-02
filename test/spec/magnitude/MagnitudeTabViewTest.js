@@ -2,7 +2,7 @@
 'use strict';
 
 
-var MagnitudeTabView = require('MagnitudeTabView');
+var MagnitudeTabView = require('magnitude/MagnitudeTabView');
 
 
 var expect = chai.expect;

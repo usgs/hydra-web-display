@@ -2,7 +2,7 @@
 'use strict';
 
 
-var MagnitudeDisplay = require('MagnitudeDisplay');
+var MagnitudeDisplay = require('magnitude/MagnitudeDisplay');
 
 
 MagnitudeDisplay({
