@@ -8,18 +8,19 @@ Using the Generated Project
 ---------------------------
 
 ## Getting Started
-- run `npm install` to install application development dependencies
-- configure the application
-- run `grunt` from the install directory
+- Install application development dependencies
+  - Run `npm install`
+- Configure the application
+  - Run `src/lib/pre-install`
+- Start the application
+  - Run `grunt`
 
 ## Configuration
-- run `src/lib/pre-install` to setup config.ini
-- configuration options are defined in `src/lib/configure.inc.php`
 - `MOUNT_PATH` is the base url for the application
+- `SERVICE_URL` is the base url for the web service
 
 ## CSS
 - SCSS files (`*.scss`, `!_*.scss`) in the `src/htdocs/css` directory are compiled.
-
 - Path is configured in `gruntconfig/config.js`:
 ```
 cssPath: [
@@ -30,7 +31,6 @@ cssPath: [
 
 ## JS
 - JS files (`*.js`) in the `src/htdocs/js` directory are compiled.
-
 - Path is configured in `gruntconfig/config.js`:
 ```
 jsPath: {
@@ -48,25 +48,47 @@ jsPath: {
 
 ## Docker
 
-### Building a container
+### Building an image
 
-From root of project, run:
+Note: `VERSION` and `PORT` are arbitrary, chosen by the user, and must be
+used consistently throughout this process.
+
+- From root of project, run:
     ```
-    docker build -t project-skeleton:version .
+    docker build -t usgs/hydra-web-display:latest .
     ```
 
-### Running container
+### Running a container
 
-- Run the container using the tag
+- Start the container using the image tag
     ```
-    docker run -it -p 8000:8881 project-skeleton:version
+    docker run --name hydra-web-display -d -p PORT:8881 usgs/hydra-web-display:latest
     ```
+
+- Configure started container
+
+    - Connect to running container on terminal
+    ```
+    docker exec -it hydra-web-display /bin/bash
+    ```
+
+    - Run pre-install to configure application
+    ```
+    src/lib/pre-install
+    ```
+
+    - Exit the container
+    ```
+    exit
+    ```
+
+- Restart the container to load the updated configuration
+  ```
+  docker stop hydra-web-display
+  docker start hydra-web-display
+  ```
 
 - Connect to running container in browser
-    ```
-    docker-machine env default \
-        | grep HOST \
-        | sed s/.*tcp/http/g \
-        | awk -F: '{print $1":"$2":8000"}' \
-        | xargs open
-    ```
+  ```
+  http://localhost:PORT/ws/hydra/
+  ```
