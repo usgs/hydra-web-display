@@ -107,6 +107,6 @@
   "error": false,
   "metadata": {
     "date": "2016-08-02T16:10:23.413Z",
-    "url": "/ws/hydra/event.json?huid=50003UWR"
+    "url": "/event.json?huid=50003UWR"
   }
 }
