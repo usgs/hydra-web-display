@@ -6,6 +6,7 @@ var EventModel = require('EventModel'),
     Events = require('util/Events'),
     MagnitudeModel = require('MagnitudeModel'),
     MagnitudeTabView = require('MagnitudeTabView'),
+    Message = require('util/Message'),
     Util = require('util/Util'),
     Xhr = require('util/Xhr');
 
@@ -46,9 +47,13 @@ var MagnitudeDisplay = function (options) {
         '<section class="magnitude-content">',
           '<div class="magnitude-tabs"></div>',
         '</section>',
-        '<footer class="magnitude-footer"></footer>',
+        '<footer class="magnitude-footer">',
+          '<div class="errors"></div>',
+        '</footer>',
       '</div>'
     ].join('');
+
+    _this.errorsEl = el.querySelector('.errors');
 
     _this.eventSummaryView = EventSummaryView({
       el: el.querySelector('.magnitude-event-summary'),
@@ -58,7 +63,7 @@ var MagnitudeDisplay = function (options) {
     _this.magnitudeTabView = MagnitudeTabView({
       el: el.querySelector('.magnitude-tabs'),
       event: _this.eventModel,
-      model: _this.magnitudeModel,
+      model: _this.magnitudeModel
     });
 
     _this.fetch(_this.parseUrlParams(window.location.hash.replace('#', '')));
@@ -66,6 +71,32 @@ var MagnitudeDisplay = function (options) {
 
 
   _this.destroy = Util.compose(function () {
+    if (_this === null) {
+      return;
+    }
+
+    if (_this.eventSummaryView) {
+      _this.eventSummaryView.destroy();
+      _this.eventSummaryView = null;
+    }
+
+    if (_this.magnitudeTabView) {
+      _this.magnitudeTabView.destroy();
+      _this.magnitudeTabView = null;
+    }
+
+    if (_this.eventAjaxHandler &&
+        typeof _this.eventAjaxHandler.abort === 'function') {
+      _this.eventAjaxHandler.abort();
+      _this.eventAjaxHandler = null;
+    }
+
+    if (_this.magnitudeAjaxHandler &&
+        typeof _this.magnitudeAjaxHandler.abort === 'function') {
+      _this.magnitudeAjaxHandler.abort();
+      _this.magnitudeAjaxHandler = null;
+    }
+
     _initialize = null;
     _this = null;
   }, _this.destroy);
@@ -76,10 +107,19 @@ var MagnitudeDisplay = function (options) {
   };
 
   _this.fetchEventSummary = function (params) {
-    Xhr.ajax({
+    params = params || {};
+
+    if (_this.eventAjaxHandler &&
+        typeof _this.eventAjaxHandler.abort === 'function') {
+      _this.eventAjaxHandler.abort();
+      _this.eventAjaxHandler = null;
+    }
+
+    _this.eventAjaxHandler = Xhr.ajax({
       data: {
         huid: params.huid
       },
+      done: function () { _this.eventAjaxHandler = null; },
       error: _this.onEventWsError,
       success: _this.onEventWsSuccess,
       url: _this.eventWsUrl
@@ -87,13 +127,22 @@ var MagnitudeDisplay = function (options) {
   };
 
   _this.fetchMagnitudeDetails = function (params) {
-    Xhr.ajax({
+    params = params || {};
+
+    if (_this.magnitudeAjaxHandler &&
+        typeof _this.magnitudeAjaxHandler.abort === 'function') {
+      _this.magnitudeAjaxHandler.abort();
+      _this.magnitudeAjaxHandler = null;
+    }
+
+    _this.magnitudeAjaxHandler = Xhr.ajax({
       data: {
         huid: params.huid,
         author: params.author,
         installation: params.installation,
         type: params.type
       },
+      done: function () { _this.magnitudeAjaxHandler = null; },
       error: _this.onMagnitudeWsError,
       success: _this.onMagnitudeWsSuccess,
       url: _this.magnitudeWsUrl
@@ -101,7 +150,12 @@ var MagnitudeDisplay = function (options) {
   };
 
   _this.onEventWsError = function (err/*, xhr*/) {
-    console.log(err); // TODO
+    Message({
+      container: _this.errorsEl,
+      content: err.message || err,
+      autoclose: 0,
+      classes: ['alert', 'error']
+    });
   };
 
   _this.onEventWsSuccess = function (response/*, xhr*/) {
@@ -110,7 +164,12 @@ var MagnitudeDisplay = function (options) {
   };
 
   _this.onMagnitudeWsError = function (err/*, xhr*/) {
-    console.log(err); // TODO
+    Message({
+      container: _this.errorsEl,
+      content: err.message || err,
+      autoclose: 0,
+      classes: ['alert', 'error']
+    });
   };
 
   _this.onMagnitudeWsSuccess = function (response/*, xhr*/) {
@@ -153,6 +212,7 @@ var MagnitudeDisplay = function (options) {
 
     return params;
   };
+
 
   _initialize(options);
   options = null;
