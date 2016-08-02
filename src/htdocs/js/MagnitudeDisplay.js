@@ -6,6 +6,7 @@ var EventModel = require('EventModel'),
     Events = require('util/Events'),
     MagnitudeModel = require('MagnitudeModel'),
     MagnitudeTabView = require('MagnitudeTabView'),
+    Message = require('util/Message'),
     Util = require('util/Util'),
     Xhr = require('util/Xhr');
 
@@ -18,6 +19,12 @@ _DEFAULTS = {
 };
 
 
+/**
+ * This is a top-level class for rendering the Hydra Magnitude Display.
+ *
+ * @param options {Object}
+ *     See MagnitudeDisplay#_initialize documentation for details.
+ */
 var MagnitudeDisplay = function (options) {
   var _this,
       _initialize;
@@ -25,6 +32,22 @@ var MagnitudeDisplay = function (options) {
 
   _this = Events(options);
 
+  /**
+   * Constructor. Creates a new MagnitudeDisplay object.
+   *
+   * @param options {Object}
+   *     Configuration options for this display. See below ...
+   * @param options.el {HTMLElement}
+   *     The container into which this display should be rendered.
+   * @param options.eventModel {EventModel}
+   *     The model containing event information to render.
+   * @param options.magnitudeModel {MagnitudeModel}
+   *     The model containing magnitude information to render.
+   * @param eventWsUrl {String}
+   *     The event web service URL from which event data is fetched.
+   * @param magnitudeWsUrl {String}
+   *     The magnitude web service URL from which magnitude data is fetched.
+   */
   _initialize = function (options) {
     var el;
 
@@ -39,16 +62,20 @@ var MagnitudeDisplay = function (options) {
 
     el = _this.el;
     el.innerHTML = [
-      '<div class="magnitude-dispay">',
+      '<div class="magnitude-display">',
         '<header class="magnitude-header">',
           '<div class="magnitude-event-summary"></div>',
         '</header>',
         '<section class="magnitude-content">',
           '<div class="magnitude-tabs"></div>',
         '</section>',
-        '<footer class="magnitude-footer"></footer>',
+        '<footer class="magnitude-footer">',
+          '<div class="errors"></div>',
+        '</footer>',
       '</div>'
     ].join('');
+
+    _this.errorsEl = el.querySelector('.errors');
 
     _this.eventSummaryView = EventSummaryView({
       el: el.querySelector('.magnitude-event-summary'),
@@ -58,66 +85,198 @@ var MagnitudeDisplay = function (options) {
     _this.magnitudeTabView = MagnitudeTabView({
       el: el.querySelector('.magnitude-tabs'),
       event: _this.eventModel,
-      model: _this.magnitudeModel,
+      model: _this.magnitudeModel
     });
 
     _this.fetch(_this.parseUrlParams(window.location.hash.replace('#', '')));
   };
 
 
+  /**
+   * Frees resources associated with this display. If any AJAX calls are pending,
+   * they are all aborted. Sub-views are destroyed.
+   *
+   */
   _this.destroy = Util.compose(function () {
+    if (_this === null) {
+      return;
+    }
+
+    if (_this.eventSummaryView) {
+      _this.eventSummaryView.destroy();
+      _this.eventSummaryView = null;
+    }
+
+    if (_this.magnitudeTabView) {
+      _this.magnitudeTabView.destroy();
+      _this.magnitudeTabView = null;
+    }
+
+    if (_this.eventAjaxHandler &&
+        typeof _this.eventAjaxHandler.abort === 'function') {
+      _this.eventAjaxHandler.abort();
+      _this.eventAjaxHandler = null;
+    }
+
+    if (_this.magnitudeAjaxHandler &&
+        typeof _this.magnitudeAjaxHandler.abort === 'function') {
+      _this.magnitudeAjaxHandler.abort();
+      _this.magnitudeAjaxHandler = null;
+    }
+
     _initialize = null;
     _this = null;
   }, _this.destroy);
 
+  /**
+   * Fetches event and magnitude data based on the given params. This method
+   * returns almost immediately while the actual fetch is performed
+   * asynchronously.
+   *
+   * @param params {Object}
+   *     An object describing the event/magnitude data to fetch. Particularly,
+   *     this should include `huid`, `author`, `installation`, and `type`
+   *     properties.
+   */
   _this.fetch = function (params) {
     _this.fetchEventSummary(params);
     _this.fetchMagnitudeDetails(params);
   };
 
+  /**
+   * Fetches event summary data based on the given params. This method returns
+   * almost immediately while the actual fetch is performed asynchronously. If
+   * a previous asynchronous call has not yet resolved, it is aborted
+   * prior to a subsequent request being initiated.
+   *
+   * @param params {Object}
+   *     An object describing the event data to fetch. Particularly this should
+   *     include the `huid` property.
+   */
   _this.fetchEventSummary = function (params) {
-    Xhr.ajax({
+    params = params || {};
+
+    if (_this.eventAjaxHandler &&
+        typeof _this.eventAjaxHandler.abort === 'function') {
+      _this.eventAjaxHandler.abort();
+      _this.eventAjaxHandler = null;
+    }
+
+    _this.eventAjaxHandler = Xhr.ajax({
       data: {
         huid: params.huid
       },
+      done: function () { _this.eventAjaxHandler = null; },
       error: _this.onEventWsError,
       success: _this.onEventWsSuccess,
       url: _this.eventWsUrl
     });
   };
 
+  /**
+   * Fetches magnitude data based on the given params. This method returns
+   * almost immediately while the actual fetch is performed asynchronously. If
+   * a previous asynchronous call has not yet resolved, it is aborted
+   * prior to a subsequent request being initiated.
+   *
+   * @param params {Object}
+   *     An object describing the magnitude data to fetch. Particularly this
+   *     should include the `huid`, `author`, `installation`, and `type`
+   *     properties.
+   */
   _this.fetchMagnitudeDetails = function (params) {
-    Xhr.ajax({
+    params = params || {};
+
+    if (_this.magnitudeAjaxHandler &&
+        typeof _this.magnitudeAjaxHandler.abort === 'function') {
+      _this.magnitudeAjaxHandler.abort();
+      _this.magnitudeAjaxHandler = null;
+    }
+
+    _this.magnitudeAjaxHandler = Xhr.ajax({
       data: {
         huid: params.huid,
         author: params.author,
         installation: params.installation,
         type: params.type
       },
+      done: function () { _this.magnitudeAjaxHandler = null; },
       error: _this.onMagnitudeWsError,
       success: _this.onMagnitudeWsSuccess,
       url: _this.magnitudeWsUrl
     });
   };
 
+  /**
+   * Callback method when an error occurs during the process of fetching
+   * event data. Shows an error message to the user.
+   *
+   * @param err {Error|String}
+   *     The error that caused this method to be called.
+   */
   _this.onEventWsError = function (err/*, xhr*/) {
-    console.log(err); // TODO
+    Message({
+      container: _this.errorsEl,
+      content: err.message || err,
+      autoclose: 0,
+      classes: ['alert', 'error']
+    });
   };
 
+  /**
+   * Callback method when receiving event data response from the web service.
+   * Parses the response and updates all the event model properties which
+   * should, in-turn, cause bound views to render.
+   *
+   * @param response {Object}
+   *     The response object received from the web service.
+   */
   _this.onEventWsSuccess = function (response/*, xhr*/) {
     _this.eventModel.reset(
         _this.eventModel.parseAttributes(response));
   };
 
+  /**
+   * Callback method when an error occurs during the process of fetching
+   * magnitude data. Shows an error message to the user.
+   *
+   * @param err {Error|String}
+   *     The error that caused this method to be called.
+   */
   _this.onMagnitudeWsError = function (err/*, xhr*/) {
-    console.log(err); // TODO
+    Message({
+      container: _this.errorsEl,
+      content: err.message || err,
+      autoclose: 0,
+      classes: ['alert', 'error']
+    });
   };
 
+  /**
+   * Callback method when receiving magnitude data response from the web
+   * service. Parses the response and updates all the event model properties
+   * which should, in-turn, cause bound views to render.
+   *
+   * @param response {Object}
+   *     The response object received from the web service.
+   */
   _this.onMagnitudeWsSuccess = function (response/*, xhr*/) {
     _this.magnitudeModel.reset(
         _this.magnitudeModel.parseAttributes(response));
   };
 
+  /**
+   * Parses Url parameters similar to a query string. It ignores any unexpected
+   * parameter.
+   *
+   * @param hash {String}
+   *     The Url hash to parse. This should _NOT_ include the leading '#'
+   *     character and should be of the form: ?key1=val1&key2=val2...
+   * @return {Object}
+   *     An object with `huid`, `author`, `installation`, and `type`
+   *     properties as they were parsed from the given hash. These property
+   *     values may be null if the given hash did not specify a value.
+   */
   _this.parseUrlParams = function (hash) {
     var params;
 
@@ -153,6 +312,7 @@ var MagnitudeDisplay = function (options) {
 
     return params;
   };
+
 
   _initialize(options);
   options = null;
