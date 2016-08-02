@@ -1,21 +1,19 @@
 'use strict';
 
 var MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
-    Model = require('mvc/Model'),
     Collection = require('mvc/Collection'),
     Xhr = require('util/Xhr');
 
 Xhr.ajax({
   url: 'event.json',
-  success: function (data) {
+  success: function (response) {
     var collection,
         magnitudeCollectionTable;
 
-    collection = Collection(data.properties.magnitudes);
+    collection = Collection(response.data.properties.magnitudes);
 
     magnitudeCollectionTable = MagnitudeCollectionTable({
       el: document.querySelector('#magnitude-collection-table-example'),
-      model: Model(data),
       collection: collection
     });
 

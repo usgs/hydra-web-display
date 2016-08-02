@@ -16,7 +16,12 @@ describe('MagnitudeDisplay', function () {
   });
 
   before(function () {
-    sinon.stub(Xhr, 'ajax', function () {});
+    sinon.stub(Xhr, 'ajax', function () {
+      return {
+        data: {},
+        metadata: {}
+      };
+    });
   });
 
   describe('constructor', function () {

@@ -54,8 +54,8 @@ Xhr.ajax({
     errors.push(e);
     eventModel = null;
   },
-  success: function (data) {
-    eventModel = EventModel.fromFeature(data);
+  success: function (response) {
+    eventModel = EventModel.fromFeature(response.data);
   }
 });
 
@@ -68,8 +68,8 @@ Xhr.ajax({
     errors.push(e);
     magnitudeModel = null;
   },
-  success: function (data) {
-    magnitudeModel = MagnitudeModel.fromFeature(data);
+  success: function (response) {
+    magnitudeModel = MagnitudeModel.fromFeature(response.data);
   },
 });
 

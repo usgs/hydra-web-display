@@ -16,10 +16,10 @@ describe('EventSearchView', function () {
   before(function (done) {
     Xhr.ajax({
       url: 'event.json',
-      success: function (data) {
-        EVENT_DETAILS = data;
+      success: function (response) {
+        EVENT_DETAILS = response.data;
         sinon.stub(Xhr, 'ajax', function () {
-          return data;
+          return response;
         });
       },
       done: function () {
