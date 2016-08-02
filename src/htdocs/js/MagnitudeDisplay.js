@@ -39,7 +39,7 @@ var MagnitudeDisplay = function (options) {
 
     el = _this.el;
     el.innerHTML = [
-      '<div class="magnitude-dispay">',
+      '<div class="magnitude-display">',
         '<header class="magnitude-header">',
           '<div class="magnitude-event-summary"></div>',
         '</header>',
