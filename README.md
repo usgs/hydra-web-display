@@ -72,9 +72,10 @@ used consistently throughout this process.
     docker exec -it hydra-web-display /bin/bash
     ```
 
-    - Run pre-install to configure application
+    - Configure application within the container
     ```
     src/lib/pre-install
+    grunt builddist
     ```
 
     - Exit the container
