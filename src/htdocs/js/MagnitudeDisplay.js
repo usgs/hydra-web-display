@@ -19,6 +19,12 @@ _DEFAULTS = {
 };
 
 
+/**
+ * This is a top-level class for rendering the Hydra Magnitude Display.
+ *
+ * @param options {Object}
+ *     See MagnitudeDisplay#_initialize documentation for details.
+ */
 var MagnitudeDisplay = function (options) {
   var _this,
       _initialize;
@@ -26,6 +32,22 @@ var MagnitudeDisplay = function (options) {
 
   _this = Events(options);
 
+  /**
+   * Constructor. Creates a new MagnitudeDisplay object.
+   *
+   * @param options {Object}
+   *     Configuration options for this display. See below ...
+   * @param options.el {HTMLElement}
+   *     The container into which this display should be rendered.
+   * @param options.eventModel {EventModel}
+   *     The model containing event information to render.
+   * @param options.magnitudeModel {MagnitudeModel}
+   *     The model containing magnitude information to render.
+   * @param eventWsUrl {String}
+   *     The event web service URL from which event data is fetched.
+   * @param magnitudeWsUrl {String}
+   *     The magnitude web service URL from which magnitude data is fetched.
+   */
   _initialize = function (options) {
     var el;
 
@@ -70,6 +92,11 @@ var MagnitudeDisplay = function (options) {
   };
 
 
+  /**
+   * Frees resources associated with this display. If any AJAX calls are pending,
+   * they are all aborted. Sub-views are destroyed.
+   *
+   */
   _this.destroy = Util.compose(function () {
     if (_this === null) {
       return;
@@ -101,11 +128,31 @@ var MagnitudeDisplay = function (options) {
     _this = null;
   }, _this.destroy);
 
+  /**
+   * Fetches event and magnitude data based on the given params. This method
+   * returns almost immediately while the actual fetch is performed
+   * asynchronously.
+   *
+   * @param params {Object}
+   *     An object describing the event/magnitude data to fetch. Particularly,
+   *     this should include `huid`, `author`, `installation`, and `type`
+   *     properties.
+   */
   _this.fetch = function (params) {
     _this.fetchEventSummary(params);
     _this.fetchMagnitudeDetails(params);
   };
 
+  /**
+   * Fetches event summary data based on the given params. This method returns
+   * almost immediately while the actual fetch is performed asynchronously. If
+   * a previous asynchronous call has not yet resolved, it is aborted
+   * prior to a subsequent request being initiated.
+   *
+   * @param params {Object}
+   *     An object describing the event data to fetch. Particularly this should
+   *     include the `huid` property.
+   */
   _this.fetchEventSummary = function (params) {
     params = params || {};
 
@@ -126,6 +173,17 @@ var MagnitudeDisplay = function (options) {
     });
   };
 
+  /**
+   * Fetches magnitude data based on the given params. This method returns
+   * almost immediately while the actual fetch is performed asynchronously. If
+   * a previous asynchronous call has not yet resolved, it is aborted
+   * prior to a subsequent request being initiated.
+   *
+   * @param params {Object}
+   *     An object describing the magnitude data to fetch. Particularly this
+   *     should include the `huid`, `author`, `installation`, and `type`
+   *     properties.
+   */
   _this.fetchMagnitudeDetails = function (params) {
     params = params || {};
 
@@ -149,6 +207,13 @@ var MagnitudeDisplay = function (options) {
     });
   };
 
+  /**
+   * Callback method when an error occurs during the process of fetching
+   * event data. Shows an error message to the user.
+   *
+   * @param err {Error|String}
+   *     The error that caused this method to be called.
+   */
   _this.onEventWsError = function (err/*, xhr*/) {
     Message({
       container: _this.errorsEl,
@@ -158,11 +223,26 @@ var MagnitudeDisplay = function (options) {
     });
   };
 
+  /**
+   * Callback method when receiving event data response from the web service.
+   * Parses the response and updates all the event model properties which
+   * should, in-turn, cause bound views to render.
+   *
+   * @param response {Object}
+   *     The response object received from the web service.
+   */
   _this.onEventWsSuccess = function (response/*, xhr*/) {
     _this.eventModel.reset(
         _this.eventModel.parseAttributes(response));
   };
 
+  /**
+   * Callback method when an error occurs during the process of fetching
+   * magnitude data. Shows an error message to the user.
+   *
+   * @param err {Error|String}
+   *     The error that caused this method to be called.
+   */
   _this.onMagnitudeWsError = function (err/*, xhr*/) {
     Message({
       container: _this.errorsEl,
@@ -172,11 +252,31 @@ var MagnitudeDisplay = function (options) {
     });
   };
 
+  /**
+   * Callback method when receiving magnitude data response from the web
+   * service. Parses the response and updates all the event model properties
+   * which should, in-turn, cause bound views to render.
+   *
+   * @param response {Object}
+   *     The response object received from the web service.
+   */
   _this.onMagnitudeWsSuccess = function (response/*, xhr*/) {
     _this.magnitudeModel.reset(
         _this.magnitudeModel.parseAttributes(response));
   };
 
+  /**
+   * Parses Url parameters similar to a query string. It ignores any unexpected
+   * parameter.
+   *
+   * @param hash {String}
+   *     The Url hash to parse. This should _NOT_ include the leading '#'
+   *     character and should be of the form: ?key1=val1&key2=val2...
+   * @return {Object}
+   *     An object with `huid`, `author`, `installation`, and `type`
+   *     properties as they were parsed from the given hash. These property
+   *     values may be null if the given hash did not specify a value.
+   */
   _this.parseUrlParams = function (hash) {
     var params;
 
