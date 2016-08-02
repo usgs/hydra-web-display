@@ -1,8 +1,9 @@
 'use strict';
 
-var MagnitudeCollectionTable = require('MagnitudeCollectionTable'),
+var MagnitudeCollectionTable = require('magnitude/MagnitudeCollectionTable'),
     Collection = require('mvc/Collection'),
     Xhr = require('util/Xhr');
+
 
 Xhr.ajax({
   url: 'event.json',

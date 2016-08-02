@@ -1,7 +1,7 @@
 'use strict';
 
-var EventSummaryView = require('EventSummaryView'),
-    EventModel = require('EventModel'),
+var EventSummaryView = require('event/EventSummaryView'),
+    EventModel = require('event/EventModel'),
     Xhr = require('util/Xhr');
 
 

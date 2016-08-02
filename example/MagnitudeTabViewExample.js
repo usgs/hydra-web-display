@@ -1,8 +1,8 @@
 'use strict';
 
-var EventModel = require('EventModel'),
-    MagnitudeModel = require('MagnitudeModel'),
-    MagnitudeTabView = require('MagnitudeTabView'),
+var EventModel = require('event/EventModel'),
+    MagnitudeModel = require('magnitude/MagnitudeModel'),
+    MagnitudeTabView = require('magnitude/MagnitudeTabView'),
     Xhr = require('util/Xhr');
 
 
