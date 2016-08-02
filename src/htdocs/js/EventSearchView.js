@@ -14,7 +14,7 @@ var _DEFAULTS;
 
 _DEFAULTS = {
   eventWsUrl: 'event.json',
-  magnitudeUrl: 'magnitude.html'
+  magnitudeUrl: 'magnitude.php'
 };
 
 

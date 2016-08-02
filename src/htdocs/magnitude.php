@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hydra Web Display</title>
+  <?php include_once '../conf/config.inc.php'; ?>
+  <title>Magnitude Display</title>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -15,7 +16,11 @@
   <meta name="format-detection" content="telephone=no"/>
 </head>
 <body>
-  <main id="event-search-view"></main>
-  <script src="js/index.js"></script>
+  <main id="magnitude-display"></main>
+  <script>
+    var MOUNT_PATH = '<?php print $CONFIG['MOUNT_PATH']; ?>';
+    var SERVICE_URL = '<?php print $CONFIG['SERVICE_URL']; ?>';
+  </script>
+  <script src="js/magnitude.js"></script>
 </body>
 </html>
