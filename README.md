@@ -48,10 +48,10 @@ jsPath: {
 
 ## Docker
 
-### Building an image
-
 Note: `VERSION` and `PORT` are arbitrary, chosen by the user, and must be
 used consistently throughout this process.
+
+### Building an image
 
 - From root of project, run:
     ```
