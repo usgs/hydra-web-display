@@ -1,7 +1,7 @@
 /* global chai, describe, it */
 'use strict';
 
-var MagnitudeCollectionTable = require('MagnitudeCollectionTable');
+var MagnitudeCollectionTable = require('magnitude/MagnitudeCollectionTable');
 
 
 var expect = chai.expect;

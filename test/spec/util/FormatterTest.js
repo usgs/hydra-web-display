@@ -1,7 +1,7 @@
 /* global chai, describe, it */
 'use strict';
 
-var Formatter = require('Formatter');
+var Formatter = require('util/Formatter');
 
 var expect = chai.expect;
 

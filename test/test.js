@@ -6,15 +6,15 @@ mocha.setup('bdd');
 
 
 // Add each test class here as they are implemented
-require('./spec/EventSearchViewTest');
-require('./spec/EventSummaryViewTest');
+require('./spec/event/EventSearchViewTest');
+require('./spec/event/EventSummaryViewTest');
 
-require('./spec/FormatterTest');
+require('./spec/util/FormatterTest');
 
-require('./spec/MagnitudeCollectionTableTest');
-require('./spec/MagnitudeDisplayTest');
-require('./spec/MagnitudeSummaryViewTest');
-require('./spec/MagnitudeTabViewTest');
+require('./spec/magnitude/MagnitudeCollectionTableTest');
+require('./spec/magnitude/MagnitudeDisplayTest');
+require('./spec/magnitude/MagnitudeSummaryViewTest');
+require('./spec/magnitude/MagnitudeTabViewTest');
 
 
 if (window.mochaPhantomJS) {
