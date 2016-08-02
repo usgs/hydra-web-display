@@ -90,5 +90,5 @@ used consistently throughout this process.
 
 - Connect to running container in browser
   ```
-  http://localhost:PORT/ws/hydra/
+  http://localhost:PORT/hydra/display/
   ```
